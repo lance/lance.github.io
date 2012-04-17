@@ -47,6 +47,16 @@ layout: base
                 deploy: 
                   host: github_pages 
 
+        If you want to publish to a branch other than gh-pages, just
+        add that branch to your deploy profile.
+        %pre
+          :preserve
+            profiles: 
+              production: 
+                base_url: http://awestruct.github.com/github_pages 
+                deploy: 
+                  host: github_pages 
+                  branch: master 
     .step
       %h2 Deploy
       %p 
