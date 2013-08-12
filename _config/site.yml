@@ -1,7 +1,8 @@
-profiles:
-  production:
-    base_url: http://awestruct.github.com/github_pages
-    deploy:
-      host: github_pages
-      branch: master
+name: Lance Ball
+title: Software Developer
+org: Lance Ball
+base_url: ''
 
+twitter: http://twitter.com/lanceball
+github: http://github.com/lance
+tumblr: http://blog.lanceball.com
