@@ -1,0 +1,74 @@
+//- This is the main layout for the site
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='description' content='Lance Ball: StuffNThings')
+
+    link(rel="icon" href="/favicon.ico")
+
+    block title
+      title= title ? title + " | " + site.title : site.title
+        
+    block styles
+      link(rel='stylesheet' media='screen' href='/lib/bootstrap/css/bootstrap.min.css')
+      link(rel='stylesheet' media='screen' href='/css/site.css')
+      link(rel='stylesheet' media='screen' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600')
+      link(rel='stylesheet' media='screen' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+
+  body
+    block navbar
+      nav.navbar.navbar-default.navbar-fixed-top
+        .container
+          .navbar-header
+            button(type='button' class='navbar-toggle collapsed' data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
+
+              span.sr-only
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a(href='/').navbar-brand
+              span Lance Ball
+          #navbar.navbar-collapse.collapse
+            ul.nav.navbar-nav
+              li
+                a(href="#{site.github}") GitHub
+              li
+                a(href="#{site.twitter}") Twitter
+              li
+                a(href="#{site.linkedin}") LinkedIn
+              li
+                a(href="#{site.tumblr}") Tumblr
+
+
+    .container#content
+      .page-header.right  I'm a Software Developer. I work for&nbsp;
+        a(href="http://redhat.com") RedHat
+
+      block main
+        div!= contents
+
+
+    block footer
+      footer(id='footer')
+        div.footer
+          p(class='text-center') &copy; Lance Ball #{new Date().getUTCFullYear()}
+          p(class='text-center').
+            If you want to contact me and don't already know how, check out all of
+            those links at the top. I'm on the social medias.
+
+    block scripts
+      script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+      script(src='/lib/bootstrap/js/bootstrap.min.js')
+      script.
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-373972-2', 'auto');
+        ga('send', 'pageview');
+
+
