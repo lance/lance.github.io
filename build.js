@@ -81,10 +81,8 @@ function publish() {
   var ghpages = require('gh-pages'),
       path = require('path'),
       options = {
-        user: {
-          name: 'Project:Odd CI',
-          email: 'ci@torquebox.org'
-        },
+        branch: 'master',
+        repo: 'https://github.com/lance/lance.github.io.git',
         dotfiles: true
       };
 
