@@ -39,6 +39,10 @@ h2 span {
   margin-bottom: 4px;
 }
 
+ul {
+  padding-left: 20px;
+}
+
 li {
   padding-bottom: 6px;
 }
