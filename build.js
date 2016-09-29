@@ -7,6 +7,7 @@ const serve = require('metalsmith-serve');
 const watch = require('metalsmith-watch');
 const msIf = require('metalsmith-if');
 const permalinks = require('metalsmith-permalinks');
+const collections = require('metalsmith-collections');
 const moment = require('moment');
 const fs = require('fs');
 
@@ -46,10 +47,20 @@ function build () {
       moment: moment
     }))
 
+    // let's write a blog!
+    .use(collections({
+      articles: {
+        pattern: 'words/*.md',
+        sortBy: 'date',
+        reverse: true
+      }
+    }))
+
     // allow for draft posts and permalinks
     .use(drafts)
     .use(permalinks({
-      pattern: ':title'
+      match: { collection: 'articles' },
+      pattern: 'words/:date/:title'
     }))
 
     // when we run as `node build serve` we'll serve the site and watch
@@ -81,7 +92,7 @@ function build () {
 }
 
 function drafts (files, metalsmith, done) {
-  files.forEach(f => {
+  Object.keys(files).forEach(f => {
     if (files[f].draft) delete files[f];
   });
   done();
