@@ -4,6 +4,7 @@
   "description": "Website source for lanceball.com",
   "main": "build.js",
   "scripts": {
+    "lint": "eslint build.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lance Ball <lanceball@gmail.com> (http://lanceball.com)",
@@ -28,5 +29,13 @@
     "metalsmith-watch": "^1.0.1",
     "moment": "^2.11.2",
     "then-jade": "^2.4.1"
+  },
+  "devDependencies": {
+    "eslint": "~3.6.1",
+    "eslint-config-semistandard": "~7.0.0",
+    "eslint-config-standard": "~6.1.0",
+    "eslint-plugin-promise": "~2.0.1",
+    "eslint-plugin-react": "~6.3.0",
+    "eslint-plugin-standard": "~2.0.1"
   }
 }

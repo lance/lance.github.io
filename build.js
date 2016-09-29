@@ -1,28 +1,29 @@
-var metalsmith = require('metalsmith'),
-    layouts = require('metalsmith-layouts'),
-    markdown = require('metalsmith-markdown'),
-    jade = require('metalsmith-jade'),
-    less = require('metalsmith-less'),
-    serve = require('metalsmith-serve'),
-    watch = require('metalsmith-watch'),
-    msIf = require('metalsmith-if'),
-    moment = require('moment'),
-    fs = require('fs');
+const metalsmith = require('metalsmith');
+const layouts = require('metalsmith-layouts');
+const markdown = require('metalsmith-markdown');
+const jade = require('metalsmith-jade');
+const less = require('metalsmith-less');
+const serve = require('metalsmith-serve');
+const watch = require('metalsmith-watch');
+const msIf = require('metalsmith-if');
+const permalinks = require('metalsmith-permalinks');
+const moment = require('moment');
+const fs = require('fs');
 
 moment.locale('en', {
-  calendar : {
-    lastDay : '[Yesterday, ] MMM Do',
-    sameDay : '[Today, ] MMM Do',
-    lastWeek : '[last] dddd[, ] MMM Do',
-    sameElse : 'll'
+  calendar: {
+    lastDay: '[Yesterday, ] MMM Do',
+    sameDay: '[Today, ] MMM Do',
+    lastWeek: '[last] dddd[, ] MMM Do',
+    sameElse: 'll'
   }
 });
 
 build();
 
-function build() {
-  var serveAndWatch = process.argv.length > 2 && process.argv[2] === 'serve',
-      metadata = JSON.parse(fs.readFileSync('./site.json', 'utf8'));
+function build () {
+  const serveAndWatch = process.argv.length > 2 && process.argv[2] === 'serve';
+  const metadata = JSON.parse(fs.readFileSync('./site.json', 'utf8'));
 
   Error.stackTraceLimit = 100;
   metadata.devMode = serveAndWatch;
@@ -45,6 +46,12 @@ function build() {
       moment: moment
     }))
 
+    // allow for draft posts and permalinks
+    .use(drafts)
+    .use(permalinks({
+      pattern: ':title'
+    }))
+
     // when we run as `node build serve` we'll serve the site and watch
     // the files for changes. Note: This does not reload when templates
     // change, only when the content changes
@@ -62,37 +69,41 @@ function build() {
         verbose: true
       })))
 
-    .build(function (err) {
+    .build(err => {
       if (err) {
         console.log(err);
         throw err;
-      }
-      else {
+      } else {
         console.log('Site build complete.');
-        if (process.argv.length > 2 && process.argv[2] === 'publish') {
-          publish();
-        }
+        publish();
       }
     });
 }
 
-function publish() {
-
-  var ghpages = require('gh-pages'),
-      path = require('path'),
-      options = {
-        branch: 'master',
-        repo: 'https://github.com/lance/lance.github.io.git',
-        dotfiles: true
-      };
-
-  ghpages.publish(path.join(__dirname, 'build'), options, function(err) {
-    if (err) {
-      console.error("Cannot publish site. " + err);
-      throw err;
-    }
-    else
-      console.log('Site published.');
+function drafts (files, metalsmith, done) {
+  files.forEach(f => {
+    if (files[f].draft) delete files[f];
   });
+  done();
+};
 
+function publish () {
+  if (process.argv[2] === 'publish') return;
+
+  const ghpages = require('gh-pages');
+  const path = require('path');
+  const options = {
+    branch: 'master',
+    repo: 'https://github.com/lance/lance.github.io.git',
+    dotfiles: true
+  };
+
+  ghpages.publish(path.join(__dirname, 'build'), options, (err) => {
+    if (err) {
+      console.error(`Cannot publish site. %{err}`);
+      throw err;
+    } else {
+      console.log('Site published.');
+    }
+  });
 }
