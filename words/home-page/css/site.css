@@ -77,3 +77,8 @@ li {
   display: block;
   float: right;
 }
+
+#content.container .article {
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
