@@ -7,7 +7,7 @@ html
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     meta(name='description' content='Lance Ball: StuffNThings')
 
-    link(rel="icon" href="/favicon.ico")
+    link(rel="alternate" type="application/rss+xml" title="RSS Feed for lanceball.com" href="/rss.xml")
 
     block title
       title= title ? title + " | " + site.title : site.title
@@ -46,10 +46,8 @@ html
     .container#content
       .page-header.right  I'm a Software Developer. I work for&nbsp;
         a(href="http://redhat.com") RedHat
-
       block main
         div!= contents
-
 
     block footer
       footer(id='footer')

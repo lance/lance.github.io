@@ -1,13 +1,16 @@
 const metalsmith = require('metalsmith');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdown');
-const jade = require('metalsmith-jade');
-const less = require('metalsmith-less');
+const pug = require('metalsmith-pug');
 const serve = require('metalsmith-serve');
 const watch = require('metalsmith-watch');
 const msIf = require('metalsmith-if');
 const permalinks = require('metalsmith-permalinks');
 const collections = require('metalsmith-collections');
+const excerpts = require('metalsmith-better-excerpts');
+const gist = require('metalsmith-gist');
+const branch = require('metalsmith-branch');
+const feed = require('metalsmith-feed');
 const moment = require('moment');
 const fs = require('fs');
 
@@ -34,34 +37,56 @@ function build () {
     .source('./src')
     .destination('./build')
 
-    // Write pages in markdown
+    // write blog posts in markdown
     .use(markdown())
-    .use(jade())
 
-    // use less for css
-    .use(less())
+    // allow for draft posts
+    .use(drafts)
 
-    // Jade templates
-    .use(layouts({
-      engine: 'jade',
-      moment: moment
+    // easy gist insertion
+    .use(gist())
+
+    // for the listing of posts
+    .use(excerpts({
+      pruneLength: 40,
+      stripTags: false
     }))
 
     // let's write a blog!
     .use(collections({
       articles: {
-        pattern: 'words/*.md',
+        pattern: 'words/**.html',
         sortBy: 'date',
         reverse: true
       }
     }))
 
-    // allow for draft posts and permalinks
-    .use(drafts)
-    .use(permalinks({
-      match: { collection: 'articles' },
-      pattern: 'words/:date/:title'
+    .use(branch('words/**.html')
+      // use permalinks for blog posts
+      .use(permalinks({
+        match: { collection: 'articles' },
+        pattern: 'words/:date/:title'
+      })))
+
+    // Index page is pug
+    .use(pug({
+      useMetadata: true
     }))
+
+    // Pug templates
+    .use(layouts({
+      engine: 'pug',
+      moment: moment
+    }))
+
+        // RSS Feed
+    .use(feed(
+      {
+        collection: 'articles',
+        pubDate: new Date(),
+        postDescription: (file) => file.less || file.excerpt || file.contents
+      }
+    ))
 
     // when we run as `node build serve` we'll serve the site and watch
     // the files for changes. Note: This does not reload when templates
@@ -96,7 +121,7 @@ function drafts (files, metalsmith, done) {
     if (files[f].draft) delete files[f];
   });
   done();
-};
+}
 
 function publish () {
   if (process.argv[2] === 'publish') return;

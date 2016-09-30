@@ -12,7 +12,7 @@ h1 Hi
     . Among other things, I get to work on new and experimental projects.
     In truth, that also means that I write and then throw away a lot of code.
     The upside is that I get to work on some projects that eventually grow legs
-    and have a life. 
+    and have a life.
 
 .row
   .col-md-10
@@ -23,6 +23,7 @@ h1 Hi
     .well
 
       ul
+        li <strong><a href="http://nodejs.org">Node.js</a></strong> - A JavaScript runtime that uses an event-driven, non-blocking I/O model.
         li <strong><a href="http://wildfly-swarm.io">WildFly Swarm</a></strong> - A microservices framework and runtime for Java.
         li <strong><a href="http://vertx.io">Vert.x</a></strong> - A reactive application framework and runtime for the JVM.
         li <strong><a href="http://dynjs.org">DynJS</a></strong> - A JavaScript runtime written for the JVM.
@@ -31,7 +32,7 @@ h1 Hi
         li <strong><a href="https://github.com/nodyn/jvm-npm">jvm-npm</a></strong> - A JavaScript NPM module implementation for JVM JavaScript environments
         li <strong><a href="https://www.npmjs.com/package/fidelity">fidelity</a></strong> - A lightweight, spec-compliant Promises/A+ implementation
         li <strong><a href="https://www.npmjs.com/package/rhq-metrics">rhq-metrics</a></strong> - A Node.js client for the JBoss RHQ Metrics Server
-        
+
 .row
   .col-md-10
     h2
@@ -49,18 +50,37 @@ h1 Hi
           span.glyphicon.glyphicon-blackboard &nbsp;
           span <strong><a href="http://lanceball.com/process-bindings/#/">Process Bindings: How to do Node.js on the JVM</a></strong> - CodeMash 2015
         li
-          span.glyphicon.glyphicon-blackboard &nbsp; 
+          span.glyphicon.glyphicon-blackboard &nbsp;
           span <strong><a href="http://lanceball.com/dataIO2013/">Vert.x: Async Data From Cluster to Browser</a></strong> - DataIO 2013
         li
-          span.glyphicon.glyphicon-blackboard &nbsp;         
+          span.glyphicon.glyphicon-blackboard &nbsp;
           span <strong><a href="https://github.com/lance/dev-ignition-2013">Vert.x - Bringing the Browser to the Cluster</a></strong> - DevIgnition 2013
         li
-          span.glyphicon.glyphicon-film &nbsp;          
+          span.glyphicon.glyphicon-film &nbsp;
           span <strong><a href="https://www.youtube.com/watch?v=YgU3Ai54Udc">Complex Made Simple: Sleep Better with TorqueBox</a></strong> - RailsConf 2012
         li
           span.glyphicon.glyphicon-blackboard &nbsp;
           span <strong><a href="https://github.com/lance/rubyhoedown-2012">Simple Scalability With TorqueBox</a></strong> - Ruby Hoedown 2012
         li
-          span.glyphicon.glyphicon-blackboard &nbsp; 
+          span.glyphicon.glyphicon-blackboard &nbsp;
           span <strong><a href="https://www.dropbox.com/s/ng4l5cao9izkjif/2011-strangeloop.pdf?dl=0">DataMapper on Infinispan: Clustered NoSQL</a></strong> - StrangeLoop 2012
-          
+
+
+if ( collections && collections.articles.length > 0)
+  .row
+    .col-md-10
+      h2
+        span.glyphicon.glyphicon-hand-right
+        span Things I've Written Lately
+      p.
+        I don't write a lot of blog posts, but if I do they end up here.
+
+      each article in collections.articles
+        .well
+          div.article-preview
+            h2
+              a(href='/'+article.path)!= article.title
+            span.glyphicon.glyphicon-time
+            span.timestamp= article.date.toDateString()
+            div!= article.excerpt
+
