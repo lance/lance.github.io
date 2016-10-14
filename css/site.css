@@ -100,3 +100,8 @@ li {
 .article-preview .more.glyphicon {
     margin-left: 1ex;
 }
+
+.gist {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
