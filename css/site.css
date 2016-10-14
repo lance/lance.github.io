@@ -83,6 +83,10 @@ li {
     margin-bottom: 20px;
 }
 
+#content.container .article .contents {
+    font-size: larger;
+}
+
 .article-preview .timestamp {
     border-bottom: 1px dashed;
     border-color: #ccc;
