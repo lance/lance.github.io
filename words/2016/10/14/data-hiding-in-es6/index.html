@@ -10,6 +10,20 @@ But that doesn&#39;t mean there aren&#39;t some really good lessons to learn fro
 those languages and styles.</p>
 <p>Take, for instance, data encapsulation.</p>
 <!-- More -->
+<p>When I first began to seriously look at Javascript as a language, data
+encapsulation - or the lack of it - was one of the things that really stuck
+in my old OO craw. While I loved the simplicity of the <code>{}</code> data structure,
+the fact that most properties I chose to add to it were typically just there -
+sticking out for everyone to see (and perhaps corrupt). The language didn&#39;t
+make it very easy to keep this data protected.</p>
+<p>Let&#39;s take a look at how this simplistic approach to the <code>{}</code> data structure
+could cause some real headaches. Imagine we have a <code>productCatalog()</code> lookup
+function that returns a data object containing the properties for a product.
+It might look something like this:</p>
+<p>gist: <a href="https://gist.github.com/lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex1.js">https://gist.github.com/lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex1.js</a></p>
+<p>Notice that the object returned here contains a function, <code>related()</code> which
+will find the set of products related to this one using this object&#39;s <code>id</code>
+or <code>name</code> property.</p>
 <h2 id="this-is-a-simple-article">This is a simple Article</h2>
 <p>I will write some words here to see if this works.</p>
 <p>And then I write some more.</p>
