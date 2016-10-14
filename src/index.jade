@@ -80,7 +80,13 @@ if ( collections && collections.articles.length > 0)
           div.article-preview
             h2
               a(href='/'+article.path)!= article.title
-            span.glyphicon.glyphicon-time
-            span.timestamp= article.date.toDateString()
-            div!= article.excerpt
+            div.timestamp
+              span.glyphicon.glyphicon-time
+              span= article.date.toDateString()
+            div.excerpt
+              span!= article.excerpt
+            a(href=article.path)
+              Read More
+              span.more.glyphicon.glyphicon-arrow-right
+
 

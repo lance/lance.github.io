@@ -37,14 +37,16 @@ function build () {
     .source('./src')
     .destination('./build')
 
+    // easy gist insertion
+    .use(gist({
+      caching: false
+    }))
+
     // write blog posts in markdown
     .use(markdown())
 
     // allow for draft posts
     .use(drafts)
-
-    // easy gist insertion
-    .use(gist())
 
     // for the listing of posts
     .use(excerpts({
