@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Lance Ball]]></title><description><![CDATA[Lance Ball]]></description><link>http://lanceball.com</link><generator>metalsmith-feed</generator><lastBuildDate>Fri, 14 Oct 2016 17:40:40 GMT</lastBuildDate><atom:link href="http://lanceball.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Fri, 14 Oct 2016 17:40:39 GMT</pubDate><item><title><![CDATA[Data Hiding in ES6]]></title><description><![CDATA[<p>I've been writing code for a long time now, and we don't have to take the
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Lance Ball]]></title><description><![CDATA[Lance Ball]]></description><link>http://lanceball.com</link><generator>metalsmith-feed</generator><lastBuildDate>Fri, 14 Oct 2016 17:49:04 GMT</lastBuildDate><atom:link href="http://lanceball.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Fri, 14 Oct 2016 17:49:03 GMT</pubDate><item><title><![CDATA[Data Hiding in ES6]]></title><description><![CDATA[<p>I've been writing code for a long time now, and we don't have to take the
 wayback machine very far to get to the good old days of my experience with
 Java and C++. For much of my early career, I genuflected regularly in
-front of the altar of data encapsulation, object heirarchies, static typing,
-and the syntax. Oh the syntax!</p>
+front of the altar of data encapsulation, object heirarchies and static typing.
+And the syntax. Oh the syntax!</p>
 <p>But I have changed, of course, and so much of the dogma and ceremony that
 I participated in during those times has come to seem a lot less important
-than it was 20 years ago. Languages, and developers evolve and change.
-But that doesn't mean there aren't some really good lessons to learn from
-those languages and styles.</p>
+than it was 20 years ago. Languages, and developers evolve. But that doesn't
+mean there aren't some really good lessons to learn from those languages
+and styles.</p>
 <p>Take, for instance, data encapsulation.</p>]]></description><link>http://lanceball.com/words/2016/10/14/data-hiding-in-es6</link><guid isPermaLink="true">http://lanceball.com/words/2016/10/14/data-hiding-in-es6</guid><pubDate>Fri, 14 Oct 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[Custom NPM Init Scripts]]></title><description><![CDATA[<p>If you have been writing node apps for more than a week or two, you should be
 familiar with the <code>npm init</code> command. When starting a new project, it does a great
 job of setting up a basic <code>package.json</code> for you, prompting for pertinent information,

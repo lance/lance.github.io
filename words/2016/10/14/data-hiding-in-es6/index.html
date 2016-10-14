@@ -1,13 +1,13 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Lance Ball: StuffNThings"><link rel="alternate" type="application/rss+xml" title="RSS Feed for lanceball.com" href="/rss.xml"><title>Data Hiding in ES6 | Lance Ball</title><link rel="stylesheet" media="screen" href="/lib/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" media="screen" href="/css/site.css"><link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600"><link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></head><body><nav class="navbar navbar-default navbar-fixed-top"><div class="container"><div class="navbar-header"><button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only"></span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/"><span>Lance Ball</span></a></div><div class="navbar-collapse collapse" id="navbar"><ul class="nav navbar-nav"><li><a href="#{site.github}">GitHub</a></li><li><a href="#{site.twitter}">Twitter</a></li><li><a href="#{site.linkedin}">LinkedIn</a></li><li><a href="#{site.tumblr}">Tumblr</a></li></ul></div></div></nav><div class="container" id="content"><div class="page-header right"> I'm a Software Developer. I work for&nbsp;<a href="http://redhat.com">RedHat</a></div><div class="article"><div class="metadata"><h1 class="title">Data Hiding in ES6</h1><div class="date">Thu Oct 13 2016</div></div><hr><div class="contents"><p>I&#39;ve been writing code for a long time now, and we don&#39;t have to take the
 wayback machine very far to get to the good old days of my experience with
 Java and C++. For much of my early career, I genuflected regularly in
-front of the altar of data encapsulation, object heirarchies, static typing,
-and the syntax. Oh the syntax!</p>
+front of the altar of data encapsulation, object heirarchies and static typing.
+And the syntax. Oh the syntax!</p>
 <p>But I have changed, of course, and so much of the dogma and ceremony that
 I participated in during those times has come to seem a lot less important
-than it was 20 years ago. Languages, and developers evolve and change.
-But that doesn&#39;t mean there aren&#39;t some really good lessons to learn from
-those languages and styles.</p>
+than it was 20 years ago. Languages, and developers evolve. But that doesn&#39;t
+mean there aren&#39;t some really good lessons to learn from those languages
+and styles.</p>
 <p>Take, for instance, data encapsulation.</p>
 <!-- More -->
 <p>When I first began to seriously look at Javascript as a language, data
@@ -16,17 +16,17 @@ in my old OO craw. While I loved the simplicity of the <code>{}</code> data stru
 the fact that most properties I chose to add to it were typically just there -
 sticking out for everyone to see (and perhaps corrupt). The language didn&#39;t
 make it very easy to keep this data protected.</p>
-<p>Let&#39;s take a look at how this simplistic approach to the <code>{}</code> data structure
-could cause some real headaches. Imagine we have a <code>productCatalog()</code> lookup
+<p>Take a look at how this simplistic approach to the <code>{}</code> data structure
+might cause some real headaches. Here we have a <code>productCatalog()</code> lookup
 function that returns a data object containing the properties for a product.
 It might look something like this:</p>
 <p><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-f953a4adc432b1780605388b0773f55cb21c605104a8cfaaa96d4476b699d04d.css"><div id="gist40910913" class="gist">    <div class="gist-file">      <div class="gist-data">        <div class="js-gist-file-update-container js-task-list-container file-box">  <div id="file-es6-data-hiding-ex1-js" class="file">      <div itemprop="text" class="blob-wrapper data type-javascript">      <table class="highlight tab-size js-file-line-container" data-tab-size="8">      <tr>        <td id="file-es6-data-hiding-ex1-js-L1" class="blob-num js-line-number" data-line-number="1"></td>        <td id="file-es6-data-hiding-ex1-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">&gt;</span> <span class="pl-k">var</span> product <span class="pl-k">=</span> <span class="pl-en">productCatalog</span>(<span class="pl-s"><span class="pl-pds">&#39;</span>widget-a<span class="pl-pds">&#39;</span></span>);</td>      </tr>      <tr>        <td id="file-es6-data-hiding-ex1-js-L2" class="blob-num js-line-number" data-line-number="2"></td>        <td id="file-es6-data-hiding-ex1-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">&gt;</span> <span class="pl-en">console</span>.<span class="pl-c1">log</span>(product);</td>      </tr>      <tr>        <td id="file-es6-data-hiding-ex1-js-L3" class="blob-num js-line-number" data-line-number="3"></td>        <td id="file-es6-data-hiding-ex1-js-LC3" class="blob-code blob-code-inner js-file-line">{ id<span class="pl-k">:</span> <span class="pl-c1">2340847</span>,</td>      </tr>      <tr>        <td id="file-es6-data-hiding-ex1-js-L4" class="blob-num js-line-number" data-line-number="4"></td>        <td id="file-es6-data-hiding-ex1-js-LC4" class="blob-code blob-code-inner js-file-line">  name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>widget-a<span class="pl-pds">&#39;</span></span>,</td>      </tr>      <tr>        <td id="file-es6-data-hiding-ex1-js-L5" class="blob-num js-line-number" data-line-number="5"></td>        <td id="file-es6-data-hiding-ex1-js-LC5" class="blob-code blob-code-inner js-file-line">  description<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">&#39;</span>what a widget!<span class="pl-pds">&#39;</span></span>,</td>      </tr>      <tr>        <td id="file-es6-data-hiding-ex1-js-L6" class="blob-num js-line-number" data-line-number="6"></td>        <td id="file-es6-data-hiding-ex1-js-LC6" class="blob-code blob-code-inner js-file-line">  related<span class="pl-k">:</span> [<span class="pl-c1">Function</span>] }</td>      </tr></table>  </div>  </div>  </div>      </div>      <div class="gist-meta">        <a href="https://gist.github.com/lance/0aa47a11aefd4f2c1ef21c034e5b0110/raw/47ec62d9e732fff45fd1a1b1716d22b786c904a7/es6-data-hiding-ex1.js" style="float:right">view raw</a>        <a href="https://gist.github.com/lance/0aa47a11aefd4f2c1ef21c034e5b0110#file-es6-data-hiding-ex1-js">es6-data-hiding-ex1.js</a>        hosted with &#10084; by <a href="https://github.com">GitHub</a>      </div>    </div></div>:es6-data-hiding-ex1.js</p>
 <p>Notice that the object returned here contains a function, <code>related()</code> which
 will find the set of products related to this one using this object&#39;s <code>id</code>
-or <code>name</code> property.</p>
-<h2 id="this-is-a-simple-article">This is a simple Article</h2>
-<p>I will write some words here to see if this works.</p>
-<p>And then I write some more.</p>
+or <code>name</code> property. But those properties are just there hanging on to the
+returned object by their fingernails. What if some evil bit of code came along
+and did this: <code>product.id = 0x00034</code> just to see what would happen? How
+would your</p>
 </div><hr></div></div><footer id="footer"><div class="footer"><p class="text-center">&copy; Lance Ball 2016</p><p class="text-center">If you want to contact me and don't already know how, check out all of
 those links at the top. I'm on the social medias.
 </p></div></footer><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="/lib/bootstrap/js/bootstrap.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
