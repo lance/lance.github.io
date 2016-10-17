@@ -132,7 +132,6 @@ the property leaks when using `Reflect.ownKeys()`.
 gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex8.js
 
 But I can live with that when performance matters. For
-`[Fidelity]`(https://npmjs.com/package/fidelity), we found that moving
+[Fidelity](https://npmjs.com/package/fidelity), we found that moving
 from `WeakMap` to `Symbol` for private data gave us a measurable, and
 quite significant performance boost.
-
