@@ -126,7 +126,7 @@ function drafts (files, metalsmith, done) {
 }
 
 function publish () {
-  if (process.argv[2] === 'publish') return;
+  if (process.argv[2] !== 'publish') return;
 
   const ghpages = require('gh-pages');
   const path = require('path');
@@ -135,6 +135,8 @@ function publish () {
     repo: 'https://github.com/lance/lance.github.io.git',
     dotfiles: true
   };
+
+  console.log('Publishing build dir to master');
 
   ghpages.publish(path.join(__dirname, 'build'), options, (err) => {
     if (err) {
