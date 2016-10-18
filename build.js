@@ -28,6 +28,7 @@ build();
 function build () {
   const serveAndWatch = process.argv.length > 2 && process.argv[2] === 'serve';
   const metadata = JSON.parse(fs.readFileSync('./site.json', 'utf8'));
+  const now = new Date();
 
   Error.stackTraceLimit = 100;
   metadata.devMode = serveAndWatch;
@@ -81,12 +82,17 @@ function build () {
       moment: moment
     }))
 
-        // RSS Feed
+    // RSS Feed
     .use(feed(
       {
         collection: 'articles',
-        pubDate: new Date(),
-        postDescription: (file) => file.less || file.excerpt || file.contents
+        pubDate: now,
+        postDescription: (file) => file.excerpt || file.contents,
+        copyright: `Lance Ball ${now.getFullYear()}`,
+        description: 'Occasional musings of a crotchety old developer',
+        language: 'en-us',
+        categories: ['programming', 'javascript', 'node.js', 'coding'],
+        site_url: 'http://lanceball.com'
       }
     ))
 
