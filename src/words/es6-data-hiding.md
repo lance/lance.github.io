@@ -135,3 +135,10 @@ But I can live with that when performance matters. For
 [Fidelity](https://npmjs.com/package/fidelity), we found that moving
 from `WeakMap` to `Symbol` for private data gave us a measurable, and
 quite significant performance boost.
+
+**Edit:** It has been pointed out that `Object.getOwnPropertySymbols`
+would also expose these `Symbol`-keyed properties to client code. Again,
+it's not ideal that the properties are visible. But since they are
+inaccessible, I'll not worry about it too much. In the example above,
+the `name` property would be omitted from the results, leaving just
+`[ Symbol(id) ]`.
