@@ -2,7 +2,7 @@ build: node_modules lint
 	node build
 
 serve: node_modules
-	serve.sh
+	./serve.sh
 
 deploy: node_modules lint
 	node build publish

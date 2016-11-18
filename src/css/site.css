@@ -105,3 +105,10 @@ li {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
 }
+
+blockquote {
+    font-size: 20px;
+    font-family: serif;
+    font-style: italic;
+    color: #7a7a7a;
+}
