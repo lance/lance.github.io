@@ -2,9 +2,7 @@ build: node_modules lint
 	node build
 
 serve: node_modules
-	node build serve 2>&1 | tee server.log &
-	sleep 3
-	open http://localhost:8080
+	serve.sh
 
 deploy: node_modules lint
 	node build publish
@@ -18,4 +16,4 @@ lint:
 clean:
 	rm -rf node_modules build
 
-.PHONY: build
+.PHONY: build serve clean lint deploy
