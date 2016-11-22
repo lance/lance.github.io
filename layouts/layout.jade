@@ -17,6 +17,7 @@ html
       link(rel='stylesheet' media='screen' href='/css/site.css')
       link(rel='stylesheet' media='screen' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600')
       link(rel='stylesheet' media='screen' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+      link(rel='stylesheet' media='screen' href='http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css')
 
   body
     block navbar
@@ -58,6 +59,7 @@ html
             those links at the top. I'm on the social medias.
 
     block scripts
+      script(src='http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js')
       script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
       script(src='/lib/bootstrap/js/bootstrap.min.js')
       script.
@@ -68,5 +70,7 @@ html
 
         ga('create', 'UA-373972-2', 'auto');
         ga('send', 'pageview');
+      script.
+        hljs.initHighlightingOnLoad();
 
 
