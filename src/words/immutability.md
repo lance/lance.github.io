@@ -91,9 +91,9 @@ TypeError: Cannot assign to read only property 'price' of object '#<Product>'
     at REPLServer.emit (events.js:188:7)
 ````
 
-Ughh. This is happening because I've got `new Product()` as the first parameter to the `Object.assign()` call, and once a `Product` is constructed, it's frozen. I need to defer freezing the object until _after_ it's constructed. Otherwise, if instead I just use `{}` then the returned object won't be an instance of `Product`.
+Ughh. This is happening because I've got `new Product()` as the first parameter to the `Object.assign()` call, and once a `Product` is constructed, it's frozen. I need to defer freezing the object until _after_ it's constructed.
 
-But how can I do that? I could use a factory function to return instances of `Product`. Or to simplify things even more, we could change our data model to not use a class at all. For the sake of simplification and experimentation, let's give it a shot. Maybe the plain old JavaScript objects are all we need.
+I could use a factory function to return frozen instances of `Product`. But really, why do I need the `Product` data type at all? Wouldn't a simple `Object` be fine?For the sake of simplification and experimentation, let's give it a shot.
 
 ````js
 // Use a factory function to return plain old JS objects
@@ -115,7 +115,7 @@ widget;
 
 ## Lingering doubts
 
-I still have lingering doubts, though. For one thing, making a new instance for every change seems pretty inefficient, doesn't it? And for another, what happens when my data model has nested objects as properties? Do I have to freeze those as well? It turns out, yes I do. All of the properties on my product object are immutable. But properties of nested objects can be changed. That freeze doesn't go very deep.
+I still have doubts, though. For one thing, making a new instance for every change seems pretty inefficient, doesn't it? And for another, what happens when my data model has nested objects as properties? Do I have to freeze those as well? It turns out, yes I do. All of the properties on my product object are immutable. But properties of nested objects can be changed. That freeze doesn't go very deep.
 
 Maybe I can fix that by just freezing the nested objects.
 
@@ -160,21 +160,21 @@ Maybe my friend was right. Maybe this is a language issue.
 
 OK. so is this it? Should I just throw in the towel and give up on immutability in my JavaScript applications? After all, I've gone this far without it. And I didn't have _that many_ bugs. Really... I promise!
 
-What's a coder to do? Your best bet, if you want to embrace this style fully is to write your application in Clojure or Scala or a similarly designed language where data is immutable. Immutable data is a fundamental part of the Clojure language. Instead of spending all of your time reading blog posts about fitting a square peg into a round hole, with Clojure you can just focus on writing your application and be done with it.
+Well, if you want to embrace this style fully is to write your application in Clojure or Scala or a similarly designed language where data is immutable. This is a fundamental part of the Clojure language. Instead of spending all of your time reading blog posts about fitting a square peg into a round hole, with Clojure you can just focus on writing your application and be done with it.
 
  But maybe that's not an option. Maybe you've got to follow company language standards. And anyway, some of us kind of do like writing code in JavaScript, so let's, for the sake of argument, take a look at some options. But first, let's just review _why_ we're going to all of this trouble.
 
 ## The case for immutability
 
-So much of what makes software develoment hard (other than cache invalidation, and naming) has to do with state maintenance. Did an object change state? Does that mean that other objects need to know about it? How do we propagate that state across our system? There's so much bookkeeping and overhead involved in these activitites that bugs are inevitable.
+So much of what makes software development hard (other than cache invalidation, and naming) has to do with state maintenance. Did an object change state? Does that mean that other objects need to know about it? How do we propagate that state across our system? There's so much bookkeeping and overhead involved in these activitites that bugs are inevitable.
 
 If, however, we start to think a little differently, these problems begin to disappear. Instead of thinking about _objects_, if we shift our thinking about data so that everything is simply a _value_, then there is no state maintenance to worry about. Don't think of references to these values as _variables_. It's just a reference to a single, unchanging _value_.
 
-But this shift in thinking must also affect how we structure and think about our code. Really, we need to start thinking more like a functional programmer. Any function that changes the application's state, should receive an input value, and return some mutated output value - without changing the input.
+But this shift in thinking must also affect how we structure and think about our code. Really, we need to start thinking more like a functional programmer. Any function that mutates data, should receive an input value, and return a new output value - without changing the input.
 
 When you think about it, this constraint pretty much eliminates the need for the `class` and `this` keywords. Or at least it eliminates the use of any data type that can modify itself in the traditional sense, for example with an instance method. In this world view, the only use for the `class` keyword is namespacing your functions by making them static.
 
-But to me, that seems a little weird. Wouldn't it just be easier to stick to native data types? Especially since the module system effectively provides namespacing for us. Our product functions are namespaced by whatever name we choose to bind them to when we `require()` this file.
+But to me, that seems a little weird. Wouldn't it just be easier to stick to native data types? Especially since the module system effectively provides namespacing for us. Exports are namespaced by whatever name we choose to bind them to when we `require()` a file.
 
 **`product.js`**
 
@@ -197,17 +197,15 @@ Product.factory; // => [Function: factory]
 Product.updatePrice; // => [Function: updatePrice]
 ````
 
-Once we start thinking like this and enter the world of functional programming, there is a whole raft of topics to discuss. But for the sake of this endeavor let's focus on immutability.
-
 For now, just keep these few things in mind.
 
   * Think of variables (or preferably `const`s) as _values_ not _objects_. A value cannot be changed, while objects can be.
   * Avoid the use of `class` and `this`. Use only native data types, and if you must use a class, don't ever modify its internal properties in place.
   * Never mutate native type data in place, functions that alter the application state should always return a copy with new values.
 
-## Seriously, that seems like a lot of extra work
+## That seems like a lot of extra work
 
-Yeah, it is a lot of extra work. And as I noted earlier, it sure seems inefficient to make a full copy of your objects every time you need to change a value. Truthfully, to do this properly, you need to be using shared [persistent data](http://en.wikipedia.org/wiki/Persistent_data_structure) structures which employ techniques such as [hash map tries](http://en.wikipedia.org/wiki/Hash_array_mapped_trie) and [vector tries](http://hypirion.com/musings/understanding-persistent-vector-pt-1) to efficiently avoid deep copying. This stuff is hard, and you probably don't want to roll your own. I know I don't.
+Yeah, it is a lot of extra work. And as I noted earlier, it sure seems inefficient to make a full copy of your objects every time you need to change a value. Truthfully, to do this properly, you need to be using shared [persistent data structures](http://en.wikipedia.org/wiki/Persistent_data_structure) which employ techniques such as [hash map tries](http://en.wikipedia.org/wiki/Hash_array_mapped_trie) and [vector tries](http://hypirion.com/musings/understanding-persistent-vector-pt-1) to efficiently avoid deep copying. This stuff is hard, and you probably don't want to roll your own. I know I don't.
 
 ## Someone else has already done it
 
@@ -215,9 +213,7 @@ Facebook has released a popular NPM module called, strangely enough, [`immutable
 
 > A mutative API which does not update the data in-place, but instead always yields new updated data.
 
-Rather than turning this post into an `immutable` module tutorial, I will just show you a few interesting techniques that we can use in our examples. If you want to learn more, follow the links at the end of the post.
-
-First let's examine our data model. The `immutable` module has a number of different data types. Since we've already seen our `Product` model as a plain old JavaScript `Object`, it probably makes the most sense to use the `Map` data type from `immutable`.
+Rather than turning this post into an `immutable` module tutorial, I will just show you how it might apply to our example data model. The `immutable` module has a number of different data types. Since we've already seen our `Product` model as a plain old JavaScript `Object`, it probably makes the most sense to use the `Map` data type from `immutable`.
 
 **`product.js`**
 
@@ -261,7 +257,7 @@ assert(!widget.equals(clonedWidget));
 assert(!widget.equals(anotherWidget));
 ````
 
-This all makes some intuitive sense. We create a `widget` and when we modify it, the return value of the mutative function provides us with a new value that is not equivalent as either a reference or value. Additional references to the new value instance `priceyWidget` are also not equivalent.
+This makes intuitive sense. We create a `widget` and when we change a property, the return value of the mutative function provides us with a new value that is not equivalent as either a reference or value. Additional references to the new value instance `priceyWidget` are also not equivalent.
 
 But what about comparisons between `priceyWidget` and its clone. Or `priceyWidget` and a mutated version of the clone that actually contains all of the same property values. Whether we are comparing references with `===` or using the deep `Map.equals`, we find that equivalence holds. How cool is that?
 
@@ -280,7 +276,9 @@ assert(priceyWidget.equals(anotherWidget));
 
 ## This is just the beginning
 
-There is a lot of territory to cover with the `immutable.js` package, which I won't get into here. But I encourage you to read futher. Topics such as nested data structures, merging data from multiple values, and collections are all worth exploring. Find below links for additional reading.
+When I started writing this post, it was primarily as a learning experience for myself. My friend's friendly jab got me interested in learning about immutable data in JavaScript, and how to apply these techniques to my own code. What I really learned is that, while immutable systems have benefits, there are a lot of hurdles to jump through when writing code this way in JavaScript. Using a high-quality package like `immutable.js` is a good way to address these complexities.
+
+I don't think I will immediately change all of my existing packages to use these techniques. But now I have a new tool in my tool box, and this exploration has opened my eyes to the benefits of thinking about data in new ways. If any of this has peaked your interest, I encourage you to read futher. Topics such as nested data structures, merging data from multiple values, and collections are all worth exploring. Find below links for additional reading.
 
 * `immutable.js` documentation: http://facebook.github.io/immutable-js/docs/#/
 * Persistent data structures: http://en.wikipedia.org/wiki/Persistent_data_structure
