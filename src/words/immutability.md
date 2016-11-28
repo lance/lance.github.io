@@ -33,7 +33,7 @@ class Product {
 
 So, here we've done our best to hide the `id` property using a `Symbol` as a property key. It's not accessible within user land, and it's barely visible, unless you know about `Reflect.ownKeys()` or `Object.getOwnPropertySymbols()`. And of course, I never mentioned the `name` property in the last article. But the truth is, it suffers from the same issues that plague the `id` property. It really shouldn't change.
 
-But to accomplish that, I have to replace every `this.name` with `this[NAME]` using a `Symbol` for the property key. And like my friend said, these proerties are arguably useful in userland. I just don't want them changed. I want **immutability**. How can I do this using JavaScript?
+But to accomplish that, I have to replace every `this.name` with `this[NAME]` using a `Symbol` for the property key. And like my friend said, these properties are arguably useful in userland. I just don't want them changed. I want **immutability**. How can I do this using JavaScript?
 
 ## Is it cold in here, or is it just me?
 `Object.freeze()` is nothing new. It's been around forever. Let's take a look at how we'd use it to make our `Product` instances immutable.
@@ -61,7 +61,7 @@ What about those situations where you really _need_ to mutate your application s
 this.price = getUpdatedPrice(this);
 ````
 
-But of course, if we're going for immutability and the safety that comes along with that, then this is clearly not the corret approach. We are mutating the `Product` instance when we do `this.price = someValue()`.
+But of course, if we're going for immutability and the safety that comes along with that, then this is clearly not the correct approach. We are mutating the `Product` instance when we do `this.price = someValue()`.
 
 So, what can we do about it? One strategy might be to use `Object.assign()` to copy properties from one object to another, always generating a new object for every data mutation. Perhaps something like this.
 
@@ -74,7 +74,7 @@ class Product {
 }
 ````
 
-OK, we are getting somewhere, I guess. We can use `Object.freeze()` to make our objects immutable, and then `Object.assign()` to generate a new object using existing properties whenever something needs to be mutated. Let's see how well this works.
+OK, we are getting somewhere. We can use `Object.freeze()` to make our objects immutable, and then `Object.assign()` to generate a new object using existing properties whenever something needs to be mutated. Let's see how well this works.
 
 ````js
 acmeWidget.updatePrice();
@@ -91,9 +91,9 @@ TypeError: Cannot assign to read only property 'price' of object '#<Product>'
     at REPLServer.emit (events.js:188:7)
 ````
 
-Ughh. This is happening because I've got `new Product()` as the first parameter to the `Object.assign()` call, and once a `Product` is constructed, it's frozen. I need to defer freezing the object until _after_ it's constructed, I guess. Otherwise, if instead I just use `{}` then the returned object won't be an instance of `Product`.
+Ughh. This is happening because I've got `new Product()` as the first parameter to the `Object.assign()` call, and once a `Product` is constructed, it's frozen. I need to defer freezing the object until _after_ it's constructed. Otherwise, if instead I just use `{}` then the returned object won't be an instance of `Product`.
 
-But how can I do that? I could use a factory function to return instances of `Product`. Or to simplify things even more, I guess we could change our data model to not use a class at all. For the sake of simplification and experimentation, let's give it a shot. Maybe the plain old JavaScript objects are all we need.
+But how can I do that? I could use a factory function to return instances of `Product`. Or to simplify things even more, we could change our data model to not use a class at all. For the sake of simplification and experimentation, let's give it a shot. Maybe the plain old JavaScript objects are all we need.
 
 ````js
 // Use a factory function to return plain old JS objects
@@ -160,7 +160,7 @@ Maybe my friend was right. Maybe this is a language issue.
 
 OK. so is this it? Should I just throw in the towel and give up on immutability in my JavaScript applications? After all, I've gone this far without it. And I didn't have _that many_ bugs. Really... I promise!
 
-What's a coder to do? Your best bet, if you want to embrace this style fully is to write your application in Clojure or Scala or a similarly designed language where data is immutable. Immtable data is a fundamental part of the Clojure language. Instead of spending all of your time reading blog posts about fitting a square peg into a round hole, with Clojure you can just focus on writing your application and be done with it.
+What's a coder to do? Your best bet, if you want to embrace this style fully is to write your application in Clojure or Scala or a similarly designed language where data is immutable. Immutable data is a fundamental part of the Clojure language. Instead of spending all of your time reading blog posts about fitting a square peg into a round hole, with Clojure you can just focus on writing your application and be done with it.
 
  But maybe that's not an option. Maybe you've got to follow company language standards. And anyway, some of us kind of do like writing code in JavaScript, so let's, for the sake of argument, take a look at some options. But first, let's just review _why_ we're going to all of this trouble.
 
