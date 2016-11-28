@@ -1,0 +1,217 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Lance Ball: StuffNThings"><link rel="alternate" type="application/rss+xml" title="RSS Feed for lanceball.com" href="/rss.xml"><title>Forget Data Encapsulation - Embrace Immutability | Lance Ball</title><link rel="stylesheet" media="screen" href="/lib/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" media="screen" href="/css/site.css"><link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600"><link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css"></head><body><nav class="navbar navbar-default navbar-fixed-top"><div class="container"><div class="navbar-header"><button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only"></span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/"><span>Lance Ball</span></a></div><div class="navbar-collapse collapse" id="navbar"><ul class="nav navbar-nav"><li><a href="https://github.com/lance">GitHub</a></li><li><a href="http://twitter.com/lanceball">Twitter</a></li><li><a href="http://www.linkedin.com/in/lanceball">LinkedIn</a></li><li><a href="http://tumblr.lanceball.com">Tumblr</a></li></ul></div></div></nav><div class="container" id="content"><div class="page-header right"> I'm a Software Developer. I work for&nbsp;<a href="http://redhat.com">Red Hat</a></div><div class="article"><div class="metadata"><h1 class="title">Forget Data Encapsulation - Embrace Immutability</h1><div class="date">Sun Nov 27 2016</div></div><hr><div class="contents"><p>A couple of weeks ago, I wrote a fairly <a href="/words/es6-data-hiding.html">long post</a> attempting to shed some light on a few things you can do in your JavaScript classes to enforce the concept of data encapsulation - or data &quot;hiding&quot;. But as soon as I posted it, I got some flak from <a href="http://twitter.com/jcrossley3">a friend</a> who is a Clojure programmer. His first comment about the article was this.</p>
+<blockquote>
+<p>Mutability and data encapsulation are fundamentally at odds.</p>
+</blockquote>
+<p>Eventually, he walked that back - but only just a little bit. His point, though, was intriguing. I asked him to explain what he meant.</p>
+<!-- More -->
+<blockquote>
+<p>Why is it so wrong to return the <code>id</code> in your example? I&#39;m guessing it&#39;s not. It might be darn useful to fetch it. In fact, it might greatly enhance the data model for it to be there. But you feel you must &quot;hide&quot; it. Why? Because it&#39;s mutable, or because you must go to great lengths to make it immutable. Because JavaScript. But if you were returning an immutable data structure, you wouldn&#39;t even think about it. All that stress just falls away; you no longer care about hiding your data or encapsulating it. You only care that it&#39;s correct and that it properly conveys the essential complexity of your system.</p>
+</blockquote>
+<p>We&#39;ll ignore his little dig on the language itself, for now. But maybe what he&#39;s saying has some value. I do like the idea of a bunch of &quot;stress just falling away&quot;. Let&#39;s look at where we ended up in that last post about data encapsulation.</p>
+<pre><code class="lang-js">const ID = Symbol(&#39;id&#39;);
+class Product {
+  constructor (name) {
+    this.name = name;
+    this[ID] = 2340847;
+  }
+  related () {
+    return lookupRelatedStuff( this[ID] );
+  }
+}
+</code></pre>
+<p>So, here we&#39;ve done our best to hide the <code>id</code> property using a <code>Symbol</code> as a property key. It&#39;s not accessible within user land, and it&#39;s barely visible, unless you know about <code>Reflect.ownKeys()</code> or <code>Object.getOwnPropertySymbols()</code>. And of course, I never mentioned the <code>name</code> property in the last article. But the truth is, it suffers from the same issues that plague the <code>id</code> property. It really shouldn&#39;t change.</p>
+<p>But to accomplish that, I have to replace every <code>this.name</code> with <code>this[NAME]</code> using a <code>Symbol</code> for the property key. And like my friend said, these properties are arguably useful in userland. I just don&#39;t want them changed. I want <strong>immutability</strong>. How can I do this using JavaScript?</p>
+<h2 id="is-it-cold-in-here-or-is-it-just-me-">Is it cold in here, or is it just me?</h2>
+<p><code>Object.freeze()</code> is nothing new. It&#39;s been around forever. Let&#39;s take a look at how we&#39;d use it to make our <code>Product</code> instances immutable.</p>
+<pre><code class="lang-javascript">class Product {
+  constructor (name) {
+    this.name = name;
+    this.id = 2340847;
+    // make this instance immutable
+    Object.freeze(this);
+  }
+}
+const widget = new Product(&#39;a-widget&#39;);
+// Setting the name to something else has no effect.
+widget.name = &#39;something-else&#39;;
+widget.name; // &lt;&lt; &#39;a-widget&#39;
+</code></pre>
+<p>There now. That wasn&#39;t so hard, was it? We give a <code>Product</code> instance the deep freeze and return it.</p>
+<p>What about those situations where you really <em>need</em> to mutate your application state. What if, for example, there&#39;s a <code>price</code> that could change over time? Normally, we&#39;d do something super simple. Like just update the price.</p>
+<pre><code class="lang-js">this.price = getUpdatedPrice(this);
+</code></pre>
+<p>But of course, if we&#39;re going for immutability and the safety that comes along with that, then this is clearly not the correct approach. We are mutating the <code>Product</code> instance when we do <code>this.price = someValue()</code>.</p>
+<p>What can we do about it? One strategy might be to use <code>Object.assign()</code> to copy properties from one object to another, always generating a new object for every data mutation. Perhaps something like this.</p>
+<pre><code class="lang-js">class Product {
+  updatePrice () {
+    // check DB to see if price has changed
+    return Object.assign(new Product(), this, { price: getNewPrice(this) } );
+  }
+}
+</code></pre>
+<p>Now we are getting somewhere. We can use <code>Object.freeze()</code> to make our objects immutable, and then <code>Object.assign()</code> to generate a new object using existing properties whenever something needs to be mutated. Let&#39;s see how well this works.</p>
+<pre><code class="lang-js">acmeWidget.updatePrice();
+TypeError: Cannot assign to read only property &#39;price&#39; of object &#39;#&lt;Product&gt;&#39;
+    at repl:1:23
+    at sigintHandlersWrap (vm.js:22:35)
+    at sigintHandlersWrap (vm.js:96:12)
+    at ContextifyScript.Script.runInThisContext (vm.js:21:12)
+    at REPLServer.defaultEval (repl.js:313:29)
+    at bound (domain.js:280:14)
+    at REPLServer.runBound [as eval] (domain.js:293:12)
+    at REPLServer.&lt;anonymous&gt; (repl.js:513:10)
+    at emitOne (events.js:101:20)
+    at REPLServer.emit (events.js:188:7)
+</code></pre>
+<p>Ughh. This is happening because I&#39;ve got <code>new Product()</code> as the first parameter to the <code>Object.assign()</code> call, and once a <code>Product</code> is constructed, it&#39;s frozen. I need to defer freezing the object until <em>after</em> it&#39;s constructed.</p>
+<p>I could use a factory function to return frozen instances of <code>Product</code>. But really, why do I need the <code>Product</code> data type at all? Wouldn&#39;t a simple <code>Object</code> be fine?For the sake of simplification and experimentation, let&#39;s give it a shot.</p>
+<pre><code class="lang-js">// Use a factory function to return plain old JS objects
+const productFactory = (name, price) =&gt; Object.freeze({ name, price });
+
+// Always bump the price by 4%! :)
+const updatePrice = (product) =&gt; Object.freeze(
+      Object.assign({}, product, { price: product.price * 1.04 }));
+
+const widget = productFactory(&#39;Acme Widget&#39;, 1.00);
+// =&gt; { name: &#39;Acme Widget, price: 1 }
+
+const updatedWidget = updatePrice(widget);
+// =&gt; { name: &#39;Acme Widget, price: 1.04 }
+
+widget;
+// =&gt; { name: &#39;Acme Widget, price: 1 }
+</code></pre>
+<h2 id="lingering-doubts">Lingering doubts</h2>
+<p>I still have doubts, though. For one thing, making a new instance for every change seems pretty inefficient, doesn&#39;t it? And for another, what happens when my data model has nested objects as properties? Do I have to freeze those as well? It turns out, yes I do. All of the properties on my product object are immutable. But properties of nested objects can be changed. That freeze doesn&#39;t go very deep.</p>
+<p>Maybe I can fix that by just freezing the nested objects.</p>
+<pre><code class="lang-js">const productFactory = (name, price) =&gt;
+  Object.freeze({
+    name,
+    price,
+    metadata: Object.freeze({
+      manufacturer: name.split(&#39; &#39;)[0]
+    })
+  });
+</code></pre>
+<p>Well, that&#39;s OK, perhaps. But there is still a problem here. Can you tell what it is?</p>
+<p>What if my data model is nested several layers deep? That&#39;s not very uncommon, and now my factory ends up looking something like this.</p>
+<pre><code class="lang-javascript">const productFactory = (name, price) =&gt;
+  Object.freeze({
+    name,
+    price,
+    metadata: Object.freeze({
+      manufacturer: name.split(&#39; &#39;)[0],
+      region: Object.freeze({
+        country: &#39;Denmark&#39;,
+        address: Object.freeze({
+          street: &#39;HCA Way&#39;,
+          city: &#39;Copenhagen&#39;
+        })
+      })
+    })
+  });
+</code></pre>
+<p>Ugghh. This can start to get ugly real fast. And we haven&#39;t even started to discuss collections of objects, like <code>Arrays</code>.</p>
+<p>Maybe my friend was right. Maybe this is a language issue.</p>
+<blockquote>
+<p>You feel you must &quot;hide&quot; it. Why? Because it&#39;s mutable, or because you must go to great lengths to make it immutable. Because JavaScript.</p>
+</blockquote>
+<p>OK. so is this it? Should I just throw in the towel and give up on immutability in my JavaScript applications? After all, I&#39;ve gone this far without it. And I didn&#39;t have <em>that many</em> bugs. Really... I promise!</p>
+<p>Well, if you want to embrace this style fully is to write your application in Clojure or Scala or a similarly designed language where data is immutable. This is a fundamental part of the Clojure language. Instead of spending all of your time reading blog posts about fitting a square peg into a round hole, with Clojure you can just focus on writing your application and be done with it.</p>
+<p> But maybe that&#39;s not an option. Maybe you&#39;ve got to follow company language standards. And anyway, some of us kind of do like writing code in JavaScript, so let&#39;s, for the sake of argument, take a look at some options. But first, let&#39;s just review <em>why</em> we&#39;re going to all of this trouble.</p>
+<h2 id="the-case-for-immutability">The case for immutability</h2>
+<p>So much of what makes software development hard (other than cache invalidation, and naming) has to do with state maintenance. Did an object change state? Does that mean that other objects need to know about it? How do we propagate that state across our system? There&#39;s so much bookkeeping and overhead involved in these activitites that bugs are inevitable.</p>
+<p>If, however, we start to think a little differently, these problems begin to disappear. Instead of thinking about <em>objects</em>, if we shift our thinking about data so that everything is simply a <em>value</em>, then there is no state maintenance to worry about. Don&#39;t think of references to these values as <em>variables</em>. It&#39;s just a reference to a single, unchanging <em>value</em>.</p>
+<p>But this shift in thinking must also affect how we structure and think about our code. Really, we need to start thinking more like a functional programmer. Any function that mutates data, should receive an input value, and return a new output value - without changing the input.</p>
+<p>When you think about it, this constraint pretty much eliminates the need for the <code>class</code> and <code>this</code> keywords. Or at least it eliminates the use of any data type that can modify itself in the traditional sense, for example with an instance method. In this world view, the only use for the <code>class</code> keyword is namespacing your functions by making them static.</p>
+<p>But to me, that seems a little weird. Wouldn&#39;t it just be easier to stick to native data types? Especially since the module system effectively provides namespacing for us. Exports are namespaced by whatever name we choose to bind them to when we <code>require()</code> a file.</p>
+<p><strong><code>product.js</code></strong></p>
+<pre><code class="lang-js">const factory = (name, price) =&gt; Object.freeze({ name, price });
+
+const updatePrice = (product) =&gt; Object.freeze(
+  Object.assign({}, product, { price: product.price * 1.04 }));
+
+module.exports = exports = { factory, updatePrice };
+</code></pre>
+<hr/>
+
+<p><strong><code>app.js</code></strong></p>
+<pre><code class="lang-js">const Product = require(&#39;./product.js&#39;);
+Product.factory; // =&gt; [Function: factory]
+Product.updatePrice; // =&gt; [Function: updatePrice]
+</code></pre>
+<p>For now, just keep these few things in mind.</p>
+<ul>
+<li>Think of variables (or preferably <code>const</code>s) as <em>values</em> not <em>objects</em>. A value cannot be changed, while objects can be.</li>
+<li>Avoid the use of <code>class</code> and <code>this</code>. Use only native data types, and if you must use a class, don&#39;t ever modify its internal properties in place.</li>
+<li>Never mutate native type data in place, functions that alter the application state should always return a copy with new values.</li>
+</ul>
+<h2 id="that-seems-like-a-lot-of-extra-work">That seems like a lot of extra work</h2>
+<p>Yeah, it is a lot of extra work. And as I noted earlier, it sure seems inefficient to make a full copy of your objects every time you need to change a value. Truthfully, to do this properly, you need to be using shared <a href="http://en.wikipedia.org/wiki/Persistent_data_structure">persistent data structures</a> which employ techniques such as <a href="http://en.wikipedia.org/wiki/Hash_array_mapped_trie">hash map tries</a> and <a href="http://hypirion.com/musings/understanding-persistent-vector-pt-1">vector tries</a> to efficiently avoid deep copying. This stuff is hard, and you probably don&#39;t want to roll your own. I know I don&#39;t.</p>
+<h2 id="someone-else-has-already-done-it">Someone else has already done it</h2>
+<p>Facebook has released a popular NPM module called, strangely enough, <a href="https://www.npmjs.com/package/immutable"><code>immutable</code></a>. By employing the techniques above, <code>immutable</code> takes care of the hard stuff for you, and provides an efficient implementation of</p>
+<blockquote>
+<p>A mutative API which does not update the data in-place, but instead always yields new updated data.</p>
+</blockquote>
+<p>Rather than turning this post into an <code>immutable</code> module tutorial, I will just show you how it might apply to our example data model. The <code>immutable</code> module has a number of different data types. Since we&#39;ve already seen our <code>Product</code> model as a plain old JavaScript <code>Object</code>, it probably makes the most sense to use the <code>Map</code> data type from <code>immutable</code>.</p>
+<p><strong><code>product.js</code></strong></p>
+<pre><code class="lang-js">const Immutable = require(&#39;immutable&#39;);
+const factory = (name, price) =&gt; Immutable.Map({name, price});
+module.exports = exports = { factory };
+</code></pre>
+<p>That&#39;s it. Pretty simple, right? We don&#39;t need an <code>updatePrice</code> function, since we can just use <code>set()</code>, and <code>Immutable.Map</code> handles the creation of a new reference. Check out some example usage.</p>
+<p><strong><code>app.js</code></strong></p>
+<pre><code class="lang-js">const Product = require(&#39;./product.js&#39;);
+
+const widget = Product.factory(&#39;Acme widget&#39;, 1.00);
+const priceyWidget = widget.set(&#39;price&#39;, 1.04);
+const clonedWidget = priceyWidget;
+const anotherWidget = clonedWidget.set(&#39;price&#39;, 1.04);
+
+console.log(widget); // =&gt; Map { &quot;name&quot;: &quot;Acme widget&quot;, &quot;price&quot;: 1 }
+console.log(priceyWidget); // =&gt; Map { &quot;name&quot;: &quot;Acme widget&quot;, &quot;price&quot;: 1.04 }
+console.log(clonedWidget); // =&gt; Map { &quot;name&quot;: &quot;Acme widget&quot;, &quot;price&quot;: 1.04 }
+console.log(anotherWidget); // =&gt; Map { &quot;name&quot;: &quot;Acme widget&quot;, &quot;price&quot;: 1.04 }
+</code></pre>
+<p>Things to take note of here: first, take a look at how we are creating the <code>priceyWidget</code> reference. We use the return value from <code>widget.set()</code>, which oddly enough, doesn&#39;t actually change the <code>widget</code> reference. Also, I&#39;ve cloned <code>priceyWidget</code>. To create a clone we just need to assign one reference to another. And then, finally, an equivalent value for <code>price</code> is set on <code>clonedWidget</code> to create yet another value.</p>
+<h2 id="value-comparisons">Value comparisons</h2>
+<p>Let&#39;s see how equality works with these values.</p>
+<pre><code class="lang-js">// everything but &#39;widget&#39; has a price of 1.04
+// so &#39;widget&#39; is not equivalent to any of them
+assert(widget !== priceyWidget);
+assert(widget !== clonedWidget);
+assert(!widget.equals(priceyWidget));
+assert(!widget.equals(clonedWidget));
+assert(!widget.equals(anotherWidget));
+</code></pre>
+<p>This makes intuitive sense. We create a <code>widget</code> and when we change a property, the return value of the mutative function provides us with a new value that is not equivalent as either a reference or value. Additional references to the new value instance <code>priceyWidget</code> are also not equivalent.</p>
+<p>But what about comparisons between <code>priceyWidget</code> and its clone. Or <code>priceyWidget</code> and a mutated version of the clone that actually contains all of the same property values. Whether we are comparing references with <code>===</code> or using the deep <code>Map.equals</code>, we find that equivalence holds. How cool is that?</p>
+<pre><code class="lang-js">// priceyWidget is equivalent to its clone
+assert(priceyWidget === clonedWidget);
+assert(priceyWidget.equals(clonedWidget));
+
+// It&#39;s also equivalent to another, modified value
+// because, unlike setting a new value for &#39;price&#39;
+// to create &#39;priceyWidget&#39;, this modification didn&#39;t
+// actually change the value.
+assert(priceyWidget === anotherWidget);
+assert(priceyWidget.equals(anotherWidget));
+</code></pre>
+<h2 id="this-is-just-the-beginning">This is just the beginning</h2>
+<p>When I started writing this post, it was primarily as a learning experience for myself. My friend&#39;s friendly jab got me interested in learning about immutable data in JavaScript, and how to apply these techniques to my own code. What I really learned is that, while immutable systems have benefits, there are a lot of hurdles to jump through when writing code this way in JavaScript. Using a high-quality package like <code>immutable.js</code> is a good way to address these complexities.</p>
+<p>I don&#39;t think I will immediately change all of my existing packages to use these techniques. But now I have a new tool in my tool box, and this exploration has opened my eyes to the benefits of thinking about data in new ways. If any of this has peaked your interest, I encourage you to read futher. Topics such as nested data structures, merging data from multiple values, and collections are all worth exploring. Find below links for additional reading.</p>
+<ul>
+<li><code>immutable.js</code> documentation: <a href="http://facebook.github.io/immutable-js/docs/#/">http://facebook.github.io/immutable-js/docs/#/</a></li>
+<li>Persistent data structures: <a href="http://en.wikipedia.org/wiki/Persistent_data_structure">http://en.wikipedia.org/wiki/Persistent_data_structure</a></li>
+<li>Hash map tries: <a href="http://en.wikipedia.org/wiki/Hash_array_mapped_trie">http://en.wikipedia.org/wiki/Hash_array_mapped_trie</a></li>
+<li>Vector tries: <a href="http://hypirion.com/musings/understanding-persistent-vector-pt-1">http://hypirion.com/musings/understanding-persistent-vector-pt-1</a></li>
+</ul>
+</div><hr></div></div><footer id="footer"><div class="footer"><p class="text-center">&copy; Lance Ball 2016</p><p class="text-center">If you want to contact me and don't already know how, check out all of
+those links at the top. I'm on the social medias.
+</p></div></footer><script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="/lib/bootstrap/js/bootstrap.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-373972-2', 'auto');
+ga('send', 'pageview');</script><script>hljs.initHighlightingOnLoad();</script></body></html>
