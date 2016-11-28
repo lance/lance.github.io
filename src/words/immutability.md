@@ -1,9 +1,9 @@
 ---
 title: Forget Data Encapsulation - Embrace Immutability
 layout: article.jade
-date: 2016-11-18
+date: 2016-11-28
 draft: false
-staging: true
+staging: false
 ---
 
 A couple of weeks ago, I wrote a fairly [long post](/words/es6-data-hiding.html) attempting to shed some light on a few things you can do in your JavaScript classes to enforce the concept of data encapsulation - or data "hiding". But as soon as I posted it, I got some flak from [a friend](http://twitter.com/jcrossley3) who is a Clojure programmer. His first comment about the article was this.
@@ -63,7 +63,7 @@ this.price = getUpdatedPrice(this);
 
 But of course, if we're going for immutability and the safety that comes along with that, then this is clearly not the correct approach. We are mutating the `Product` instance when we do `this.price = someValue()`.
 
-So, what can we do about it? One strategy might be to use `Object.assign()` to copy properties from one object to another, always generating a new object for every data mutation. Perhaps something like this.
+What can we do about it? One strategy might be to use `Object.assign()` to copy properties from one object to another, always generating a new object for every data mutation. Perhaps something like this.
 
 ````js
 class Product {
@@ -74,7 +74,7 @@ class Product {
 }
 ````
 
-OK, we are getting somewhere. We can use `Object.freeze()` to make our objects immutable, and then `Object.assign()` to generate a new object using existing properties whenever something needs to be mutated. Let's see how well this works.
+Now we are getting somewhere. We can use `Object.freeze()` to make our objects immutable, and then `Object.assign()` to generate a new object using existing properties whenever something needs to be mutated. Let's see how well this works.
 
 ````js
 acmeWidget.updatePrice();
@@ -130,9 +130,9 @@ const productFactory = (name, price) =>
   });
 ````
 
-Well, that's OK, I guess. But there is still a problem here. Can you tell what it is?
+Well, that's OK, perhaps. But there is still a problem here. Can you tell what it is?
 
-What if my data model is nested several layers deep? That's not very uncommon, and now my code ends up looking something like this.
+What if my data model is nested several layers deep? That's not very uncommon, and now my factory ends up looking something like this.
 
 ````javascript
 const productFactory = (name, price) =>
@@ -172,28 +172,9 @@ If, however, we start to think a little differently, these problems begin to dis
 
 But this shift in thinking must also affect how we structure and think about our code. Really, we need to start thinking more like a functional programmer. Any function that changes the application's state, should receive an input value, and return some mutated output value - without changing the input.
 
-When you think about it, this constraint pretty much eliminates the need for the `class` and `this` keywords. Or at least it eliminates the use of any data type that can modify itself in the traditional sense, for example with an instance method. In this world view, the only use for the `class` keyword is namespacing your functions by making them static. And you don't need `this` at all.
+When you think about it, this constraint pretty much eliminates the need for the `class` and `this` keywords. Or at least it eliminates the use of any data type that can modify itself in the traditional sense, for example with an instance method. In this world view, the only use for the `class` keyword is namespacing your functions by making them static.
 
-````js
-class Product {
-  constructor () {
-    throw new Error('Not allowed');
-  }
-
-  static factory (name, price) {
-    return Object.freeze({
-      name, price
-    });
-  }
-
-  static updatePrice (product) {
-    return Object.freeze(Object.assign({}, product, { price: value.price * 1.04 }));
-  }
-}
-module.exports = exports = Product;
-````
-
-To me, that seems a little weird. Wouldn't it just be easier to stick to native data types? Especially since the module system effectively provides namespacing for us. It's a lot less code too! When we `require()` this file our product functions are namespaced by whatever name we choose to bind them to.
+But to me, that seems a little weird. Wouldn't it just be easier to stick to native data types? Especially since the module system effectively provides namespacing for us. Our product functions are namespaced by whatever name we choose to bind them to when we `require()` this file.
 
 **`product.js`**
 
@@ -216,7 +197,7 @@ Product.factory; // => [Function: factory]
 Product.updatePrice; // => [Function: updatePrice]
 ````
 
-Once we start thinking like this and enter the world of functional programming, there is a whole raft of topics to discuss. But for the sake of this endeavor, let's just focus primarily on immutability. As for functional programming in general, check the links at the bottom. And I'll make a note to write more blog posts, because this one is already too long.
+Once we start thinking like this and enter the world of functional programming, there is a whole raft of topics to discuss. But for the sake of this endeavor let's focus on immutability.
 
 For now, just keep these few things in mind.
 
