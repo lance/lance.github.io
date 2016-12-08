@@ -31,7 +31,14 @@ might cause some real headaches. Here we have a `productCatalog()` lookup
 function that returns a `Product` data object. It might look something like
 this:
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex1.js
+````js
+> var product = productCatalog('widget-a');
+> console.log(product);
+Product { id: 2340847,
+  name: 'widget-a',
+  description: 'what a widget!',
+  related: [Function] }
+````
 
 Notice that the object returned here contains a function, `related()` which
 will find the set of products related to this one using this object's `id`
@@ -45,7 +52,28 @@ about Javascript is how flexible it can be. Maybe the developer who wrote
 the `productCatalog()` function knew some of these tricks. Here's one way
 to handle it using Javascript's `Object.defineProperty` function.
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex2.js
+```js
+function productCatalog( name ) {
+  if (findProduct(name)) {
+    return new Product(name);
+  }
+  return null;
+}
+
+function Product (name) {
+  this.name = name;
+  // lookup the product and populate
+  // this object's properties with appropriate values.
+
+  // Don't allow client code to modify our ID
+  Object.defineProperty(this, 'id', {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+    value: 2340847
+  });
+}
+```
 
 **But... eeewwww.**
 
@@ -53,12 +81,29 @@ Let's see how well that worked. At first things look great -
 no `id` property on basic inspection. And if you do try to modify it,
 the value can't be changed. Yay!
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex3.js
+```js
+> console.log(productObject);
+Product { name: 'widget-a'
+  description: 'what a widget!',
+  related: [Function] }
+> // OK, this looks good - the object doesn't have a visible ID property. Nice!
+> // But there is one there. Can I change it?
+> productObject.id
+2340847
+> productObject.id = 'foo'
+'foo'
+> productObject.id
+2340847
+```
 
 But darn it. The property name appears in the `Object.getOwnPropertyNames()`
 result. This isn't terrible, but we're not doing a great job of hiding data.
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex4.js
+```js
+> Object.getOwnPropertyNames(productObject)
+[ 'id', 'name', 'description', 'related' ]
+> // ruh roh
+```
 
 What I'd really like is for the `Product` object to have a reference to the
 `id` but no way for client code to read it or even see it. Closures, for example,
@@ -84,7 +129,24 @@ that's not the point here.
 Here's how you would use a getter in ES6 and how you could achieve the
 same functionality in ES5. The new syntax is way better.
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex5.js
+```js
+// The ES6 way
+let product = {
+ get id () { return 2340847; }
+};
+product.id
+// 2340847
+product.id = 'foo'
+product.id
+// 2340847
+// The old way
+var product = {};
+Object.defineProperty(product, 'id', {
+  get: function() { return 2340847; },
+  enumerable: false,
+  configurable: false,
+});
+```
 
 But this still doesn't really get what we want. There are two tools
 besides closures we can use to really and truly hide our data. Those are
@@ -100,7 +162,21 @@ to the key is the key itself, the entry is removed from the map. Here's
 how you can use the `WeakMap` data structure to effectively hide private
 class data.
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex6.js
+```js
+const privates = new WeakMap();
+class Product {
+  constructor (name) {
+    this.name = name;
+    privates.set(this, {
+      id: 2340847
+    });
+  }
+
+  related () {
+    return lookupRelatedStuff( privates.get(this) );
+  }
+}
+```
 
 Assuming this code is in a module that exports the `productCatalog`
 function, there is no way for client code to see or modify the `id`
@@ -122,14 +198,29 @@ is unique. If we can keep the `Symbol` private within our module,
 then we don't have to worry about client code accessing the property.
 Here's how our `Product` object would look if we took this approach.
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex7.js
+```js
+const ID = Symbol('id');
+class Product {
+  constructor (name) {
+    this.name = name;
+    this[ID] = 2340847;
+  }
+  related () {
+    return lookupRelatedStuff( this[ID] );
+  }
+}
+```
 
 Additionally, when you use a `Symbol` for a property key, the property
 does not appear in the list of properties returned from
 `Object.getOwnPropertyNames()`. This is nice. The downside is that
 the property leaks when using `Reflect.ownKeys()`.
 
-gist:lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex8.js
+```js
+const product = productCatalog('a-widget');
+console.log(Reflect.ownKeys(product));
+// [ 'name', Symbol(id) ]
+```
 
 But I can live with that when performance matters. For
 [Fidelity](https://npmjs.com/package/fidelity), we found that moving
