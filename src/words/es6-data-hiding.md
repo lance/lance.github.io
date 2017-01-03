@@ -3,7 +3,6 @@ title: Data Hiding in ES6
 layout: article.jade
 date: 2016-10-14
 draft: false
-gist: lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex1.js lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex2.js lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex3.js lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex4.js lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex5.js lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex6.js lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex7.js lance/0aa47a11aefd4f2c1ef21c034e5b0110:es6-data-hiding-ex8.js
 ---
 
 For a lot of my early career, I was an OO developer. I genuflected regularly in
