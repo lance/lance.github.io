@@ -1,0 +1,187 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Lance Ball: StuffNThings"><link rel="alternate" type="application/rss+xml" title="RSS Feed for lanceball.com" href="/rss.xml"><title>Protect Your Node.js REST Clients with Circuit Breakers | Lance Ball</title><link rel="stylesheet" media="screen" href="/lib/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" media="screen" href="/css/site.css"><link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600"><link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" media="screen" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css"></head><body><nav class="navbar navbar-default navbar-fixed-top"><div class="container"><div class="navbar-header"><button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only"></span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/"><span>Lance Ball</span></a></div><div class="navbar-collapse collapse" id="navbar"><ul class="nav navbar-nav"><li><a href="https://github.com/lance">GitHub</a></li><li><a href="http://twitter.com/lanceball">Twitter</a></li><li><a href="http://www.linkedin.com/in/lanceball">LinkedIn</a></li><li><a href="http://tumblr.lanceball.com">Tumblr</a></li></ul></div></div></nav><div class="container" id="content"><div class="page-header right"> I'm a Software Developer. I work for&nbsp;<a href="http://redhat.com">Red Hat</a></div><div class="article"><div class="metadata"><h1 class="title">Protect Your Node.js REST Clients with Circuit Breakers</h1><div class="date">Wed Jan 04 2017</div></div><hr><div class="contents"><p>One of the predominant patterns in today&#39;s Node.js applications
+is the microservice, or µ-service. Applications are composed of a
+suite of independently deployable services, usually running in
+independent processes. These µ-services typically communicate with
+each other using lightweight protocols such as REST over HTTP.</p>
+<p>One of the side effects of this architecture, however, is that applications
+need to be designed to handle failure. Any one of the service calls could
+fail for any number of reasons at any time. Today, I&#39;ll explore one method
+you can employ to gracefully handle service unavailability &mdash; the
+Circuit Breaker pattern.</p>
+<!-- More -->
+<h2 id="scenario">Scenario</h2>
+<p>Let&#39;s imagine an application, built on µ-services. Clients connect to the
+application through some kind of load balancer, and requests are then routed
+to a set of containers, each running multiple Node.js server processes. Those
+processes, in turn, depend on several µ-services not exposed to the clients.</p>
+<p><img src="/images/circuit-breaker-1.png" style="float: left"/></p>
+<p>In the diagram shown, services <code>B</code> and <code>C</code> are starting to become flakey, take too
+long or outright fail. What&#39;s worse, service <code>A</code> depends on <code>B</code> and <code>C</code> to do
+its job, and the problems on <code>B</code> &amp; <code>C</code> are beginning to cascade, causing requests
+to service <code>A</code> to time out. This cascading failure then works its way up to the
+Node.js server processes, causing them to timeout or fail. All of this is chewing
+up valuable resources and almost certainly resulting in an unpleasant experience
+for the end user.</p>
+<p>To avoid these kinds of scenarios, circuit breakers allow us to easily monitor
+the state of our service dependencies. When a service begins to fail too
+frequently, the circuit will open and the client will go into fallback or
+fail-fast mode, avoiding calls to the faulty service altogether for a while,
+allowing it some time to recover. After a configurable timeout period,
+the circuit breaker will enter the <code>halfOpen</code> state. In this state, it will
+make a single call to the faulty service. If that call is successful, the
+circuit will close and clients will resume as normal. However,
+if the call to the service while in the <code>halfOpen</code> state fails, the circuit will
+immediately open again, preventing further requests to the service.</p>
+<h2 id="example-code">Example Code</h2>
+<p>There are a few different circuit breaker implementations for Node.js currently
+published. For this example, we&#39;ll be using <a href="https://npmjs.com/package/opossum">Opossum</a>.
+One of the nice features of this implementation is that it works well both with
+<code>Promise</code>s and standard Node.js-style calllback functions. Additionally, Opossum
+works both as a Node.js package and in the browser. We&#39;ll look at examples of all
+of these.</p>
+<h3 id="networking-with-circuit-breakers-and-promises">Networking with Circuit Breakers and Promises</h3>
+<p>Let&#39;s say <code>Service A</code> provides a simple REST service that exposes a user&#39;s
+unread message count. When a user is logged in, the server is periodically
+polled for this count, generating a <code>GET</code> request from the front-end server
+to the service URL at <code>https://service-a.local/messages/[userid]/unread</code>.</p>
+<p>The first thing we need to do is set up our circuit so that it can make a
+simple HTTP GET call. In this case, we are using a client package
+called <code>roi</code> which will perform an HTTP GET request for a given endpoint
+and return a Promise.</p>
+<p>We also provide a simplified fallback function that returns a resolved
+Promise with a friendly error message.</p>
+<p><p class="filename"><code>app.js</code></p></p>
+<pre><code class="lang-js">const circuitBreaker = require(&#39;opossum&#39;);
+const client = require(&#39;roi&#39;);
+
+const circuit = circuitBreaker(client.get);
+
+circuit.fallback(() =&gt; Promise.resolve({
+  error: &#39;Unread messages currently unavailable. Try again later&#39;
+}));
+</code></pre>
+<p>Next, let&#39;s create a function to get a user&#39;s
+unread messages. Here we fire the circuit, passing it parameters for
+the call to <code>client.get()</code> which is the circuit&#39;s action. Since Opossum
+uses a <code>Promise</code> API, we manage our flow control with <code>then()</code> and <code>catch()</code>,
+each of which accepts a function. If the call is successful, or if the
+fallback function is executed, the <code>then</code> function is applied. In the
+event of an error, the <code>catch</code> function is applied.</p>
+<pre><code class="lang-js">function getUnreadMessages (req, resp) {
+  return circuit.fire({
+    endpoint: `https://service-a.local/messages/${getUserId(req)}/unread`
+  })
+  .then((messages) =&gt; sendResponse(resp, messages))
+  .catch((err)     =&gt; sendError(resp, err))
+}
+</code></pre>
+<p>Then we configure our HTTP server. I don&#39;t show the full server setup here,
+just the parts we care about right now. Let&#39;s create a route to <code>/messages/unread</code>
+that fires the circuit.</p>
+<pre><code class="lang-js">// set up the server routes. use whatever server you like - here it&#39;s hapi
+server.route({
+  method: &#39;GET&#39;,
+  path: &#39;/messages/unread&#39;,
+  handler: (req, resp) =&gt; getUnreadMessages(req, resp)
+});
+</code></pre>
+<p>And that&#39;s it. Now, when our web server makes a call to <code>Service A</code>, if that
+service starts failing or timing out, we can handle those failures gracefully.</p>
+<h3 id="circuit-breakers-with-node-js-callbacks">Circuit Breakers with Node.js Callbacks</h3>
+<p>OK, well that&#39;s all fine and dandy, but not everything uses Promises.
+Consider, for example, file system operations in Node.js. These async
+calls might easily fail. No worries, it&#39;s simple to add a circuit breaker
+to these calls by using Opossum&#39;s <code>promisify</code> function.</p>
+<p><p class="filename"><code>config.js</code></p></p>
+<pre><code class="lang-js">const fs = require(&#39;fs&#39;);
+
+const readFile = circuitBreaker.promisify(fs.readFile);
+const circuit = circuitBreaker(readFile);
+
+// read the config file - use defaults if it&#39;s not available
+breaker.fire(&#39;./app.config&#39;)
+  .then((data) =&gt; processConfig(data))
+  .catch((err) =&gt; useDefaults(err));
+</code></pre>
+<h3 id="jquery-ajax-calls-with-circuit-breakers">JQuery AJAX calls with Circuit Breakers</h3>
+<p>Circuit breakers can be very useful in the browser for handling remote
+asynchronous calls. It&#39;s pretty simple to wire up your AJAX calls to use
+the circuit breaker pattern, freeing them from convoluted error handling,
+duplicated code, and flakey backend services.</p>
+<p>Start by adding the <code>opossum-min.js</code> file to your HTML document.</p>
+<p><p class="filename"><code>index.html</code></p></p>
+<pre><code class="lang-html">&lt;script type=&#39;text/javascript&#39; src=&quot;/opossum-min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>Next, install opossum
+and add it to package.json with the <code>--save</code> option.</p>
+<pre><code class="lang-shell">npm install --save opossum
+</code></pre>
+<p>The browserified files will be in <code>node_modules/opossum/dist/opossum[-min].js</code>.
+Then you&#39;ll need to let your server know where to find it.</p>
+<p>Set a route to the browserified file. In this example, I&#39;m using Hapi.js
+but most (all?) Node.js server frameworks provide some mechanism for serving
+static files for a given route.</p>
+<p><p class="filename"><code>server.js</code></p></p>
+<pre><code class="lang-js">server.route({
+  method: &#39;GET&#39;,
+  path: &#39;/opossum.js&#39;,
+  handler: {
+    file: {
+      path: path.join(__dirname, &#39;node_modules&#39;, &#39;opossum&#39;, &#39;dist&#39;, &#39;opossum-min.js&#39;),
+    }
+  }
+});
+</code></pre>
+<p>When the browser loads the <code>opossum-min.js</code> file, a <code>circuitBreaker</code> function will
+become available in the global scope. You can use it to create circuit breakers
+that guard against your JQuery AJAX calls.</p>
+<p><p class="filename"><code>app.js</code></p></p>
+<pre><code class="lang-js">const route = &#39;https://example-service.com/rest/route&#39;;
+
+const circuit = circuitBreaker(() =&gt; $.get(route));
+circuit.fallback(() =&gt; `${route} unavailable right now. Try later.`));
+circuit.on(&#39;success&#39;, (result) =&gt; $(element).append(JSON.stringify(result)}));
+
+$(() =&gt; {
+  $(&#39;#serviceButton&#39;).click(() =&gt; circuit.fire().catch((e) =&gt; console.error(e)));
+});
+</code></pre>
+<h3 id="circuit-events">Circuit Events</h3>
+<p>Opossum provides a number of events you can listen for so that
+you can effectively log or otherwise more finely control the behavior of the
+circuit. An example might be that we&#39;d like to log an error message each time
+our fallback function is applied.</p>
+<pre><code class="lang-js">circuit.on(&#39;fallback&#39;, logError);
+</code></pre>
+<p>Or send a notification to some poor sysadmin every time the circuit opens.</p>
+<pre><code class="lang-js">circuit.on(&#39;open&#39;, sendOpenNotification);
+</code></pre>
+<p>For more information on the many events you can listen for, documentation about
+the configuration, and the overall API, please refer to the <a href="https://bucharest-gold.github.io/opossum/">documentation for
+opossum</a>.</p>
+<h2 id="further-reading">Further Reading</h2>
+<p>If you are unfamiliar wtih the µ-service pattern and want to learn more
+there are plenty of good resources on the web. Here are a couple of places
+you might want to start.</p>
+<ul>
+<li><a href="http://www.martinfowler.com/bliki/CircuitBreaker.html">CircuitBreaker</a> - Martin Fowler</li>
+<li><a href="http://techblog.netflix.com/2011/12/making-netflix-api-more-resilient.html">Making the Netflix API More Resilient</a> - Netflix Blog</li>
+<li><a href="http://techblog.netflix.com/2012/02/fault-tolerance-in-high-volume.html">Fault Tolerance in a High Volume Distributed System</a> - Netflix Blog</li>
+</ul>
+<p>Opossum itself was inspired by a few different existing circuit
+breaker implementations in Node.js. Here are a couple that were particularly
+useful for study.</p>
+<ul>
+<li>Levee - <a href="https://github.com/krakenjs/levee">https://github.com/krakenjs/levee</a></li>
+<li>node-circuitbreaker - <a href="https://github.com/ryanfitz/node-circuitbreaker">https://github.com/ryanfitz/node-circuitbreaker</a></li>
+<li>circuit-breaker-js - <a href="https://www.npmjs.com/package/circuit-breaker-js">https://www.npmjs.com/package/circuit-breaker-js</a></li>
+</ul>
+</div><hr></div></div><footer id="footer"><div class="footer"><p class="text-center">&copy; Lance Ball 2017</p><p class="text-center">If you want to contact me and don't already know how, check out all of
+those links at the top. I'm on the social medias.
+</p></div></footer><script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="/lib/bootstrap/js/bootstrap.min.js"></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-373972-2', 'auto');
+ga('send', 'pageview');</script><script>hljs.initHighlightingOnLoad();</script></body></html>

@@ -106,6 +106,15 @@ li {
     margin-bottom: 1.5em;
 }
 
+p.filename {
+    font-weight: bold;
+    margin: 0 0 -20px;
+}
+
+pre {
+    margin: 30px 0 15px;
+}
+
 blockquote {
     font-size: 20px;
     font-family: serif;
