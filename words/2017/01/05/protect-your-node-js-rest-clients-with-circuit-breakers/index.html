@@ -99,7 +99,7 @@ const readFile = circuitBreaker.promisify(fs.readFile);
 const circuit = circuitBreaker(readFile);
 
 // read the config file - use defaults if it&#39;s not available
-breaker.fire(&#39;./app.config&#39;)
+circuit.fire(&#39;./app.config&#39;)
   .then((data) =&gt; processConfig(data))
   .catch((err) =&gt; useDefaults(err));
 </code></pre>
