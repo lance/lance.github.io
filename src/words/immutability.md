@@ -6,7 +6,7 @@ draft: false
 staging: false
 ---
 
-A couple of weeks ago, I wrote a fairly [long post](/words/es6-data-hiding.html) attempting to shed some light on a few things you can do in your JavaScript classes to enforce the concept of data encapsulation - or data "hiding". But as soon as I posted it, I got some flak from [a friend](http://twitter.com/jcrossley3) who is a Clojure programmer. His first comment about the article was this.
+A couple of weeks ago, I wrote a fairly [long post](/words/2016/10/14/data-hiding-in-es6/) attempting to shed some light on a few things you can do in your JavaScript classes to enforce the concept of data encapsulation - or data "hiding". But as soon as I posted it, I got some flak from [a friend](http://twitter.com/jcrossley3) who is a Clojure programmer. His first comment about the article was this.
 
 > Mutability and data encapsulation are fundamentally at odds.
 
