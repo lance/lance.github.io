@@ -138,7 +138,7 @@ function publish () {
   const path = require('path');
   const options = {
     branch: 'master',
-    repo: 'https://github.com/lance/lance.github.io.git',
+    repo: 'git@github.com:lance/lance.github.io.git',
     dotfiles: true
   };
 
@@ -146,7 +146,7 @@ function publish () {
 
   ghpages.publish(path.join(__dirname, 'build'), options, (err) => {
     if (err) {
-      console.error(`Cannot publish site. %{err}`);
+      console.error(`Cannot publish site. ${err}`);
       throw err;
     } else {
       console.log('Site published.');
