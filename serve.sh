@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Make sure we don't have a server currently running
 if [ -e server.pid ] ; then
