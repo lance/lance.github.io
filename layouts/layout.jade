@@ -7,16 +7,17 @@ html
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     meta(name='description' content='Lance Ball: StuffNThings')
 
-    link(rel="icon" href="/favicon.ico")
+    link(rel="alternate" type="application/rss+xml" title="RSS Feed for lanceball.com" href="/rss.xml")
 
     block title
       title= title ? title + " | " + site.title : site.title
-        
+
     block styles
       link(rel='stylesheet' media='screen' href='/lib/bootstrap/css/bootstrap.min.css')
       link(rel='stylesheet' media='screen' href='/css/site.css')
       link(rel='stylesheet' media='screen' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600')
       link(rel='stylesheet' media='screen' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+      link(rel='stylesheet' media='screen' href='http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css')
 
   body
     block navbar
@@ -34,22 +35,20 @@ html
           #navbar.navbar-collapse.collapse
             ul.nav.navbar-nav
               li
-                a(href="#{site.github}") GitHub
+                a(href="https://github.com/lance") GitHub
               li
-                a(href="#{site.twitter}") Twitter
+                a(href="http://twitter.com/lanceball") Twitter
               li
-                a(href="#{site.linkedin}") LinkedIn
+                a(href="http://www.linkedin.com/in/lanceball") LinkedIn
               li
-                a(href="#{site.tumblr}") Tumblr
+                a(href="http://tumblr.lanceball.com") Tumblr
 
 
     .container#content
       .page-header.right  I'm a Software Developer. I work for&nbsp;
-        a(href="http://redhat.com") RedHat
-
+        a(href="http://redhat.com") Red Hat
       block main
         div!= contents
-
 
     block footer
       footer(id='footer')
@@ -60,6 +59,7 @@ html
             those links at the top. I'm on the social medias.
 
     block scripts
+      script(src='http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js')
       script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
       script(src='/lib/bootstrap/js/bootstrap.min.js')
       script.
@@ -70,5 +70,7 @@ html
 
         ga('create', 'UA-373972-2', 'auto');
         ga('send', 'pageview');
+      script.
+        hljs.initHighlightingOnLoad();
 
 

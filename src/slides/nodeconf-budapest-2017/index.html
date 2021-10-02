@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+	<html class="sl-root decks export offline loaded">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>A View into the Vortex: Slides</title>
+		<meta name="description" content="Slides">
+
+		<link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+		<!-- Team CSS -->
+		<style id="global-css-output" type="text/css">
+			@import url("https://s3.amazonaws.com/static.slid.es/fonts/overpass2/overpass2.css");
+.reveal {
+  
+
+  /*fix icon inversion*/
+
+}
+.reveal svg,
+.reveal text,
+.reveal tspan,
+.reveal svg text {
+  font-family: "Overpass 2", Overpass, sans-serif !important;
+  color: currentcolor;
+  fill: currentcolor;
+}
+.reveal .sl-block {
+  color: #354045;
+  fill: currentcolor;
+}
+.reveal .sl-block svg {
+  color: currentcolor;
+}
+.reveal .has-dark-background,
+.reveal .has-dark-background > .sl-block {
+  color: white;
+  fill: currentcolor;
+}
+.reveal section > .sl-block .redhat-logo .logotext {
+  fill: #000000;
+}
+.reveal .has-dark-background > .sl-block .redhat-logo .logotext {
+  fill: #ffffff;
+}
+.reveal .has-dark-background > .sl-block[data-block-type="image"] {
+  color: #ffffff;
+}
+.reveal [fill="none"] {
+  fill: none !important;
+}
+.reveal [fill="#a30000"] {
+  fill: #aa0000 !important;
+}
+.reveal [fill="#cc2029"],
+.reveal [fill="#cb2027"],
+.reveal [fill="#c00"] {
+  fill: #cc0000 !important;
+}
+.reveal [fill="#fff"] {
+  fill: #ffffff !important;
+}
+.reveal [fill="#6d6e70"] {
+  fill: #6d6e70 !important;
+}
+.reveal [fill="#231f20"] {
+  fill: currentcolor !important;
+}
+.reveal [fill="#efab1f"] {
+  fill: #efab1f !important;
+}
+.reveal [fill="#92d400"] {
+  fill: #92d400 !important;
+}
+.reveal .has-dark-background [fill="#6d6e70"] {
+  fill: #266272 !important;
+}
+.reveal .has-dark-background [fill="#fff"] {
+  fill: #555555 !important;
+}
+.reveal .has-dark-background [fill="#fff"] {
+  fill: #333333 !important;
+}
+.reveal .has-dark-background [stroke="#231f20"] {
+  stroke: currentcolor;
+}
+.reveal [data-inline-svg="true"] img {
+  display: none;
+}
+
+		</style>
+
+
+		<!-- User CSS -->
+		<style id="user-css-output" type="text/css">
+			.reveal .theme-font-overpass2 .reveal h2 {
+  text-transform: none;
+}
+
+		</style>
+	</head>
+	<body class="reveal-viewport theme-font-montserrat theme-color-no-color">
+		<div class="reveal">
+			<div class="slides">
+				<section data-id="e512ea6666b5c48844a7c97c273169cc"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="8d4c35d74ec3f5d2680667ba1f6f7028"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" dir="ui" style="z-index: 10;" data-has-custom-html="">
+<h1><strong>A View into the Vortex</strong></h1>
+</div></div>
+
+<div class="sl-block" data-block-type="image" data-block-id="07c30458604bd227f08c440ca5f8c926" style="min-width: 30px; min-height: 30px; width: 360px; height: 122.4px; left: 300px; top: 544px;"><div class="sl-block-content" data-inline-svg="true" style="z-index: 12;">
+<img data-natural-width="500" data-natural-height="170" style="" data-src="tracing-asynchronous-operations-d66c2123-7f3b-4f0b-9549-ea3ddec46ace/2183129-redhat-logo.svg"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 500 170" height="170" width="500" class="redhat-logo" preserveaspectratio="xMidYMid meet">
+<path class="logotext" d="m 495.6,120.6 c 0,1.8 -1.5,3.3 -3.3,3.3 -1.8,0 -3.3,-1.5 -3.3,-3.3 0,-1.8 1.5,-3.3 3.3,-3.3 1.8,0 3.3,1.5 3.3,3.3 z m -3.3,-4 c -2.2,0 -4,1.8 -4,4 0,2.2 1.8,4 4,4 2.2,0 4,-1.8 4,-4 0,-2.2 -1.8,-4 -4,-4 z m 0,3.8 c 0.6,0 1,-0.1 1,-0.7 0,-0.5 -0.4,-0.6 -0.9,-0.6 l -0.8,0 0,1.3 z m -0.7,2.3 -0.6,0 0,-4.1 1.5,0 c 1,0 1.5,0.3 1.5,1.1 0,0.8 -0.5,1.1 -1.1,1.2 l 1.2,1.8 -0.7,0 -1.1,-1.8 -0.7,0 z m -22.2,-64.92 0,11.91 15.4,0 0,4.34 -15.4,0 0,35.17 c 0,6.9 2.2,11.2 8,11.2 2.8,0 4.7,-0.4 6.1,-0.9 l 0.7,4.2 c -1.8,0.7 -4.2,1.3 -7.5,1.3 -3.9,0 -7.2,-1.3 -9.3,-3.9 -2.5,-2.8 -3.3,-7.4 -3.3,-12.9 l 0,-34.17 -9.1,0 0,-4.34 9.1,0 0,-9.94 z m -21.3,32.06 c 0,-9.67 -3,-21.38 -18.6,-21.38 -4.9,0 -10.9,1.32 -15.8,4.67 l 1.7,3.89 c 3.9,-2.76 8.8,-4.03 13.5,-4.03 12.8,-0.1 13.9,10.59 13.9,15.94 l 0,1.44 c -22,-0.23 -33,7.33 -33,19.73 0,7.3 5,14.9 15.9,14.9 8.6,0 14.6,-4.8 16,-6.9 l 2.3,5.7 4.9,0 c -0.6,-4.2 -0.8,-8.6 -0.8,-12.9 z m -5.3,16.66 c 0,0.9 -0.2,2.1 -0.6,3.2 -1.8,5.3 -7,10.9 -16,10.9 -5.6,0 -10.7,-3.5 -10.7,-11.3 0,-13 15.5,-14.77 27.3,-14.43 z m -42.7,-15.34 0,32.64 -5.3,0 0,-32.05 c 0,-9.74 -3.8,-18.62 -14.9,-18.62 -7.7,0 -14,5.52 -16.3,12.25 -0.6,1.6 -0.8,3.13 -0.8,5.33 l 0,33.09 -5.3,0 0,-71.31 5.3,1.58 0,25.29 0.3,0 c 1.5,-3.01 4.1,-5.92 7.3,-7.8 3.1,-1.91 6.8,-3.1 10.9,-3.1 5.2,0 18.8,2.56 18.8,22.7 z m -68.5,1.09 c 0,-1.09 -0.1,-2.46 -0.3,-3.57 -1.3,-5.26 -5.7,-9.59 -11.8,-9.59 -8.8,0 -13.7,7.76 -13.7,17.81 0,9.9 4.9,17.2 13.5,17.2 5.6,0 10.5,-3.9 11.8,-9.8 0.4,-1.2 0.5,-2.5 0.5,-3.9 z M 202.9,87.1 c 0,-7.23 -0.1,-12.55 -0.4,-17.36 l 11.8,0 0.5,10.26 0.4,0 c 2.7,-7.6 9,-11.48 14.8,-11.48 1.4,0 2.1,0 3.2,0.29 l 0,12.87 c -1.3,-0.25 -2.4,-0.38 -4.1,-0.38 -6.5,0 -11,4.14 -12.2,10.33 -0.3,1.2 -0.4,2.65 -0.4,4.17 l 0,28 -13.7,0 z m 142.3,21.5 c 0,5.6 0.2,11.5 0.5,15.2 l -12.2,0 -0.6,-8.6 -0.3,0 c -3.2,6.1 -9.7,9.8 -17.5,9.8 -12.9,0 -23.1,-11 -23.1,-27.6 -0.1,-18.13 11.2,-28.88 24.2,-28.88 7.4,0 12.7,3.05 15.1,7.04 l 0.3,0 0,-30.48 13.6,3.85 z m -59.3,-8.1 c 0.2,-1.2 0.5,-3.3 0.5,-5.8 0,-11.83 -5.8,-26.28 -23.3,-26.28 -17.4,0 -26.5,14.11 -26.5,28.98 0,16.6 10.3,27.4 27.9,27.4 7.8,0 14.2,-1.4 18.8,-3.4 l -2,-9.4 c -4.1,1.5 -8.6,2.5 -14.9,2.5 -8.7,0 -16.3,-4.3 -16.7,-14.1 z m -36.2,-9.58 c 0.6,-5.54 4.1,-13.17 12.5,-13.17 9.2,0 11.3,8.16 11.3,13.17 z m -83.8,29.68 c 0,1.8 -1.4,3.3 -3.2,3.3 -1.8,0 -3.3,-1.5 -3.3,-3.3 0,-1.8 1.5,-3.3 3.3,-3.3 1.8,0 3.2,1.5 3.2,3.3 z m -3.2,-4 c -2.2,0 -4,1.8 -4,4 0,2.2 1.8,4 4,4 2.2,0 4,-1.8 4,-4 0,-2.2 -1.8,-4 -4,-4 z m 0,3.8 c 0.5,0 1,-0.1 1,-0.7 0,-0.5 -0.5,-0.6 -0.9,-0.6 l -0.9,0 0,1.3 z m -0.8,2.3 -0.6,0 0,-4.1 1.6,0 c 0.9,0 1.4,0.3 1.4,1.1 0,0.8 -0.4,1.1 -1,1.2 l 1.1,1.8 -0.7,0 -1,-1.8 -0.8,0 z"></path>
+<path style="fill:#fff" d="M150.1 125c-3.1-.7-6.3-1.1-9.5-1.1-5.6 0-10.8.8-14.4 2.5-.8.4-.8.9-.6 1.6.4 1.3-.3 2.7-3.9 3.5-5.4 1.2-8.8 6.7-10.7 8.6-2.3 2.1-8.8 3.5-7.8 2.2.8-1 3.7-4.2 5.4-7.6 1.6-3 3-3.9 4.9-6.8.6-.8 2.8-3.8 3.4-6.2.8-2.3.5-5.2.8-6.4.4-1.7 2-5.4 2.1-7.5.1-1.2-4.9 1.7-7.3 1.7-2.4 0-4.8-1.5-6.9-1.6-2.7-.1-4.4 2.1-6.74 1.7-1.37-.2-2.52-1.4-4.9-1.5-3.4-.2-7.57 1.9-15.38 1.6-7.68-.2-14.77-9.7-15.74-11.2-1.13-1.8-2.52-1.8-4.03-.4-1.5 1.4-3.36.3-3.9-.6-1-1.8-3.7-6.92-7.87-8-5.77-1.5-8.7 3.2-8.3 6.9.38 3.8 2.83 4.9 3.96 6.9 1.12 2 1.7 3.3 3.84 4.2 1.5.6 2.07 1.6 1.62 2.8-.4 1.1-1.97 1.3-3 1.4-2.2.1-3.74-.5-4.86-1.2-1.3-.9-2.37-2-3.5-4-1.33-2.2-3.4-3.1-5.83-3.1-1.16 0-2.24.3-3.2.8-3.8 2-8.3 3.1-13.17 3.1H9.1C19.64 138.5 49.14 161 83.88 161c27.73 0 52.13-14.3 66.23-36"></path>
+<path style="fill:#000" d="m 150.1,125 c -2.6,-0.6 -6.3,-1.1 -9.5,-1.1 -5.6,0 -10.7,0.9 -14.4,2.5 -0.5,0.2 -0.7,0.6 -0.7,1.1 0,0.2 0,0.4 0.1,0.5 0.4,1.3 -0.3,2.7 -3.9,3.5 -5.4,1.2 -8.8,6.7 -10.7,8.6 -2.3,2.1 -8.8,3.5 -7.8,2.2 0.8,-1 3.7,-4.2 5.4,-7.6 1.6,-3 3,-3.9 4.9,-6.8 0.6,-0.8 2.8,-3.8 3.4,-6.2 0.8,-2.3 0.5,-5.2 0.8,-6.4 0.4,-1.7 2,-5.4 2.1,-7.5 0.1,-1.2 -4.9,1.7 -7.3,1.7 -2.4,0 -4.8,-1.5 -6.9,-1.6 -2.6,-0.1 -4.3,2.1 -6.74,1.7 -1.36,-0.2 -2.51,-1.4 -4.9,-1.5 -3.41,-0.1 -7.56,1.9 -15.37,1.6 -7.68,-0.2 -14.78,-9.7 -15.75,-11.2 -1.13,-1.8 -2.52,-1.8 -4.03,-0.4 -1.51,1.4 -3.37,0.3 -3.9,-0.6 -1.01,-1.8 -3.7,-6.92 -7.87,-8 -5.77,-1.5 -8.69,3.19 -8.31,6.9 0.38,3.8 2.83,4.9 3.96,6.9 1.14,2 1.72,3.3 3.85,4.2 1.51,0.6 2.07,1.6 1.62,2.8 -0.39,1.1 -1.96,1.3 -3,1.4 -2.2,0.1 -3.74,-0.5 -4.86,-1.2 -1.31,-0.9 -2.37,-2 -3.51,-4 -1.32,-2.2 -3.4,-3.1 -5.82,-3.1 -1.15,0 -2.23,0.3 -3.19,0.8 -3.8,2 -8.31,3.1 -13.18,3.1 l -5.481,0 C 6.45,99.4 5,90.95 5,82.13 5,38.57 40.32,3.26 83.88,3.262 c 43.52,0 78.82,35.31 78.82,78.87 0,15.77 -4.6,30.57 -12.6,42.87 z m -49.2,-7.2 c -1.03,1.2 -1.47,1.6 -2.21,2.2 -1.78,1.4 -3.81,-0.2 -5.11,-1 -2.9,-1.7 -5.23,-0.6 -5.8,0.7 -0.57,1.3 0.1,2.9 1.64,2.7 2.21,-0.3 2.31,0.1 3.9,1.1 2.98,1.9 5.15,0.8 6.26,-0.1 0.92,-0.7 1.42,-1.3 1.92,-2.2 0.9,-1.7 0.2,-3 -0.3,-3.4 -0.1,-0.1 -0.2,-0.1 -0.3,0 z"></path>
+<path style="fill:#c00" d="m 87.26,25.76 c 3.86,-0.47 10.35,-1.28 10.82,1.61 0.18,1.13 -1.98,2.32 -5.13,3.05 -0.34,0.1 -0.33,0.54 0,0.67 1.32,0.38 2.86,0.65 4.49,0.65 5.06,0.12 9.16,-1.71 9.26,-4.07 0.1,-2.36 -4,-4.39 -9.04,-4.49 -0.99,0 -1.98,0 -3.09,0.15 -3.02,0.3 -5.62,1.1 -7.42,1.98 -0.29,0.14 -0.28,0.45 0.11,0.45 z m -9.53,15.06 c 4.35,-0.32 4.79,-1.32 4.66,-2.39 -0.14,-1.25 -2.77,-2.71 -6.67,-2.71 -3.84,0 -6.6,0.46 -8.99,0.56 -2.39,0.1 -4.24,-1.69 -5.1,-2.76 -0.71,-0.88 -2.97,-1.73 -4.2,1.1 -1.24,2.86 1.07,5.93 2.97,6.33 0,0 3.17,5.89 5.57,3.33 1.71,-1.82 2.65,-2.8 11.76,-3.46 z m 43.87,28.83 c 2.9,-1.57 5.5,-3.63 6.8,-8.5 13.4,3.02 21.3,10 19.6,19.43 C 144.2,101.3 110.3,108.3 77.23,98.3 45.75,88.79 18.11,69.8 21.31,58.68 c 1.86,-6.48 12.13,-9.24 25.82,-7.76 -2.08,4.23 -1.92,9.21 7.14,14.75 11.07,6.29 29.79,11.66 34.85,11.14 1.89,-0.2 3.58,-1.13 1.89,-2.27 -1.7,-1.13 -3.21,-3.4 -4.16,-7.36 C 86.33,64.97 85.73,61.89 73.83,59.63 48.31,54.77 49.29,47.55 50.05,43.4 c 0,0 2.26,-10.19 3.21,-13.78 0.94,-3.59 3.38,-11.82 19.82,-8.12 9.5,2.14 14.62,-0.52 17.24,-1.19 7.1,-1.82 14.98,-0.57 19.28,3.9 4.5,4.63 10.7,18.9 13.7,29.57 1.5,5.42 1.1,8.02 0.3,9.85 -0.5,1.25 -0.8,2.05 -2.7,5.22 -0.3,0.56 -0.1,1.17 0.7,0.8 z"></path>
+</svg>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="69af505ba6d435f96703d809b9333de3" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 331px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<p><span style="font-size:1.0em">Tracing Asynchronous Operations in Node.js</span></p>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="2db2a255506cedd87495e4bbecbea722" style="min-width: 30px; min-height: 30px; width: 193px; height: 223px; left: 762px; top: 424px;"><div class="sl-block-content" style="z-index: 14;"><img data-natural-width="310" data-natural-height="358" style="" data-src="tracing-asynchronous-operations-d66c2123-7f3b-4f0b-9549-ea3ddec46ace/3373604-nodeconf_budapest.svg"></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; min-width: 30px; min-height: 30px; width: 274px; left: 0px; top: 447px;" data-block-id="80db36bd3cf1e2e40d0b87d9a07ccb07"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15; line-height: 1.04;" data-has-line-height="">
+<p style="text-align:left"><span style="font-size:0.9em"><strong>Lance Ball</strong></span></p>
+
+<p style="text-align:left"><span style="font-size:0.7em">Email: lball@redhat.com</span></p>
+
+<p style="text-align:left"><span style="font-size:0.7em">Web: http://lanceball.com</span></p>
+
+<p style="text-align:left"><span style="font-size:0.7em">Twitter: @lanceball</span></p>
+
+<p style="text-align:left"><span style="font-size:0.7em">GitHub: @lance</span></p>
+</div></div></section><section data-background-color="#fafafa" data-id="44fb695f39dba4684e6b5126f1b8af21">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 830px; left: 80px; top: 70px;" data-block-id="1e4a04f0ee0e691708bdecc11cfe58cd"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h2>Tracing Asynchronous Code</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="bf2df8b3e04379a81773318318b2a35d" style="height: auto; min-width: 30px; min-height: 30px; width: 830px; left: 80px; top: 280px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" dir="ui">
+<ul>
+	<li class="fragment" data-fragment-index="0"><span style="font-size:1.0em">Event logging</span></li>
+	<li class="fragment" data-fragment-index="1"><span style="font-size:1.0em">Global state</span></li>
+	<li class="fragment" data-fragment-index="2"><span style="font-size:1.0em">Function parameters</span></li>
+	<li class="fragment" data-fragment-index="3"><span style="font-size:1.0em">Execution Hooks</span></li>
+</ul>
+</div></div></section><section data-background-color="#fafafa" data-id="d5d7d689189c3833420baba5b24dbff3">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="9759afdfacb1a7231af3ce0576757c31"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 10; text-align: left;">
+<h2>What is the AsyncWrap API?</h2>
+
+<h2> </h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 830px; left: 80px; top: 280px;" data-block-id="478d3693861458276f9287eef8a211f9"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;" dir="ui">
+<ul>
+	<li class="fragment" data-fragment-index="0"><span style="font-size:1.0em">Hooks into the life cycle of asynchronous operations</span></li>
+	<li class="fragment" data-fragment-index="1"><span style="font-size:1.0em"><span style="font-size:1.0em">Available since Node.js 4.x​</span></span></li>
+</ul>
+</div></div></section><section data-id="cb119fbd586c1897e4563aff7bdd3798"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 280px;" data-block-id="a6ed40588c9e1a835b7eabd52994d423"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function loadUser () {
+  readConfiguration();
+}
+
+function readConfiguration () {
+  parseFile();
+}
+
+function parseFile () {
+  throw new Error('Surprise!');
+}
+
+loadUser();
+
+process.on('uncaughtException', (e) =&gt; process._rawDebug(e.stack));</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="cc09b77e784b455f95e43bbaec1c5dea"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Some Code</h2>
+
+<h2>What does it do?</h2>
+</div></div></section><section data-id="9e2d70fa2b47874a54ea9ae0969757df"><div class="sl-block" data-block-type="code" style="width: 800px; height: 386px; left: 80px; top: 210px;" data-block-id="57151ddf69792d911f4a55a018baafa2"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>tracing-async-operations/ex1.js:10
+  throw new Error('Surprise!');
+  ^
+
+Error: Surprise!
+    at parseFile (/Users/lanceball/presentations/view-into-the-vortex/examples/ex1.js:10:9)
+    at readConfiguration (/Users/lanceball/presentations/view-into-the-vortex/examples/ex1.js:6:3)
+    at loadUser (/Users/lanceball/presentations/view-into-the-vortex/examples/ex1.js:2:3)
+    at Object.&lt;anonymous&gt; (/Users/lanceball/presentations/view-into-the-vortex/examples/ex1.js:13:1)
+    at Module._compile (module.js:570:32)
+    at Object.Module._extensions..js (module.js:579:10)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+    at Module.runMain (module.js:604:10)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="46953be9a05c96ce934174d578c519d7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Makes Sense</h2>
+</div></div></section><section data-id="323560dd1b312b7e6654bc2bb29c8dd3"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 280px;" data-block-id="f08b1f13091496fdf83d2995c6bdd19a"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function loadUser () {
+  setTimeout(readConfiguration, 10);
+}
+
+function readConfiguration () {
+  setTimeout(parseFile, 50);
+}
+
+function parseFile () {
+  const fs = require('fs');
+  fs.readFile(__filename, (_)=&gt;{ throw new Error('Surprise!'); });
+}
+
+loadUser();
+
+process.on('uncaughtException', (e) =&gt; process._rawDebug(e.stack));</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 713px; left: 80px; top: 71px;" data-block-id="44f8c3d242a7af761caa525a3935cc78"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>More Code</h2>
+
+<h2>What does <em>it</em> do?</h2>
+</div></div></section><section data-id="54c284f539f6aa3eac5a562b65a88908"><div class="sl-block" data-block-type="code" style="width: 823px; height: 140px; left: 80px; top: 210px;" data-block-id="bb727edfea6a5ecc7619d9e6e2763566"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>Error: Surprise!
+    at require.readFile (/src/tracing-async-operations/ex2.js:10:56)
+    at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:445:3)
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 713px; left: 80px; top: 71px;" data-block-id="45463e4d5d4a9f075b83729a4c218181"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Not Super Helpful</h2>
+</div></div></section><section data-background-color="#fafafa" data-id="86d8fbadaadd24adb780aacc34654f06">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="4927654282cf97a7529b70b026a5abc7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h2>What is the problem?</h2>
+</div></div></section><section data-background-color="#fafafa" data-id="62e5e8114aebbe6b3e452cee7db4da29">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="715d0e2014dc8e3ec3444c9837469712"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h2>What is the problem?</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="03f088bc0e82d004e35154b229e93318" style="min-width: 30px; min-height: 30px; width: 742.2145454545454px; height: 401px; left: 80px; top: 253px;"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="1018" data-natural-height="550" data-src="tracing-asynchronous-operations-d66c2123-7f3b-4f0b-9549-ea3ddec46ace/3230674-event-loop2.png"></div></div></section><section data-id="f381146604130bddc692abb983456601"><div class="sl-block" data-block-type="code" style="width: 800px; height: 141px; left: 80px; top: 279px;" data-block-id="c02987992ebea91c5cb4965b0a3fcf69"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>Error: Surprise!
+    at require.readFile (/src/tracing-async-operations/ex2.js:10:56)
+    at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:445:3)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="6bfedd2e6077fb15e6b363ac93147064"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Local Context is Lost</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="ff3d994d3e270127b6214f0b8ed5d2c3" style="height: auto; min-width: 30px; min-height: 30px; width: 777px; left: 80px; top: 490px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<p style="text-align: left;"><span style="font-size:1.4em">All we have is that after the close event there was an Error.</span></p>
+</div></div></section><section data-background-color="#fafafa" data-id="643119a057bed3f44802f014e190617d">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 748px; left: 80px; top: 71px;" data-block-id="9d1d5f8761889bee95bcf412336f6b0c"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h2>What can we do?</h2>
+</div></div></section><section data-id="a520ac6b9f77c264f49bbfd2620e2b02"><div class="sl-block" data-block-type="code" style="width: 851px; height: 350px; left: 80px; top: 210px;" data-block-id="59f2ed1f10fb4e7a6aa617974e3837ef"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>const asyncWrap = process.binding('async_wrap');
+
+asyncWrap.setupHooks({ init, pre, post, destroy });
+asyncWrap.enable();
+
+function init (uid, provider, parentUid, parentHandle) {}
+
+function pre (uid) {}
+
+function post (uid, didThrow) {}
+
+function destroy (uid) {}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="085aa885e4c8ab281dadba58d74b4c56"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Async Wrap API</h2>
+</div></div></section><section data-id="e2ee67ac10069532ff12e6814347fdc5"><div class="sl-block" data-block-type="code" style="width: 800px; height: 110px; left: 80px; top: 280px;" data-block-id="9fa07fdf8128958a389f50db25a4bb34"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function init (uid, provider, parentUid, parentHandle) {
+  // 'this' is the async Handle object
+  process._rawDebug(`init: ${uid} : ${provider}`);
+}
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="d2b83d9ba92c17f798544c765b28ceeb"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<pre><strong><span style="font-size:1.6em;">init()</span></strong></pre>
+
+<p><span style="font-size:1.0em;">called when an asynchronous operation is <strong>placed on the event queue</strong></span></p>
+</div></div></section><section data-id="e3b22148f26f88314777c54f77f1b9bb"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 210px;" data-block-id="c818f5733f7a279102cac5b8c51f026f"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>&gt; const asyncWrap = process.binding('async_wrap');
+&gt; asyncWrap.Providers   
+
+   { NONE: 0,               CRYPTO: 1,
+     FSEVENTWRAP: 2,        FSREQWRAP: 3,
+     GETADDRINFOREQWRAP: 4, GETNAMEINFOREQWRAP: 5,
+     HTTPPARSER: 6,         JSSTREAM: 7,
+     PIPEWRAP: 8,           PIPECONNECTWRAP: 9,
+     PROCESSWRAP: 10,       QUERYWRAP: 11,
+     SHUTDOWNWRAP: 12,      SIGNALWRAP: 13,
+     STATWATCHER: 14,       TCPWRAP: 15,
+     TCPCONNECTWRAP: 16,    TIMERWRAP: 17,
+     TLSWRAP: 18,           TTYWRAP: 19,
+     UDPWRAP: 20,           UDPSENDWRAP: 21,
+     WRITEWRAP: 22,         ZLIB: 23 }</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 79px; top: 71px;" data-block-id="eac72ad71e672341700ef3eb6cb78338"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2><span style="font-size:1.0em;">Providers</span></h2>
+</div></div></section><section data-id="38a2c9cfa40c8e383e492ddad796e92d"><div class="sl-block" data-block-type="code" style="width: 800px; height: 184px; left: 80px; top: 280px;" data-block-id="3a859a260c5cb86b8e200dec0f970002"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function pre (uid) {
+  // 'this' is the async Handle object
+  process._rawDebug(`pre: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="0d89c298cb8d8384726ec32971894cc2"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<pre><strong><span style="font-size:1.6em;">pre()</span></strong></pre>
+
+<p><span style="font-size:1.0em;">called just <strong>before</strong> an asynchronous operation is executed</span></p>
+</div></div></section><section data-id="95cb65105a19bcad106b372848382f71"><div class="sl-block" data-block-type="code" style="width: 800px; height: 236px; left: 80px; top: 280px;" data-block-id="04e900a4c8b3458cd535dcb88777dea9"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function init (uid, provider, parentUid, parentHandle) {
+  this.someValue = 'foo';
+}
+
+function pre (uid) {
+  process._rawDebug(this.someValue); // &gt; 'foo'
+}
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 758px; left: 80px; top: 71px;" data-block-id="1c140180c4d758c50c6dfa7bd29d1082"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2><span style="font-size:1.0em;">Sharing state</span></h2>
+</div></div></section><section data-id="2e9be865dfc96b674b7eb7b7678b36c0"><div class="sl-block" data-block-type="code" style="width: 800px; height: 184px; left: 80px; top: 280px;" data-block-id="d304c7a9c5b60f15ab83a61aa8396ebf"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function post (uid, didThrow) {
+  // 'this' is the async Handle object
+  process._rawDebug(`post: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="3e81c14277b61f024b7e3a3df7ec76cc"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<pre><strong><span style="font-size:1.6em;">post()</span></strong></pre>
+
+<p><span style="font-size:1.0em;">called just <strong>after</strong> an asynchronous operation is executed</span></p>
+</div></div></section><section data-id="44b8ddf2fabe37ebf74a94fc15f20afb"><div class="sl-block" data-block-type="code" style="width: 800px; height: 184px; left: 80px; top: 280px;" data-block-id="2fb6a453f7dc501b754a604371be1516"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function destroy (uid) {
+  process._rawDebug(`destroy: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="8042b2982b7b0b091b83d4c20a55ffb7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<pre><strong><span style="font-size:1.6em;">destroy()</span></strong></pre>
+
+<p><span style="font-size:1.0em;">called when the C++ handle object is destroyed</span></p>
+</div></div></section><section data-id="914004f77321c823306acae12ea03c68"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 210px;" data-block-id="f116036b2dd96c48b34704c1add05815"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function init (uid, provider, parentUid, parentHandle) {
+  process._rawDebug(`init: ${uid} : ${provider}`);
+}
+
+function pre (uid) {
+  process._rawDebug(`pre: ${uid}`);
+}
+
+function post (uid, didThrow) {
+  process._rawDebug(`post: ${uid}`);
+}
+
+function destroy (uid) {
+    process._rawDebug(`destroy: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="2e2619f134edf11938def88db0cf566a"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<h2><span style="font-size:1.0em;">All together now</span></h2>
+</div></div></section><section data-id="14cdbcb7766bdd7fdcdfb8e1846adf3e"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 280px;" data-block-id="aef1d6c92d2eb9aece6ee0098981bf4f"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>asyncWrap.setupHooks({ init, pre, post, destroy });
+asyncWrap.enable();
+
+process._rawDebug('user: before');
+
+foo();
+
+process._rawDebug('user: after');
+
+function foo () {
+  setTimeout(foobar, 10);
+}
+
+function foobar () {
+  process._rawDebug('user: during');
+}
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 720px; left: 80px; top: 71px;" data-block-id="ddf7387025319d23ea8cc55e85ab9766"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<h2><span style="font-size:1.0em;">Enable it and run some async stuff</span></h2>
+</div></div></section><section data-id="a11fb2add93759bd1ade299a6ad4c3b5"><div class="sl-block" data-block-type="code" style="width: 800px; height: 350px; left: 80px; top: 280px;" data-block-id="41a669912c8fa7b63e14667628bfdffb"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>$ node ex3.js
+
+user: before
+init: 1 : 17
+user: after
+pre: 1
+user: during
+post: 1
+destroy: 1</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 720px; left: 80px; top: 71px;" data-block-id="5f449e03856ef325494dfe0c20c8e49e"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<h2><span style="font-size:1.0em;">Result</span></h2>
+</div></div></section><section data-background-color="#fafafa" data-id="567029dccdf61691d51b0819dea7d140">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="982ff3f707ec810264d47fc95386ea86"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h2>Interesting</h2>
+
+<h2>But now what?</h2>
+</div></div></section><section data-background-color="#fafafa" data-id="731432469f78018cab4740ea24b8ca7b">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="276e5038344c7640f02b539af6e3040d"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h2>How about...</h2>
+
+<h2>Long Stack Traces</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="3cd198152414f753be8b51e5399a21df" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 335px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<p style="text-align: left;"><span style="font-size:1.2em">"If you can't observe your software, you have no idea what it's doing." </span></p>
+
+<p style="text-align: left;"> </p>
+
+<p style="text-align: left;"><span style="font-size:1.2em">- C J Silverio, Nodevember 2016</span></p>
+</div></div></section><section data-background-color="#fafafa" data-id="6330d5b7fdf13ef192859520ae6176f1">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 800px; left: 80px; top: 71px;" data-block-id="69481e10860c860b34f9ca3388c33351"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Informative stack traces</h1>
+
+<p> </p>
+
+<ul>
+	<li>
+	<p><span style="font-size:1.0em">Use the AsyncWrap API to keep track of where our operations are within the call stack.<span style="font-size:1.4em">​</span></span></p>
+	</li>
+	<li>
+	<p><span style="font-size:1.0em">When an async operation is placed into the event queue - i.e. on init(), store the current call stack.<span style="font-size:1.4em">​</span></span></p>
+	</li>
+	<li>
+	<p><span style="font-size:1.0em">If things blow up, we can get some insight into what went wrong.</span></p>
+	</li>
+</ul>
+</div></div></section><section data-id="6c084f4656db3d049a542fe12775302d"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 280px;" data-block-id="e31c2d73650a74599172e962d47fbb13"><div class="sl-block-content" style="z-index: 11; font-size: 150%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function loadUser () {
+  setTimeout(readConfiguration, 50);
+}
+
+function readConfiguration () {
+  setTimeout(parseFile, 50);
+}
+
+function parseFile () {
+  throw new Error('Surprise!');
+}
+
+loadUser();</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="c40258978b62b83d90c5bf3edf1eeeb3"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Let's say I have some code like this</h2>
+</div></div></section><section data-id="56acb59f6c338e1d9f9688486a62fb10"><div class="sl-block" data-block-type="code" style="width: 800px; height: 358px; left: 80px; top: 280px;" data-block-id="cc0841fbe4c088441f4575fa03d2f6b4"><div class="sl-block-content" style="z-index: 11; font-size: 150%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>/src/tracing-async-operations/ex5.js:6
+  throw new Error('Surprise!');
+  ^
+
+Error: Surprise!
+    at Timeout.parseFile [as _onTimeout] (/Users/lanceball/presentations/tracing-async-operations/ex4.js:34:9)
+    at ontimeout (timers.js:365:14)
+    at tryOnTimeout (timers.js:237:5)
+    at Timer.listOnTimeout (timers.js:207:5)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="90f7b3fe1cfd5836fe626ec3e4d42cf4"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>That code produces</h2>
+
+<p>(Again note, context is lost)</p>
+</div></div></section><section data-id="05b0f6bb1999d961d0e63ecc1eb6fa7a"><div class="sl-block" data-block-type="code" style="width: 851px; height: 464px; left: 80px; top: 210px;" data-block-id="5c0b2557820a0da5ddc700a2ee3976c5"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>const stacks = new WeakMap();
+let currentStack = [];
+
+function init (uid, provider, parentUid, parentHandle) {
+  const stack = getCallSite();
+  const lastTrace = currentStack[currentStack.length - 1];
+  stack.push.apply(stack, parentUid === null 
+        ? lastTrace 
+        : traces.get(parentHandle));
+  stacks.set(this, stack);
+}
+
+// async stuff about to go down. restore the previous call stack
+function pre (uid) {  currentStack = stacks.get(this); }
+
+function post (uid, didThrow) { currentStack.pop(); }
+
+asyncWrap.setupHooks({ init, pre, post });
+asyncWrap.enable();</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="f045f086527c8b9fdb7875b2a90a5091"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Saving Context</h2>
+</div></div></section><section data-id="88165e550d5b4ce6f33a67f79de85c33"><div class="sl-block" data-block-type="code" style="width: 851px; height: 210px; left: 80px; top: 280px;" data-block-id="ad30273d7d4208d8f390b78d3e10a09a"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>
+Error.prepareStackTrace = function prepareStackTrace (err, stack) {
+  if (currentStack) stack.push.apply(stack, currentStack);
+  return formatter(err, stack);
+};</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="7cbd13ef5d454e2953c9bead9664a9a6"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Restoring Context</h2>
+</div></div></section><section data-id="33bc4ac0da23ac5057c0f7d4bfaf1e6a"><div class="sl-block" data-block-type="code" style="width: 851px; height: 280px; left: 80px; top: 210px;" data-block-id="95fd0e7e72282c2dde3f2d591cfbeb5b"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>
+
+Error: Surprise!
+    at Timeout.parseFile [as _onTimeout] (/src/tracing-async-operations/ex4.js:30:9)
+    at readConfiguration (/src/tracing-async-operations/ex4.js:14:3)
+    at loadUser (/src/tracing-async-operations/ex4.js:26:3)
+    at Object.&lt;anonymous&gt; (/src/tracing-async-operations/ex4.js:55:1)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="e90d52be8563c00c80a0cfff2d869d26"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>The Result</h2>
+</div></div></section><section data-background-color="#fafafa" data-id="9e2e93c80c2cb7399ce57c67317f652e">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="c52d9396598c9acb7b9274730e66fd9d"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h2>Things Will Change</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 830px; left: 80px; top: 280px;" data-block-id="18dbb0edc922df5213d3a804b5bb93c8"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;" dir="ui">
+<p style="text-align:left">The API is undergoing major review and revision, but the techniques I will demonstrate today will still be relevant.</p>
+
+<p style="text-align:left"> </p>
+
+<p style="text-align:left"><span style="font-size:1.0em">The API changes are "breaking" but not fundamentally different on a conceptual level.</span></p>
+</div></div></section><section data-background-color="#fafafa" data-id="95f2730fedd5092384f6a6c1d9b14438">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 880px; left: 80px; top: 71px;" data-block-id="72b98f73fe3dc5a8ef775d5e1fe755dd"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Tools &amp; Packages</h1>
+
+<p> </p>
+
+<ul>
+	<li>
+	<p><span style="font-size:1.0em"><strong>lightbright</strong>​</span></p>
+
+	<ul>
+		<li>
+		<p><span style="font-size:1.0em">https://github.com/bucharest-gold/lightbright</span></p>
+		</li>
+	</ul>
+	</li>
+	<li>
+	<p><span style="font-size:1.0em"><strong>async-hooks</strong></span></p>
+
+	<ul>
+		<li>
+		<p><span style="font-size:1.0em"><strong>​</strong>https://github.com/AndreasMadsen/async-hook</span></p>
+		</li>
+	</ul>
+	</li>
+	<li>
+	<p><span style="font-size:1.0em"><strong>clarify</strong></span></p>
+
+	<ul>
+		<li>
+		<p><span style="font-size:1.0em"><strong>​</strong>https://github.com/AndreasMadsen/clarify</span></p>
+		</li>
+	</ul>
+	</li>
+</ul>
+</div></div></section><section data-background-color="#fafafa" data-id="178498f0c7e444f7e969f94fb804c08d">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 861px; left: 80px; top: 71px;" data-block-id="a7970f71eeb52907f2341586e790c3f9"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>References</h1>
+
+<p> </p>
+
+<p><strong><span style="font-size:1.0em">http://lanceball.com/slides/nodeconf-budapest-2017</span></strong></p>
+
+<p><strong><span style="font-size:1.0em">http://github.com/lance/nodeconf-budapest-2017</span></strong></p>
+
+<p> </p>
+
+<ul>
+	<li>
+	<p><span style="font-size:1.0em"><strong>AsyncWrap Public API Proposal</strong> - https://github.com/nodejs/node-eps/pull/18<span style="font-size:1.0em">​</span></span></p>
+	</li>
+	<li style="font-size:28px">
+	<p><span style="font-size:1.0em"><strong>async_hooks initial implementation</strong> - https://github.com/nodejs/node/pull/8531</span></p>
+	</li>
+	<li><span style="font-size:1.0em"><strong>Diagnostics working group - </strong>https://github.com/nodejs/diagnostics/</span></li>
+</ul>
+
+<p> </p>
+</div></div></section><section data-background-color="#fafafa" data-id="186cda070acc864f0f40e59ea22d265d">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 781px; left: 99px; top: 340px;" data-block-id="2b78e1718d2e49d1baea225c28a2d153"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1><span style="font-size:120px; letter-spacing:4.399320125579834px">QUESTIONS</span></h1>
+</div></div></section>
+			</div>
+		</div>
+
+		<script>
+			var SLConfig = {"deck": {"id":886378,"slug":"tracing-asynchronous-operations-d66c2123-7f3b-4f0b-9549-ea3ddec46ace","title":"A View into the Vortex","description":"Tracing Asynchronous Operations in Node.js","visibility":"all","published_at":"2017-01-04T18:30:07.268Z","sanitize_messages":null,"thumbnail_url":"https://s3.amazonaws.com/media-p.slid.es/thumbnails/da1ed6843bc44295aa8176b10c5324bd/thumb.jpg","view_count":6,"user":{"id":492679,"username":"lball","name":"Lance Ball","description":null,"thumbnail_url":"https://www.gravatar.com/avatar/b0690265bd924922c38abcc377748957?s=140\u0026d=https%3A%2F%2Fs3.amazonaws.com%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png","paid":true,"pro":true,"lite":false,"team_id":32,"settings":{"id":334838,"present_controls":true,"present_upsizing":true,"present_notes":true},"enterprise":true,"membership":{"role":"member","manager":false,"activated":true}},"background_transition":"none","transition":"none","theme_id":null,"theme_font":"montserrat","theme_color":"no-color","auto_slide_interval":0,"comments_enabled":true,"forking_enabled":false,"rolling_links":false,"center":false,"should_loop":false,"share_notes":false,"slide_number":true,"rtl":false,"version":2,"collaborative":false,"deck_user_editor_limit":1,"data_updated_at":1484832297001,"font_typekit":null,"font_google":null,"notes":{}}};
+			SLConfig.current_user = {
+				name: "Lance Ball",
+				username: "lball",
+				pro: true
+			};
+
+
+			// Use the local font path
+			SLConfig.fonts_url = 'lib/fonts/';
+		</script>
+
+		<script src="lib/head.min.js"></script>
+		<script src="lib/reveal.min.js"></script>
+		<script src="lib/offline.js"></script>
+		<script>
+			// Make Slides speaker notes available in the reveal.js speaker view
+			if( SLConfig.deck.notes ) {
+				[].forEach.call( document.querySelectorAll( '.reveal .slides section' ), function( slide ) {
+
+					var value = SLConfig.deck.notes[ slide.getAttribute( 'data-id' ) ];
+					if( value && typeof value === 'string' ) {
+						slide.setAttribute( 'data-notes', value );
+					}
+
+				} );
+			}
+
+			Reveal.initialize({
+				margin: 0.05,
+				controls: true,
+				progress: true,
+				history: true,
+				mouseWheel: false,
+				showNotes: SLConfig.deck.share_notes,
+				slideNumber: SLConfig.deck.slide_number,
+
+				autoSlide: SLConfig.deck.auto_slide_interval || 0,
+				autoSlideStoppable: true,
+
+				rolling_links: SLConfig.deck.rolling_links || true,
+				center: SLConfig.deck.center || false,
+				loop: SLConfig.deck.should_loop || false,
+				rtl: SLConfig.deck.rtl || false,
+
+				transition: SLConfig.deck.transition,
+				backgroundTransition: SLConfig.deck.background_transition,
+
+				dependencies: [
+					{ src: 'lib/reveal-plugins/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/highlight/highlight.js', async: true, callback: function() { hljs.initHighlighting(); hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+		</script>
+
+		
+
+	</body>
+</html>

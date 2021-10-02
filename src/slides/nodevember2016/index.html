@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+	<html class="sl-root decks export offline loaded">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Tracing Asynchronous Operations: Slides</title>
+		<meta name="description" content="Slides">
+
+		<link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+		<!-- Team CSS -->
+		<style id="global-css-output" type="text/css">
+			@import url("https://s3.amazonaws.com/static.slid.es/fonts/overpass2/overpass2.css");
+.reveal {
+  
+
+  /*fix icon inversion*/
+
+}
+.reveal svg,
+.reveal text,
+.reveal tspan,
+.reveal svg text {
+  font-family: "Overpass 2", Overpass, sans-serif !important;
+  color: currentcolor;
+  fill: currentcolor;
+}
+.reveal .sl-block {
+  color: #354045;
+  fill: currentcolor;
+}
+.reveal .sl-block svg {
+  color: currentcolor;
+}
+.reveal .has-dark-background,
+.reveal .has-dark-background > .sl-block {
+  color: white;
+  fill: currentcolor;
+}
+.reveal section > .sl-block .redhat-logo .logotext {
+  fill: #000000;
+}
+.reveal .has-dark-background > .sl-block .redhat-logo .logotext {
+  fill: #ffffff;
+}
+.reveal .has-dark-background > .sl-block[data-block-type="image"] {
+  color: #ffffff;
+}
+.reveal [fill="none"] {
+  fill: none !important;
+}
+.reveal [fill="#a30000"] {
+  fill: #aa0000 !important;
+}
+.reveal [fill="#cc2029"],
+.reveal [fill="#cb2027"],
+.reveal [fill="#c00"] {
+  fill: #cc0000 !important;
+}
+.reveal [fill="#fff"] {
+  fill: #ffffff !important;
+}
+.reveal [fill="#6d6e70"] {
+  fill: #6d6e70 !important;
+}
+.reveal [fill="#231f20"] {
+  fill: currentcolor !important;
+}
+.reveal [fill="#efab1f"] {
+  fill: #efab1f !important;
+}
+.reveal [fill="#92d400"] {
+  fill: #92d400 !important;
+}
+.reveal .has-dark-background [fill="#6d6e70"] {
+  fill: #266272 !important;
+}
+.reveal .has-dark-background [fill="#fff"] {
+  fill: #555555 !important;
+}
+.reveal .has-dark-background [fill="#fff"] {
+  fill: #333333 !important;
+}
+.reveal .has-dark-background [stroke="#231f20"] {
+  stroke: currentcolor;
+}
+.reveal [data-inline-svg="true"] img {
+  display: none;
+}
+
+		</style>
+
+		<!-- Theme CSS -->
+		<style id="theme-css-output" type="text/css">
+			@import url(//overpassmonotest-30e2.kxcdn.com/overpass-mono.css);
+.reveal {
+  
+
+  /*
+.sl-block[data-block-type="snippet"],
+.sl-block[data-block-type="image"] 
+{
+text,
+tspan,
+polygon,
+path,
+rect,
+ellipse {
+  fill: currentcolor;
+}
+}
+*/
+
+  /*slide-default*/
+
+  /*Custom Ordered Lists */
+
+  /*helpers*/
+
+  /*fixing left aligned text*/
+
+  /*h1,h2,h3,h4,h5,h6{&::first-letter{margin-left:-.09em;}}*/
+
+  /*icon absolute brute-fix*/
+
+  /*
+.present .icon.stroked path.long{ stroke-width: 2px ;
+-webkit-animation: icon-animation-long 3.5s 1.5s 1;
+-moz-animation:    icon-animation-long 3.5s 1.5s 1;
+animation:         icon-animation-long 3.5s 1.5s 1;
+}*/
+
+  /*
+.present .icon.stroked path.short{
+-webkit-animation: icon-animation-short 3.5s 1.5s 1;
+-moz-animation:    icon-animation-short 3.5s 1.5s 1;
+animation:         icon-animation-short 3.5s 1.5s 1;
+}*/
+
+  /*controls logic*/
+
+  /*animated logos with complex svg segments*/
+
+  /*transitions*/
+
+  /*logos svg files that contain inverted path alternates */
+
+  /* call to action */
+
+  /* tables in snippets.... the devil */
+
+  /* tables in text */
+
+  /*testimonial snippet */
+
+  /*for inverting images*/
+
+  /**/
+
+  /*code blocks*/
+
+  /* round line arrows */
+
+  /*fix icon inversion*/
+
+}
+.reveal.reveal[role="application"] > .backgrounds > .slide-background:first-child {
+  background-color: #900;
+  color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.075) 20%, rgba(0, 0, 0, 0.15) 20%, transparent 85%, rgba(0, 0, 0, 0.1) 85%);
+  min-height: 100vh;
+}
+.reveal.reveal[role="application"] > .backgrounds > .slide-background:first-child.has-light-background {
+  background-image: none;
+}
+.reveal.reveal .slides > .section:first-child,
+.reveal.reveal[role="application"] > .slides > .section:first-child .sl-block {
+  color: #fff;
+}
+.reveal .name {
+  white-space: nowrap;
+}
+.reveal .reveal,
+.reveal .sl-block,
+.reveal .sl-block-content,
+.reveal .sl-block-content div,
+.reveal .sl-block-content p,
+.reveal .sl-block-content h1,
+.reveal .sl-block-content h2,
+.reveal .sl-block-content h3,
+.reveal .sl-block-content h4 {
+  font-family: "Overpass 2", overpass, "Hiragino Kaku Gothic", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ Pro W3", sans-serif;
+}
+.reveal .future .sl-block-content,
+.reveal .past .sl-block-content {
+  transition: none !important;
+}
+.reveal section,
+.reveal.reveal .has-dark-background,
+.reveal section.background-shade-dark {
+  color: #fff;
+}
+.reveal .backgrounds {
+  background: #f3f4f4;
+}
+.reveal .slide-background {
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+.reveal .slide-background.has-light-background {
+  /*background-image: url(//s3.amazonaws.com/media-p.slid.es/uploads/team-32/images/1297460/standard-background.svg);*/
+
+}
+.reveal .backgrounds .paint-it-red {
+  background-color: #c00 !important;
+  -moz-background-blend-mode: multiply;
+  -webkit-background-blend-mode: multiply;
+  -ms-background-blend-mode: multiply;
+  background-blend-mode: multiply;
+}
+.reveal .paint-it-red {
+  color: #fff;
+}
+.reveal .has-dark-background .icon.stroked path,
+.reveal section.background-shade-dark .icon.stroked path,
+.reveal section.light-foreground .icon.stroked path {
+  stroke: #fff !important;
+}
+.reveal .has-dark-background .redhat-product-logotype path,
+.reveal section.background-shade-dark .redhat-product-logotype path,
+.reveal section.light-foreground .redhat-product-logotype path {
+  fill: #ffffff;
+}
+.reveal .has-dark-background text.logotext,
+.reveal section.background-shade-dark text.logotext,
+.reveal section.light-foreground text.logotext,
+.reveal .has-dark-background .logotext text,
+.reveal section.background-shade-dark .logotext text,
+.reveal section.light-foreground .logotext text,
+.reveal .has-dark-background path.logotext,
+.reveal section.background-shade-dark path.logotext,
+.reveal section.light-foreground path.logotext,
+.reveal .has-dark-background path.logotype,
+.reveal section.background-shade-dark path.logotype,
+.reveal section.light-foreground path.logotype,
+.reveal .has-dark-background .logotext path,
+.reveal section.background-shade-dark .logotext path,
+.reveal section.light-foreground .logotext path {
+  fill: #fff !important;
+}
+.reveal .has-dark-background .closing-logo .logotext,
+.reveal section.background-shade-dark .closing-logo .logotext,
+.reveal section.light-foreground .closing-logo .logotext,
+.reveal .has-dark-background .redhat-logo .logotext,
+.reveal section.background-shade-dark .redhat-logo .logotext,
+.reveal section.light-foreground .redhat-logo .logotext {
+  fill: #ffffff !important;
+}
+.reveal .has-light-background .icon.stroked path {
+  stroke: currentcolor;
+}
+.reveal .has-light-background .redhat-logo .logotext {
+  fill: #000000 !important;
+}
+.reveal .sl-block-content ol li {
+  position: relative;
+  padding-bottom: .5em;
+}
+.reveal .sl-block-content ol li > p:first-child {
+  margin: 0;
+}
+.reveal .sl-block-content ol > li::before {
+  margin-left: -2.5em;
+}
+.reveal .sl-block-content > ol > li:before {
+  float: left;
+  text-align: center;
+  box-shadow: inset 0 0 0 .1em;
+  border-radius: 50%;
+}
+.reveal .sl-block-content ol {
+  counter-reset: section;
+  list-style-type: none;
+  margin: 0 0 0 2.5em;
+  display: block;
+}
+.reveal .sl-block-content ol ol {
+  margin-top: .5em;
+}
+.reveal .sl-block-content ol > li:before {
+  font-weight: 400;
+  display: inline-block;
+  width: 1.75em;
+  height: 1.75em;
+  line-height: 1.75em;
+  text-align: center;
+  letter-spacing: 0;
+  font-size: .75em;
+  margin: 0 0.75em 0 -2.5em;
+  counter-increment: section;
+  content: counters(section, ".") " ";
+}
+.reveal .sl-block-content > ol > li ol li:before {
+  opacity: .5;
+  text-align: left;
+  box-shadow: none;
+  letter-spacing: .1em;
+}
+.reveal .sl-block-content > ol > li > ol > li > ol > li:before {
+  width: 4em;
+  left: -3em;
+  font-size: .75em;
+}
+.reveal .has-dark-background .sl-block-content > ol > li:before {
+  color: currentcolor;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 0.2em rgba(0, 0, 0, 0.2);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+.reveal .sl-block-content > ol ol ol li:before {
+  opacity: 1;
+  font-size: .55em !important;
+  width: 3.5em !important;
+}
+.reveal .sl-block-content > ol ol ol {
+  margin-left: 1.5em !important;
+}
+.reveal .uppercase {
+  text-transform: uppercase;
+}
+.reveal .sl-block[data-block-type="text"] > .initial h1,
+.reveal .sl-block[data-block-type="text"] > .initial h2,
+.reveal .sl-block[data-block-type="text"] > .initial h3 {
+  text-transform: initial;
+}
+.reveal .force-mono text,
+.reveal .force-mono tspan,
+.reveal .force-mono polygon,
+.reveal .force-mono path,
+.reveal .force-mono rect,
+.reveal .force-mono ellipse {
+  fill: currentcolor !important;
+}
+.reveal .force-red .stroked path {
+  stroke: #c00;
+}
+.reveal .force-red,
+.reveal .force-red text,
+.reveal .force-red tspan,
+.reveal .force-red polygon,
+.reveal .force-red path,
+.reveal .force-red rect,
+.reveal .force-red ellipse {
+  color: #c00;
+  fill: currentcolor !important;
+}
+.reveal .force-red .stroked {
+  fill: none;
+  stroke: #cc0000;
+}
+.reveal .background-shade-dark .sl-block {
+  color: #fff;
+}
+.reveal .dark-foreground text.logotext,
+.reveal section.background-shade-light text.logotext,
+.reveal section.dark-foreground text.logotext,
+.reveal .dark-foreground .logotext text,
+.reveal section.background-shade-light .logotext text,
+.reveal section.dark-foreground .logotext text,
+.reveal .dark-foreground path.logotext,
+.reveal section.background-shade-light path.logotext,
+.reveal section.dark-foreground path.logotext,
+.reveal .dark-foreground path.logotype,
+.reveal section.background-shade-light path.logotype,
+.reveal section.dark-foreground path.logotype,
+.reveal .dark-foreground .logotext path,
+.reveal section.background-shade-light .logotext path,
+.reveal section.dark-foreground .logotext path,
+.reveal .dark-foreground .product,
+.reveal section.background-shade-light .product,
+.reveal section.dark-foreground .product {
+  fill: currentcolor !important;
+}
+.reveal .dark-foreground .redhat-logo .logotext,
+.reveal section.background-shade-light .redhat-logo .logotext,
+.reveal section.dark-foreground .redhat-logo .logotext {
+  fill: currentcolor !important;
+}
+.reveal .slide-background.background-shade-dark:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(40, 40, 40, 0.8);
+}
+.reveal .slide-background.background-shade-light:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.reveal .slides section {
+  text-align: left;
+}
+.reveal .slides section h1 {
+  line-height: 1em;
+  font-weight: 700 ;
+  font-size: 3em ;
+}
+.reveal .slides section h2 {
+  font-size: 2em;
+  font-weight: 400 ;
+  line-height: 1.15em;
+}
+.reveal .slides section h3 {
+  font-weight: 700 ;
+  font-size: 1em ;
+  line-height: 1.25em;
+}
+.reveal .slides section p {
+  margin-bottom: .5em;
+}
+.reveal .slides section blockquote {
+  font-style: normal;
+  box-shadow: none;
+}
+.reveal .progress {
+  background-color: transparent;
+}
+.reveal .progress span {
+  background-color: #5e6a71;
+}
+.reveal .absolute-element svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+.reveal .icon.stroked {
+  width: 282px;
+  height: 282px;
+}
+.reveal .icon.stroked.icon-arrow path {
+  stroke-width: 4px !important;
+}
+.reveal .icon.stroked path {
+  fill: none;
+  stroke-width: 1.5px;
+  transition-delay: .5s !important;
+  stroke-dashoffset: 0;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: currentcolor;
+}
+.reveal .icon.stroked path.long {
+  stroke-dasharray: 420,420;
+  transition: 2.5s all ease;
+}
+.reveal .icon.stroked path.longer {
+  stroke-dasharray: 512,512;
+  transition: 2.5s all ease;
+}
+.reveal .icon.stroked path.short {
+  stroke-dasharray: 90,90;
+  transition: 5s all ease;
+}
+.reveal .icon.stroked path.shortest {
+  stroke-dasharray: 5,5;
+  transition: 2s all ease;
+}
+.reveal .icon.stroked path.round {
+  stroke-linecap: round ;
+  stroke-linejoin: round ;
+}
+.reveal .icon.stroked path.virtual {
+  transition: .5s all ease;
+  stroke-dasharray: 1.1, 3;
+  stroke-linecap: round ;
+}
+.reveal .icon.stroked path.dashed {
+  stroke-dasharray: 3, 3;
+}
+.reveal .icon.stroked path.hand {
+  stroke-linecap: round;
+}
+.reveal .present path.virtual {
+  -webkit-animation: virtual-outline 60s infinite linear;
+  -moz-animation: virtual-outline 60s infinite linear;
+  animation: virtual-outline 60s infinite linear;
+}
+@-webkit-keyframes virtual-outline {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 512;
+  }
+}
+@-moz-keyframes virtual-outline {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 512;
+  }
+}
+@keyframes virtual-outline {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 512;
+  }
+}
+.reveal a {
+  box-shadow: 0 0.066666em;
+}
+.reveal .overview section.present {
+  border: 12px solid white !important;
+  box-shadow: 0 0 0 10px #ffffff, inset 0 0 0 6px rgba(0, 0, 0, 0.2);
+}
+.reveal .rh-pattern {
+  width: 256px;
+  height: 256px;
+}
+.reveal .rh-pattern path {
+  transition: all .5s ease;
+}
+.reveal .future .rh-pattern path {
+  stroke-dasharray: 0, 85 !important;
+}
+.reveal .present .rh-pattern path {
+  stroke-dasharray: 80, 0 !important;
+}
+.reveal div[data-block-type="snippet"] .sl-block-content > svg,
+.reveal div[data-block-type="snippet"] > .sl-block-content > svg,
+.reveal div[data-block-type="snippet"] .icon,
+.reveal div[data-block-type="snippet"] .product {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+.reveal div[data-block-type="snippet"] .sl-block-content > svg:not(:last-child) {
+  position: relative;
+}
+.reveal div[data-block-type="snippet"] .icon {
+  top: -15%;
+  right: -15%;
+  bottom: -15%;
+  left: -15%;
+  width: 130%;
+  height: 130%;
+}
+.reveal div[data-block-type="snippet"] {
+  min-width: 60px !important;
+}
+.reveal div[data-block-type="text"] {
+  font-size: 20px;
+}
+.reveal .triangle-element,
+.reveal .triangle-element * {
+  user-select: none;
+}
+.reveal .has-light-background .closing-logo.logotype path {
+  fill: black !important;
+}
+@-webkit-keyframes closing-animation {
+  0% {
+    -webkit-transform: scale(4) translate(40%);
+    transform: scale(4) translate(40%);
+    opacity: 0;
+  }
+  80% {
+    -webkit-transform: scale(1) translate(30%);
+    transform: scale(1) translate(30%);
+  }
+}
+@-moz-keyframes closing-animation {
+  0% {
+    -webkit-transform: scale(4) translate(40%);
+    transform: scale(4) translate(40%);
+    opacity: 0;
+  }
+  80% {
+    -webkit-transform: scale(1) translate(30%);
+    transform: scale(1) translate(30%);
+  }
+}
+@-o-keyframes closing-animation {
+  0% {
+    -webkit-transform: scale(4) translate(40%);
+    transform: scale(4) translate(40%);
+    opacity: 0;
+  }
+  80% {
+    -webkit-transform: scale(1) translate(30%);
+    transform: scale(1) translate(30%);
+  }
+}
+@keyframes closing-animation {
+  0% {
+    -webkit-transform: scale(4) translate(40%);
+    transform: scale(4) translate(40%);
+    opacity: 0;
+  }
+  80% {
+    -webkit-transform: scale(1) translate(30%);
+    transform: scale(1) translate(30%);
+  }
+}
+.reveal .present .closing-logo.icon {
+  -webkit-animation: closing-animation 1.5s 1;
+  -moz-animation: closing-animation 1.5s 1;
+  -o-animation: closing-animation 1.5s 1;
+  animation: closing-animation 1.5s 1;
+}
+.reveal .present .closing-logo.logotype {
+  -webkit-animation: closing-text-animation 1.8s 1;
+  -moz-animation: closing-text-animation 1.8s 1;
+  -o-animation: closing-text-animation 1.8s 1;
+  animation: closing-text-animation 1.8s 1;
+}
+@-webkit-keyframes closing-text-animation {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate(-10%);
+    transform: translate(-10%);
+  }
+  70% {
+    -webkit-transform: translate(-10%);
+    transform: translate(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+    -webkit-transform: none;
+  }
+}
+@-moz-keyframes closing-text-animation {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate(-10%);
+    transform: translate(-10%);
+  }
+  70% {
+    -webkit-transform: translate(-10%);
+    transform: translate(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+    -webkit-transform: none;
+  }
+}
+@keyframes closing-text-animation {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate(-10%);
+    transform: translate(-10%);
+  }
+  70% {
+    -webkit-transform: translate(-10%);
+    transform: translate(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+    -webkit-transform: none;
+  }
+}
+.reveal .brand-pattern-paths path,
+.reveal .pattern-path {
+  stroke-width: 1;
+  fill: none;
+}
+.reveal .brand-pattern-paths path {
+  fill: none !important;
+}
+.reveal pattern {
+  patterntransform: scale(2) !important;
+}
+.reveal pattern.normal use {
+  stroke: currentcolor;
+  fill: none;
+}
+.reveal pattern.light use {
+  stroke: #fff !important;
+  fill: none;
+}
+.reveal pattern.dark use {
+  stroke: #000 !important;
+  fill: none;
+}
+.reveal .brand-pattern {
+  min-width: 40px;
+  min-height: 40px;
+  position: absolute;
+  top: 0 ;
+  left: 0 ;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+.reveal .brand-pattern path,
+.reveal .brand-pattern rect {
+  width: 100% !important;
+  height: 100%;
+}
+.reveal .brand-pattern.corporate {
+  fill: url(#pattern-corporate);
+}
+.reveal #pattern-corporate-2 use {
+  stroke: #dd0000;
+}
+.reveal #pattern-corporate use {
+  stroke: #cc0000;
+}
+.reveal section,
+.reveal .slide-background {
+  -webkit-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.reveal .slides > section.transition-slide,
+.reveal .slides > section.transition-slide + section.future,
+.reveal .slides > section.transition-slide + section.present,
+.reveal .backgrounds > .slide-background.transition-slide,
+.reveal .backgrounds > .slide-background.transition-slide + .slide-background.future,
+.reveal .backgrounds > .slide-background.transition-slide + .slide-background.present {
+  transition: all 1s ease  !important;
+}
+.reveal .backgrounds > .slide-background.transition-slide {
+  opacity: 1 ;
+}
+.reveal .backgrounds > .slide-background.transition-slide.past {
+  z-index: 99;
+  -webkit-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+}
+.reveal .backgrounds > .slide-background.transition-slide.future,
+.reveal .backgrounds > .slide-background.transition-slide.present + .slide-background.future {
+  -webkit-transform: translate(100%, 0);
+  -ms-transform: translate(100%, 0);
+  transform: translate(100%, 0);
+}
+.reveal .slides > section.transition-slide.past {
+  z-index: 99;
+  -webkit-transform: translate(-150%, 0);
+  -ms-transform: translate(-150%, 0);
+  transform: translate(-150%, 0);
+  visibility: hidden;
+}
+.reveal .slides > section.transition-slide.future,
+.reveal .slides > section.transition-slide.future + section {
+  -webkit-transform: translate(150%, 0);
+  -ms-transform: translate(150%, 0);
+  transform: translate(150%, 0);
+  visibility: hidden;
+}
+.reveal .slides > section.transition-slide-up,
+.reveal .slides > section.transition-slide-up + section.future,
+.reveal .slides > section.transition-slide-up + section.present,
+.reveal .backgrounds > .slide-background.transition-slide-up,
+.reveal .backgrounds > .slide-background.transition-slide-up + .slide-background.future .backgrounds > .slide-background.transition-slide-up + .slide-background.present {
+  transition: all 1s ease  !important;
+}
+.reveal .backgrounds > .slide-background.transition-slide-up {
+  opacity: 1 ;
+}
+.reveal .backgrounds > .slide-background.transition-slide-up.past {
+  z-index: 99;
+  -webkit-transform: translate(0, -100%);
+  -ms-transform: translate(0, -100%);
+  transform: translate(0, -100%);
+}
+.reveal .backgrounds > .slide-background.transition-slide-up.future,
+.reveal .backgrounds > .slide-background.transition-slide-up.present + .slide-background.future {
+  -webkit-transform: translate(0, 100%);
+  -ms-transform: translate(0, 100%);
+  transform: translate(0, 100%);
+}
+.reveal .slides > section.transition-slide-up.past {
+  z-index: 99;
+  -webkit-transform: translate(0, -150%);
+  -ms-transform: translate(0, -150%);
+  transform: translate(0, -150%);
+  visibility: hidden;
+}
+.reveal .slides > section.transition-slide-up.future,
+.reveal .slides > section.transition-slide-up.present + section {
+  -webkit-transform: translate(0, 150%);
+  -ms-transform: translate(0, 150%);
+  transform: translate(0, 150%);
+  visibility: hidden;
+}
+.reveal .slides > section.transition-zoom-in,
+.reveal .slides > section.transition-zoom-in + section.future,
+.reveal .slides > section.transition-zoom-in + section.present,
+.reveal .backgrounds > .slide-background.transition-zoom-in,
+.reveal .backgrounds > .slide-background.transition-zoom-in + .slide-background.future .backgrounds > .slide-background.transition-zoom-in + .slide-background.present {
+  -webkit-transition: all 1s ease  !important;
+  -moz-transition: all 1s ease  !important;
+  transition: all 1s ease  !important;
+}
+.reveal .backgrounds > .slide-background.transition-zoom-in.past {
+  opacity: 0 !important;
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(0.1 0.5);
+  transform: scale(1.5);
+}
+.reveal .backgrounds > .slide-background.transition-zoom-in.future,
+.reveal .backgrounds > .slide-background.transition-zoom-in.present + .slide-background.future {
+  opacity: 0 !important;
+  -webkit-transform: scale(0.01);
+  -ms-transform: scale(0.01);
+  transform: scale(0.01);
+}
+.reveal .past {
+  z-index: -1;
+  opacity: 0 !important;
+}
+.reveal .present + .slide-background.future {
+  z-index: 99;
+}
+.reveal .slides > section.transition-zoom-in.past {
+  z-index: 99;
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
+  visibility: hidden;
+}
+.reveal .slides > section.transition-zoom-in.future {
+  -webkit-transform: scale(0.1);
+  -ms-transform: scale(0.1);
+  transform: scale(0.1);
+  visibility: hidden;
+}
+@-webkit-keyframes icon-animation-long {
+  0% {
+    stroke-dashoffset: 420;
+    stroke-width: .5px;
+  }
+}
+@-moz-keyframes icon-animation-long {
+  0% {
+    stroke-dashoffset: 420;
+    stroke-width: .5px;
+  }
+}
+@keyframes icon-animation-long {
+  0% {
+    stroke-dashoffset: 420;
+    stroke-width: .5px;
+  }
+}
+@-webkit-keyframes icon-animation-short {
+  0% {
+    stroke-dashoffset: 90;
+  }
+}
+@-moz-keyframes icon-animation-short {
+  0% {
+    stroke-dashoffset: 90;
+  }
+}
+@keyframes icon-animation-short {
+  0% {
+    stroke-dashoffset: 90;
+  }
+}
+.reveal .present .animate.icon.stroked path,
+.reveal .present .animate .icon.stroked path,
+.reveal .fragment .icon.stroked path {
+  animation: 0;
+  -moz-animation: 0;
+  -webkit-animation: 0;
+  display: none;
+}
+.reveal .present .animate.icon.stroked path.long,
+.reveal .present .animate .icon.stroked path.long,
+.reveal .fragment.visible .icon.stroked path.long {
+  display: block;
+  stroke-width: 2px ;
+  -webkit-animation: icon-animation-long 3.5s 0.5s 1;
+  -moz-animation: icon-animation-long 3.5s 0.5s 1;
+  animation: icon-animation-long 3.5s 0.5s 1;
+}
+.reveal .present .animate.icon.stroked path.short,
+.reveal .present .animate .icon.stroked path.short,
+.reveal .fragment.visible .icon.stroked path.short {
+  display: block;
+  -webkit-animation: icon-animation-short 3.5s 0.5s 1 !important;
+  -moz-animation: icon-animation-short 3.5s 0.5s 1 !important;
+  animation: icon-animation-short 3.5s 0.5s 1 !important;
+}
+.reveal .triangle-element {
+  transition: all 0.4s cubic-bezier(0.21, 0.9, 0.55, 1) 5s;
+}
+.reveal.reveal:hover .triangle-element {
+  transition: all 1s cubic-bezier(0.21, 0.9, 0.55, 1.16) 0s !important;
+  top: 100% !important;
+  left: 100% !important;
+  opacity: 0.95;
+}
+.reveal .has-dark-background .only-dark {
+  display: none;
+}
+.reveal .has-light-background .only-light {
+  display: none;
+}
+.reveal .thinner .icon.stroked path {
+  stroke-width: 1px !important;
+}
+.reveal .thinnest .icon.stroked path {
+  stroke-width: 0.05em !important;
+}
+.reveal .thicker .icon.stroked path {
+  stroke-width: 3px !important;
+}
+.reveal .thickest .icon.stroked path {
+  stroke-width: 4px !important;
+}
+.reveal .angle {
+  -ms-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.reveal .rangle {
+  -ms-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.reveal .sl-block > .vertical {
+  -ms-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.reveal .skewed {
+  transition: all 1s cubic-bezier(0.13, 0.81, 0.08, 1);
+  -moz-transform: skew(-45deg, 0);
+  -ms-transform: skew(-45deg, 0);
+  -webkit-transform: skew(-45deg, 0);
+  transform: skew(-45deg, 0);
+}
+.reveal .future .skewed {
+  margin-left: -800%;
+  opacity: 0;
+}
+.reveal .past .skewed {
+  margin-left: 800%;
+  opacity: 0;
+}
+.reveal .item-label,
+.reveal .item-box {
+  letter-spacing: 0em;
+  font-weight: 500;
+}
+.reveal .epic-content-box {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.reveal .has-dark-background .epic-content-box {
+  box-shadow: inset 0 0 0.51em rgba(0, 0, 0, 0.25), 0 0.05em 0.05em rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.reveal .has-light-background .epic-content-box {
+  box-shadow: inset 0 0 0.2em rgba(255, 255, 255, 0.5), 0 0.06666em 0.555em 0 rgba(0, 0, 0, 0.12);
+}
+.reveal .controls {
+  bottom: 1%;
+  right: 1%;
+}
+.reveal .controls button {
+  opacity: 0;
+}
+.reveal .controls button.enabled {
+  opacity: 1;
+}
+.reveal .controls {
+  opacity: 0 !important;
+  transition: all .5s ease 4.8s;
+  transform: scale(0.4);
+}
+.reveal.reveal:hover .controls {
+  transform: scale(1);
+  opacity: 1 !important;
+  transition: all .5s ease 0s;
+}
+.reveal .backgrounds {
+  transition-property: height;
+  transition-duration: 1s;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+.reveal .complex-logo {
+  min-height: 70px;
+  min-width: 70px;
+  width: 100%;
+}
+.reveal .complex-logo,
+.reveal .complex-logo svg,
+.reveal .complex-logo > div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.reveal .complex-logo > div.line-icon,
+.reveal .complex-logo svg > div.line-icon,
+.reveal .complex-logo > div > div.line-icon,
+.reveal .complex-logo > div.logomark,
+.reveal .complex-logo svg > div.logomark,
+.reveal .complex-logo > div > div.logomark {
+  transform-origin: 12% 50%;
+}
+.reveal .animated .complex-logo div {
+  transition: all .5s ease;
+}
+.reveal .animated .complex-logo div.line-icon {
+  transition-delay: 2s;
+}
+.reveal .animated .complex-logo div.line-icon path {
+  transition: all 1s ease .52s;
+  stroke-dasharray: 100 ,10;
+}
+.reveal .animated .complex-logo div.event-name {
+  transition-delay: 1s;
+}
+.reveal .animated .complex-logo div.location {
+  transition-delay: 1.4s;
+}
+.reveal .future .animated .complex-logo > div {
+  transition: none;
+}
+.reveal .future .animated .complex-logo > div.line-icon path {
+  stroke-dasharray: 0 ,100;
+  transition: none;
+}
+.reveal .future .animated .complex-logo {
+  /*.line-icon{transform:rotate(30deg); opacity:0;}*/
+
+}
+.reveal .future .animated .complex-logo .logomark {
+  transform: translate(0, -20%);
+}
+.reveal .future .animated .complex-logo .location {
+  transform: translate(0, 0.5em);
+  opacity: 0;
+}
+.reveal .future .animated .complex-logo .event-name {
+  opacity: 0;
+  transform: translate(-0.6em, 0);
+}
+.reveal .lowercase {
+  text-transform: lowercase;
+}
+.reveal .pop-in.fragment {
+  -webkit-transform: scale(0.2);
+  -moz-transform: scale(0.2);
+  -ms-transform: scale(0.2);
+  transform: scale(0.2);
+  -webkit-transition: 2s ease 0.25s;
+  -moz-transition: 2s ease 0.25s;
+  -ms-transition: 2s ease 0.25s;
+  transition: 2s ease 0.25s;
+  -webkit-animation-delay: 0.66s;
+  -moz-animation-delay: 0.66s;
+  -ms-animation-delay: 0.66s;
+  animation-delay: 0.66s;
+}
+.reveal .pop-in.fragment.visible {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.reveal .pop-in.fragment.current-fragment {
+  color: #c22;
+}
+.reveal .grow-width {
+  -webkit-transition: all 0.5s ease 0.2s;
+  -moz-transition: all 0.5s ease 0.2s;
+  -o-transition: all 0.5s ease 0.2s;
+  -ms-transition: all 0.5s ease 0.2s;
+  transition: all 0.5s ease 0.2s;
+}
+.reveal .future .grow-width {
+  width: 0% !important;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  -ms-transition: none;
+  transition: none;
+}
+.reveal .stampit {
+  -webkit-transition: all 1s cubic-bezier(0.79, 0.53, 0.46, 1.3) 1s;
+  -moz-transition: all 1s cubic-bezier(0.79, 0.53, 0.46, 1.3) 1s;
+  -ms-transition: all 1s cubic-bezier(0.79, 0.53, 0.46, 1.3) 1s;
+  transition: all 1s cubic-bezier(0.79, 0.53, 0.46, 1.3) 1s;
+}
+.reveal .future .stampit {
+  -webkit-transform: rotate(-12deg) scale(2);
+  -moz-transform: rotate(-12deg) scale(2);
+  -ms-transform: rotate(-12deg) scale(2);
+  transform: rotate(-12deg) scale(2);
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  transition: none;
+  opacity: 0;
+}
+.reveal .headshot img {
+  border-radius: 50%;
+  border: 4px solid #c00 !important;
+}
+.reveal .condensed {
+  letter-spacing: 0.02em;
+}
+.reveal .condensed li {
+  margin-bottom: 1em ;
+}
+.reveal .has-light-background .sl-block .has-dark-background > svg.redhat-logo .logotext {
+  fill: #ffffff !important;
+}
+.reveal .has-light-background .sl-block .reversed.redhat-logo .logotext,
+.reveal .has-light-background .sl-block .reversed .redhat-logo .logotext,
+.reveal .has-light-background .sl-block .has-dark-background > .redhat-logo .logotext {
+  fill: #ffffff !important;
+}
+.reveal .has-dark-background .sl-block .reversed.redhat-logo .logotext,
+.reveal .has-dark-background .sl-block .reversed .redhat-logo .logotext,
+.reveal .has-dark-background .sl-block .has-light-background > .redhat-logo .logotext {
+  fill: #000000 !important;
+}
+.reveal .has-dark-background .has-light-background .logo .only-dark path,
+.reveal .has-light-background .mono.redhat-logo path {
+  fill: #000000 !important;
+}
+.reveal .has-dark-background .mono.redhat-logo path {
+  fill: #ffffff;
+}
+.reveal .has-dark-background .logo .only-dark {
+  display: block;
+}
+.reveal .has-light-background .logo .only-light {
+  display: block;
+}
+.reveal .has-light-background .logo .only-dark {
+  display: none;
+}
+.reveal .has-dark-background .logo .only-light {
+  display: none;
+}
+.reveal .has-light-background .reversed svg path {
+  fill: #ffffff !important;
+}
+.reveal .has-dark-background .reversed svg path {
+  fill: currentcolor;
+}
+.reveal .has-dark-background .has-light-background .logo .only-light,
+.reveal .has-dark-background .reversed .logo .only-dark {
+  display: block;
+}
+.reveal .has-light-background .has-dark-background .logo .only-dark,
+.reveal .has-light-background .logo .only-light {
+  display: block;
+}
+.reveal .has-light-background .has-dark-background .redhat-logo .only-dark,
+.reveal .has-light-background .redhat-logo .only-light {
+  fill: #ffffff !important;
+}
+.reveal .has-light-background .has-dark-background .logo .only-light,
+.reveal .has-light-background .logo .only-dark,
+.reveal .has-dark-background .has-light-background .logo .only-dark,
+.reveal .has-dark-background .logo .only-light {
+  display: none;
+}
+.reveal .future .fade-up,
+.reveal .future .fade-down,
+.reveal .future .fade-left,
+.reveal .future .fade-right,
+.reveal .future .fade-zoom {
+  -webkit-transition: none;
+  transition: none;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.reveal .future .fade-up,
+.reveal .fade-up.fragment {
+  -webkit-transform: translate(0, 2em);
+  -ms-transform: translate(0, 2em);
+  transform: translate(0, 2em);
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.reveal .future .fade-down,
+.reveal .fade-down.fragment {
+  -webkit-transform: translate(0, -2em);
+  -ms-transform: translate(0, -2em);
+  transform: translate(0, -2em);
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.reveal .future .fade-left,
+.reveal .fade-left.fragment {
+  -webkit-transform: translate(2em, 0);
+  -ms-transform: translate(2em, 0);
+  transform: translate(2em, 0);
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.reveal .future .fade-right,
+.reveal .fade-right.fragment {
+  -webkit-transform: translate(-2em, 0);
+  -ms-transform: translate(-2em, 0);
+  transform: translate(-2em, 0);
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.reveal .future .fade-zoom,
+.reveal .fade-zoom.fragment {
+  -webkit-transform: scale(0.1);
+  -ms-transform: scale(0.1);
+  transform: scale(0.1);
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.reveal .future .fade-in {
+  transition: none;
+  opacity: 0;
+}
+.reveal .present .fade-in,
+.reveal .present .fade-up,
+.reveal .present .fade-down,
+.reveal .present .fade-left,
+.reveal .present .fade-right,
+.reveal .present .fade-zoom {
+  -webkit-transition: all .5s ease .5s;
+  transition: all .5s ease .5s;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.reveal .present .fragment.visible.fade-up,
+.reveal .present .fragment.visible.fade-down,
+.reveal .present .fragment.visible.fade-left,
+.reveal .present .fragment.visible.fade-right,
+.reveal .present .fragment.visible.fade-zoom {
+  -webkit-transform: none ;
+  -ms-transform: none ;
+  transform: none ;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.reveal .sl-block {
+  font-family: "Overpass 2", "Hiragino Kaku Gothic", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ Pro W3", Overpass, sans-serif !important;
+}
+.reveal .has-light-background .icon.stroked {
+  color: currentcolor;
+}
+.reveal .has-dark-background .icon.stroked path {
+  stroke: currentcolor;
+}
+.reveal .has-dark-background .only-light-background {
+  display: none !important;
+}
+.reveal .has-dark-background .only-dark-background {
+  display: block !important;
+}
+.reveal a.call-to-action:hover {
+  background-color: #d00 !important;
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.05) !important;
+  text-shadow: none !important;
+}
+.reveal .sl-block[data-block-type="snippet"] table {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.reveal .sl-block[data-block-type="snippet"] table td {
+  border-color: currentcolor !important;
+}
+.reveal .sl-block[data-block-type="snippet"] table td {
+  text-align: inherit !important;
+}
+.reveal .sl-block[data-block-type="text"] table {
+  width: 100%;
+}
+.reveal .sl-block[data-block-type="text"] table td {
+  border-color: currentcolor;
+}
+.reveal .sl-block[data-block-type="text"] table td {
+  text-align: inherit;
+}
+.reveal.reveal .sl-block[data-block-type="image"] .person {
+  border-radius: 50%;
+  position: relative !important;
+  background-color: transparent;
+  height: auto !important;
+}
+.reveal.reveal .sl-block[data-block-type="image"] .person:before {
+  content: "" !important;
+  display: block !important;
+  padding-top: 100% ;
+  position: relative !important ;
+  /* 4:3 aspect ratio */
+
+}
+.reveal.reveal .sl-block[data-block-type="image"] .person > img {
+  position: absolute ;
+  margin: 0 auto !important;
+  left: 0% ;
+  right: 0 ;
+  width: auto !important;
+  top: 0  ;
+  bottom: 0 ;
+}
+.reveal .present .delay-1 {
+  transition-delay: 0.1s;
+}
+.reveal .present .delay-2 {
+  transition-delay: 0.2s;
+}
+.reveal .present .delay-3 {
+  transition-delay: 0.3s;
+}
+.reveal .present .delay-4 {
+  transition-delay: 0.4s;
+}
+.reveal .present .delay-5 {
+  transition-delay: 0.5s;
+}
+.reveal .present .delay-6 {
+  transition-delay: 0.6s;
+}
+.reveal .present .delay-7 {
+  transition-delay: 0.7s;
+}
+.reveal .present .delay-8 {
+  transition-delay: 0.8s;
+}
+.reveal .present .delay-9 {
+  transition-delay: 0.9s;
+}
+.reveal .present .delay-10 {
+  transition-delay: 1s;
+}
+.reveal .present .delay-11 {
+  transition-delay: 1.1s;
+}
+.reveal .present .delay-12 {
+  transition-delay: 1.2s;
+}
+.reveal .present .delay-13 {
+  transition-delay: 1.3s;
+}
+.reveal .present .delay-14 {
+  transition-delay: 1.4s;
+}
+.reveal .present .delay-15 {
+  transition-delay: 1.5s;
+}
+.reveal .present .delay-16 {
+  transition-delay: 1.6s;
+}
+.reveal .present .delay-17 {
+  transition-delay: 1.7s;
+}
+.reveal .present .delay-18 {
+  transition-delay: 1.8s;
+}
+.reveal .present .delay-19 {
+  transition-delay: 1.9s;
+}
+.reveal .present .delay-20 {
+  transition-delay: 2s;
+}
+.reveal .present .delay-21 {
+  transition-delay: 2.1s;
+}
+.reveal .present .delay-22 {
+  transition-delay: 2.2s;
+}
+.reveal .present .delay-23 {
+  transition-delay: 2.3s;
+}
+.reveal .present .delay-24 {
+  transition-delay: 2.4s;
+}
+.reveal .present .delay-25 {
+  transition-delay: 2.5s;
+}
+.reveal .present .delay-26 {
+  transition-delay: 2.6s;
+}
+.reveal .present .delay-27 {
+  transition-delay: 2.7s;
+}
+.reveal .present .delay-28 {
+  transition-delay: 2.8s;
+}
+.reveal .present .delay-29 {
+  transition-delay: 2.9s;
+}
+.reveal .present .delay-30 {
+  transition-delay: 3s;
+}
+.reveal .present .delay-31 {
+  transition-delay: 3.1s;
+}
+.reveal .present .delay-32 {
+  transition-delay: 3.2s;
+}
+.reveal .present .delay-33 {
+  transition-delay: 3.3s;
+}
+.reveal .present .delay-34 {
+  transition-delay: 3.4s;
+}
+.reveal .present .delay-35 {
+  transition-delay: 3.5s;
+}
+.reveal .present .delay-36 {
+  transition-delay: 3.6s;
+}
+.reveal .present .delay-37 {
+  transition-delay: 3.7s;
+}
+.reveal .present .delay-38 {
+  transition-delay: 3.8s;
+}
+.reveal .present .delay-39 {
+  transition-delay: 3.9s;
+}
+.reveal .present .delay-40 {
+  transition-delay: 4s;
+}
+.reveal .light-foreground .sl-block * {
+  color: #fff;
+}
+.reveal .dark-foreground .sl-block * {
+  color: #000;
+}
+.reveal .has-dark-background .invert {
+  color: #000;
+}
+.reveal .has-light-background .invert * {
+  color: #fff ;
+}
+.reveal .has-light-background .invert .only-light-background {
+  display: none ;
+}
+.reveal .has-light-background .invert .only-dark-background {
+  display: block !important;
+}
+.reveal .has-dark-background .invert .only-light-background {
+  display: block !important ;
+}
+.reveal .has-dark-background .invert .only-dark-background {
+  display: none !important;
+}
+.reveal .slide-number {
+  position: absolute !important;
+  opacity: 1;
+  right: 1em;
+  height: 28px;
+  min-width: 28px;
+  bottom: auto;
+  left: auto;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 28px;
+  line-height: 28px;
+  color: white;
+  text-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.4);
+  top: 1em;
+  font-family: "Overpass 2", Overpass, sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 4px;
+  box-sizing: content-box;
+}
+.reveal .slide-number-delimiter {
+  margin: 0 1px;
+}
+.reveal.reveal .present.in-3d-appear {
+  transform: translatez(0em) !important;
+  animation: none !important;
+  transition: transform 1s ease !important;
+}
+.reveal.reveal .future.in-3d-appear {
+  transform: translatez(10em) rotateX(21deg) !important;
+  animation: none !important;
+}
+.reveal .no-filter img,
+.reveal .no-filter {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+.reveal .present .fade-in-slow {
+  transition: all 5s ease;
+}
+.reveal .future .fade-in-slow {
+  transition: none;
+  opacity: 0;
+}
+.reveal .redhat-logo .logotext {
+  fill: #000000 !important;
+}
+.reveal .has-dark-background .redhat-logo .logotext {
+  fill: #ffffff !important;
+}
+.reveal [data-block-type="table"] .sl-block-content {
+  font-size: .75em;
+  background-color: #c00;
+  color: #fff;
+}
+.reveal [data-block-type="table"] td {
+  background-color: #e5e5e5;
+  color: #333;
+  border-color: white;
+}
+.reveal div[data-block-type="table"] th {
+  font-weight: 500;
+}
+.reveal [data-block-type="table"] tr:nth-child(odd) td {
+  background-color: #f5f5f5;
+  color: #333;
+}
+.reveal .has-dark-background > [data-block-type="table"] td {
+  background-color: #131619;
+  color: #fff;
+}
+.reveal .has-dark-background > [data-block-type="table"] tr:nth-child(odd) td {
+  background-color: #232629;
+  color: #fff;
+}
+.reveal [data-block-type="code"],
+.reveal .hljs {
+  background-color: white ;
+  color: rgba(55, 55, 55, 0.85) !important;
+}
+.reveal section .hljs {
+  background-color: white !important;
+}
+.reveal .has-dark-background [data-block-type="code"],
+.reveal .has-dark-background .hljs {
+  background-color: #012736!important ;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.reveal [data-block-type="code"] pre {
+  letter-spacing: 0.015em;
+  line-height: 1.5em;
+}
+.reveal .has-light-background[data-block-type="code"] pre,
+.reveal [data-block-type="code"] pre {
+  background-color: white ;
+  color: currentcolor;
+  padding: 1em !important;
+}
+.reveal .has-dark-background [data-block-type="code"] pre {
+  background-color: #012736 ;
+}
+.reveal .hljs,
+.reveal pre,
+.reveal code {
+  font-family: 'Overpass Mono', monospace !important;
+  font-weight: 200 !important;
+}
+.reveal .hljs-literal {
+  color: #ffb612 !important;
+}
+.reveal .hljs-keyword {
+  color: #ffb612;
+  font-weight: 700 !important;
+}
+.reveal .hljs-string {
+  color: #88c639;
+  font-weight: 700;
+}
+.reveal .hljs-comment {
+  color: #94a0a7 !important;
+  font-weight: 400 !important;
+}
+.reveal .hljs-params {
+  color: #028c98 ;
+  font-weight: 700;
+}
+.reveal .hljs-attr {
+  color: #EC7A08 !important;
+}
+.reveal .hljs-tag {
+  color: #7F5FAE !important;
+}
+.reveal .hljs-name {
+  color: #028c98 !important;
+}
+.reveal .hljs-string {
+  color: #7f5fae !important;
+}
+.reveal .hljs-comment {
+  color: rgba(125, 125, 125, 0.65) !important;
+}
+.reveal .hljs-number {
+  color: #4e9fdd !important;
+}
+.reveal .hljs-attribute {
+  color: #ec9e34 !important;
+}
+.reveal .hljs-variable {
+  color: #4e9fdd !important;
+}
+.reveal .hljs-built_in {
+  color: #ee1122!important;
+}
+.reveal .hljs-selector-class {
+  color: #55aab2 !important;
+}
+.reveal [data-line-end-type="line-arrow"] line,
+.reveal [data-line-start-type="line-arrow"] line,
+.reveal [data-line-end-type="line-arrow"] path {
+  stroke-linecap: round;
+  stroke-linejoin: square;
+}
+.reveal div[data-block-type="line"] line[stroke="#000000"],
+.reveal div[data-block-type="line"] path[stroke="#000000"] {
+  stroke: currentcolor;
+}
+.reveal [fill="none"] {
+  fill: none !important;
+}
+.reveal [fill="#a30000"] {
+  fill: #aa0000 !important;
+}
+.reveal [fill="#cc2029"],
+.reveal [fill="#cb2027"],
+.reveal [fill="#c00"] {
+  fill: #cc0000 !important;
+}
+.reveal [fill="#fff"] {
+  fill: #ffffff !important;
+}
+.reveal [fill="#6d6e70"] {
+  fill: #6d6e70 !important;
+}
+.reveal [fill="#231f20"] {
+  fill: currentcolor !important;
+}
+.reveal [fill="#efab1f"] {
+  fill: #efab1f !important;
+}
+.reveal [fill="#92d400"] {
+  fill: #92d400 !important;
+}
+.reveal .has-dark-background [fill="#6d6e70"] {
+  fill: #266272 !important;
+}
+.reveal .has-dark-background [fill="#fff"] {
+  fill: #555555 !important;
+}
+.reveal .has-dark-background [fill="#fff"] {
+  fill: #333333 !important;
+}
+.reveal .has-dark-background [stroke="#231f20"] {
+  stroke: currentcolor;
+}
+.reveal .has-dark-background [fill="#221F1F"],
+.reveal .has-dark-background [fill="#221f1f"],
+.reveal .has-dark-background [fill="#231F20"],
+.reveal .has-dark-background [fill="#010101"] {
+  fill: #ffffff !important;
+}
+.reveal [data-inline-svg="true"] img {
+  display: none;
+}
+
+		</style>
+
+		<!-- User CSS -->
+		<style id="user-css-output" type="text/css">
+			.reveal .theme-font-overpass2 .reveal h2 {
+  text-transform: none;
+}
+
+		</style>
+	</head>
+	<body class="reveal-viewport theme-font-overpass2 theme-color-no-color">
+		<div class="reveal">
+			<div class="slides">
+				<section data-id="e512ea6666b5c48844a7c97c273169cc" class="has-dark-background"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 70px; height: auto;" data-block-id="8d4c35d74ec3f5d2680667ba1f6f7028"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" dir="ui" style="color: rgb(255, 255, 255); z-index: 11;" data-has-custom-html="">
+<h1><strong>Tracing Asynchronous Operations</strong></h1>
+
+<h2><span style="color:#ffffff"><strong>With Node's AsyncWrap API</strong></span></h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="192133ba4219cb6c37b1f2961e6b3e09" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 80px; top: 482px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; color: rgb(231, 231, 231);">
+<p>Lance Ball</p>
+
+<p>Email: lball@redhat.com</p>
+
+<p>Web: http://lanceball.com</p>
+
+<p>Twitter: @lanceball</p>
+
+<p>GitHub: @lance</p>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="07c30458604bd227f08c440ca5f8c926" style="min-width: 30px; min-height: 30px; width: 360px; height: 122.39999999999999px; left: 590px; top: 530px;"><div class="sl-block-content" data-inline-svg="true" style="z-index: 13;">
+<img data-natural-width="500" data-natural-height="170" style="" data-src="tracing-asynchronous-operations/2183129-redhat-logo.svg"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 500 170" height="170" width="500" class="redhat-logo" preserveaspectratio="xMidYMid meet">
+<path class="logotext" d="m 495.6,120.6 c 0,1.8 -1.5,3.3 -3.3,3.3 -1.8,0 -3.3,-1.5 -3.3,-3.3 0,-1.8 1.5,-3.3 3.3,-3.3 1.8,0 3.3,1.5 3.3,3.3 z m -3.3,-4 c -2.2,0 -4,1.8 -4,4 0,2.2 1.8,4 4,4 2.2,0 4,-1.8 4,-4 0,-2.2 -1.8,-4 -4,-4 z m 0,3.8 c 0.6,0 1,-0.1 1,-0.7 0,-0.5 -0.4,-0.6 -0.9,-0.6 l -0.8,0 0,1.3 z m -0.7,2.3 -0.6,0 0,-4.1 1.5,0 c 1,0 1.5,0.3 1.5,1.1 0,0.8 -0.5,1.1 -1.1,1.2 l 1.2,1.8 -0.7,0 -1.1,-1.8 -0.7,0 z m -22.2,-64.92 0,11.91 15.4,0 0,4.34 -15.4,0 0,35.17 c 0,6.9 2.2,11.2 8,11.2 2.8,0 4.7,-0.4 6.1,-0.9 l 0.7,4.2 c -1.8,0.7 -4.2,1.3 -7.5,1.3 -3.9,0 -7.2,-1.3 -9.3,-3.9 -2.5,-2.8 -3.3,-7.4 -3.3,-12.9 l 0,-34.17 -9.1,0 0,-4.34 9.1,0 0,-9.94 z m -21.3,32.06 c 0,-9.67 -3,-21.38 -18.6,-21.38 -4.9,0 -10.9,1.32 -15.8,4.67 l 1.7,3.89 c 3.9,-2.76 8.8,-4.03 13.5,-4.03 12.8,-0.1 13.9,10.59 13.9,15.94 l 0,1.44 c -22,-0.23 -33,7.33 -33,19.73 0,7.3 5,14.9 15.9,14.9 8.6,0 14.6,-4.8 16,-6.9 l 2.3,5.7 4.9,0 c -0.6,-4.2 -0.8,-8.6 -0.8,-12.9 z m -5.3,16.66 c 0,0.9 -0.2,2.1 -0.6,3.2 -1.8,5.3 -7,10.9 -16,10.9 -5.6,0 -10.7,-3.5 -10.7,-11.3 0,-13 15.5,-14.77 27.3,-14.43 z m -42.7,-15.34 0,32.64 -5.3,0 0,-32.05 c 0,-9.74 -3.8,-18.62 -14.9,-18.62 -7.7,0 -14,5.52 -16.3,12.25 -0.6,1.6 -0.8,3.13 -0.8,5.33 l 0,33.09 -5.3,0 0,-71.31 5.3,1.58 0,25.29 0.3,0 c 1.5,-3.01 4.1,-5.92 7.3,-7.8 3.1,-1.91 6.8,-3.1 10.9,-3.1 5.2,0 18.8,2.56 18.8,22.7 z m -68.5,1.09 c 0,-1.09 -0.1,-2.46 -0.3,-3.57 -1.3,-5.26 -5.7,-9.59 -11.8,-9.59 -8.8,0 -13.7,7.76 -13.7,17.81 0,9.9 4.9,17.2 13.5,17.2 5.6,0 10.5,-3.9 11.8,-9.8 0.4,-1.2 0.5,-2.5 0.5,-3.9 z M 202.9,87.1 c 0,-7.23 -0.1,-12.55 -0.4,-17.36 l 11.8,0 0.5,10.26 0.4,0 c 2.7,-7.6 9,-11.48 14.8,-11.48 1.4,0 2.1,0 3.2,0.29 l 0,12.87 c -1.3,-0.25 -2.4,-0.38 -4.1,-0.38 -6.5,0 -11,4.14 -12.2,10.33 -0.3,1.2 -0.4,2.65 -0.4,4.17 l 0,28 -13.7,0 z m 142.3,21.5 c 0,5.6 0.2,11.5 0.5,15.2 l -12.2,0 -0.6,-8.6 -0.3,0 c -3.2,6.1 -9.7,9.8 -17.5,9.8 -12.9,0 -23.1,-11 -23.1,-27.6 -0.1,-18.13 11.2,-28.88 24.2,-28.88 7.4,0 12.7,3.05 15.1,7.04 l 0.3,0 0,-30.48 13.6,3.85 z m -59.3,-8.1 c 0.2,-1.2 0.5,-3.3 0.5,-5.8 0,-11.83 -5.8,-26.28 -23.3,-26.28 -17.4,0 -26.5,14.11 -26.5,28.98 0,16.6 10.3,27.4 27.9,27.4 7.8,0 14.2,-1.4 18.8,-3.4 l -2,-9.4 c -4.1,1.5 -8.6,2.5 -14.9,2.5 -8.7,0 -16.3,-4.3 -16.7,-14.1 z m -36.2,-9.58 c 0.6,-5.54 4.1,-13.17 12.5,-13.17 9.2,0 11.3,8.16 11.3,13.17 z m -83.8,29.68 c 0,1.8 -1.4,3.3 -3.2,3.3 -1.8,0 -3.3,-1.5 -3.3,-3.3 0,-1.8 1.5,-3.3 3.3,-3.3 1.8,0 3.2,1.5 3.2,3.3 z m -3.2,-4 c -2.2,0 -4,1.8 -4,4 0,2.2 1.8,4 4,4 2.2,0 4,-1.8 4,-4 0,-2.2 -1.8,-4 -4,-4 z m 0,3.8 c 0.5,0 1,-0.1 1,-0.7 0,-0.5 -0.5,-0.6 -0.9,-0.6 l -0.9,0 0,1.3 z m -0.8,2.3 -0.6,0 0,-4.1 1.6,0 c 0.9,0 1.4,0.3 1.4,1.1 0,0.8 -0.4,1.1 -1,1.2 l 1.1,1.8 -0.7,0 -1,-1.8 -0.8,0 z"></path>
+<path style="fill:#fff" d="M150.1 125c-3.1-.7-6.3-1.1-9.5-1.1-5.6 0-10.8.8-14.4 2.5-.8.4-.8.9-.6 1.6.4 1.3-.3 2.7-3.9 3.5-5.4 1.2-8.8 6.7-10.7 8.6-2.3 2.1-8.8 3.5-7.8 2.2.8-1 3.7-4.2 5.4-7.6 1.6-3 3-3.9 4.9-6.8.6-.8 2.8-3.8 3.4-6.2.8-2.3.5-5.2.8-6.4.4-1.7 2-5.4 2.1-7.5.1-1.2-4.9 1.7-7.3 1.7-2.4 0-4.8-1.5-6.9-1.6-2.7-.1-4.4 2.1-6.74 1.7-1.37-.2-2.52-1.4-4.9-1.5-3.4-.2-7.57 1.9-15.38 1.6-7.68-.2-14.77-9.7-15.74-11.2-1.13-1.8-2.52-1.8-4.03-.4-1.5 1.4-3.36.3-3.9-.6-1-1.8-3.7-6.92-7.87-8-5.77-1.5-8.7 3.2-8.3 6.9.38 3.8 2.83 4.9 3.96 6.9 1.12 2 1.7 3.3 3.84 4.2 1.5.6 2.07 1.6 1.62 2.8-.4 1.1-1.97 1.3-3 1.4-2.2.1-3.74-.5-4.86-1.2-1.3-.9-2.37-2-3.5-4-1.33-2.2-3.4-3.1-5.83-3.1-1.16 0-2.24.3-3.2.8-3.8 2-8.3 3.1-13.17 3.1H9.1C19.64 138.5 49.14 161 83.88 161c27.73 0 52.13-14.3 66.23-36"></path>
+<path style="fill:#000" d="m 150.1,125 c -2.6,-0.6 -6.3,-1.1 -9.5,-1.1 -5.6,0 -10.7,0.9 -14.4,2.5 -0.5,0.2 -0.7,0.6 -0.7,1.1 0,0.2 0,0.4 0.1,0.5 0.4,1.3 -0.3,2.7 -3.9,3.5 -5.4,1.2 -8.8,6.7 -10.7,8.6 -2.3,2.1 -8.8,3.5 -7.8,2.2 0.8,-1 3.7,-4.2 5.4,-7.6 1.6,-3 3,-3.9 4.9,-6.8 0.6,-0.8 2.8,-3.8 3.4,-6.2 0.8,-2.3 0.5,-5.2 0.8,-6.4 0.4,-1.7 2,-5.4 2.1,-7.5 0.1,-1.2 -4.9,1.7 -7.3,1.7 -2.4,0 -4.8,-1.5 -6.9,-1.6 -2.6,-0.1 -4.3,2.1 -6.74,1.7 -1.36,-0.2 -2.51,-1.4 -4.9,-1.5 -3.41,-0.1 -7.56,1.9 -15.37,1.6 -7.68,-0.2 -14.78,-9.7 -15.75,-11.2 -1.13,-1.8 -2.52,-1.8 -4.03,-0.4 -1.51,1.4 -3.37,0.3 -3.9,-0.6 -1.01,-1.8 -3.7,-6.92 -7.87,-8 -5.77,-1.5 -8.69,3.19 -8.31,6.9 0.38,3.8 2.83,4.9 3.96,6.9 1.14,2 1.72,3.3 3.85,4.2 1.51,0.6 2.07,1.6 1.62,2.8 -0.39,1.1 -1.96,1.3 -3,1.4 -2.2,0.1 -3.74,-0.5 -4.86,-1.2 -1.31,-0.9 -2.37,-2 -3.51,-4 -1.32,-2.2 -3.4,-3.1 -5.82,-3.1 -1.15,0 -2.23,0.3 -3.19,0.8 -3.8,2 -8.31,3.1 -13.18,3.1 l -5.481,0 C 6.45,99.4 5,90.95 5,82.13 5,38.57 40.32,3.26 83.88,3.262 c 43.52,0 78.82,35.31 78.82,78.87 0,15.77 -4.6,30.57 -12.6,42.87 z m -49.2,-7.2 c -1.03,1.2 -1.47,1.6 -2.21,2.2 -1.78,1.4 -3.81,-0.2 -5.11,-1 -2.9,-1.7 -5.23,-0.6 -5.8,0.7 -0.57,1.3 0.1,2.9 1.64,2.7 2.21,-0.3 2.31,0.1 3.9,1.1 2.98,1.9 5.15,0.8 6.26,-0.1 0.92,-0.7 1.42,-1.3 1.92,-2.2 0.9,-1.7 0.2,-3 -0.3,-3.4 -0.1,-0.1 -0.2,-0.1 -0.3,0 z"></path>
+<path style="fill:#c00" d="m 87.26,25.76 c 3.86,-0.47 10.35,-1.28 10.82,1.61 0.18,1.13 -1.98,2.32 -5.13,3.05 -0.34,0.1 -0.33,0.54 0,0.67 1.32,0.38 2.86,0.65 4.49,0.65 5.06,0.12 9.16,-1.71 9.26,-4.07 0.1,-2.36 -4,-4.39 -9.04,-4.49 -0.99,0 -1.98,0 -3.09,0.15 -3.02,0.3 -5.62,1.1 -7.42,1.98 -0.29,0.14 -0.28,0.45 0.11,0.45 z m -9.53,15.06 c 4.35,-0.32 4.79,-1.32 4.66,-2.39 -0.14,-1.25 -2.77,-2.71 -6.67,-2.71 -3.84,0 -6.6,0.46 -8.99,0.56 -2.39,0.1 -4.24,-1.69 -5.1,-2.76 -0.71,-0.88 -2.97,-1.73 -4.2,1.1 -1.24,2.86 1.07,5.93 2.97,6.33 0,0 3.17,5.89 5.57,3.33 1.71,-1.82 2.65,-2.8 11.76,-3.46 z m 43.87,28.83 c 2.9,-1.57 5.5,-3.63 6.8,-8.5 13.4,3.02 21.3,10 19.6,19.43 C 144.2,101.3 110.3,108.3 77.23,98.3 45.75,88.79 18.11,69.8 21.31,58.68 c 1.86,-6.48 12.13,-9.24 25.82,-7.76 -2.08,4.23 -1.92,9.21 7.14,14.75 11.07,6.29 29.79,11.66 34.85,11.14 1.89,-0.2 3.58,-1.13 1.89,-2.27 -1.7,-1.13 -3.21,-3.4 -4.16,-7.36 C 86.33,64.97 85.73,61.89 73.83,59.63 48.31,54.77 49.29,47.55 50.05,43.4 c 0,0 2.26,-10.19 3.21,-13.78 0.94,-3.59 3.38,-11.82 19.82,-8.12 9.5,2.14 14.62,-0.52 17.24,-1.19 7.1,-1.82 14.98,-0.57 19.28,3.9 4.5,4.63 10.7,18.9 13.7,29.57 1.5,5.42 1.1,8.02 0.3,9.85 -0.5,1.25 -0.8,2.05 -2.7,5.22 -0.3,0.56 -0.1,1.17 0.7,0.8 z"></path>
+</svg>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="44fb695f39dba4684e6b5126f1b8af21">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="1e4a04f0ee0e691708bdecc11cfe58cd"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>What is the AsyncWrap API?</h1>
+
+<h2> </h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="bf2df8b3e04379a81773318318b2a35d" style="height: auto; min-width: 30px; min-height: 30px; width: 830px; left: 80px; top: 267px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;" dir="ui">
+<ul>
+	<li><span style="font-size:1.6em">Hooks into the life cycle of asynchronous operations<span style="font-size:1.6em">​</span></span></li>
+</ul>
+
+<p> </p>
+
+<ul>
+	<li><span style="font-size:1.6em">Available since Node.js 4.x<span style="font-size:1.6em">​</span></span></li>
+</ul>
+
+<p><span style="font-size:1.6em"><span style="font-size:1.6em">​</span></span></p>
+
+<ul>
+	<li><span style="font-size:1.2em"><span style="font-size:1.4em">Breaking API changes eminent</span>​</span></li>
+</ul>
+
+<p> </p>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="9e2e93c80c2cb7399ce57c67317f652e">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="c52d9396598c9acb7b9274730e66fd9d"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Things Will Change</h1>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 830px; left: 80px; top: 335px;" data-block-id="18dbb0edc922df5213d3a804b5bb93c8"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;" dir="ui">
+<p><span style="font-size:1.6em">The API is undergoing major review and revision, but the techniques I will demonstrate today will still be relevant.</span></p>
+
+<p> </p>
+
+<p><span style="font-size:1.6em">The API changes are "breaking" but not fundamentally different on a conceptual level.</span></p>
+</div></div></section><section data-id="cb119fbd586c1897e4563aff7bdd3798"><div class="sl-block" data-block-type="code" style="width: 800px; height: 490px; left: 80px; top: 140px;" data-block-id="a6ed40588c9e1a835b7eabd52994d423"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function foo () {
+  bar();
+}
+
+function bar () {
+  foobar();
+}
+
+function foobar () {
+  throw new Error('Surprise!');
+}
+
+foo();
+
+process.on('uncaughtException', (e) =&gt; process._rawDebug(e.stack));</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="cc09b77e784b455f95e43bbaec1c5dea"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Some Code. What does it do?</h2>
+</div></div></section><section data-id="9e2d70fa2b47874a54ea9ae0969757df"><div class="sl-block" data-block-type="code" style="width: 800px; height: 490px; left: 80px; top: 140px;" data-block-id="57151ddf69792d911f4a55a018baafa2"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>tracing-async-operations/ex1.js:10
+  throw new Error('Surprise!');
+  ^
+
+Error: Surprise!
+    at foobar (/src/tracing-async-operations/ex1.js:10:9)
+    at bar (/src/tracing-async-operations/ex1.js:6:3)
+    at foo (/src/tracing-async-operations/ex1.js:2:3)
+    at Object.&lt;anonymous&gt; (/src/tracing-async-operations/ex1.js:13:1)
+    at Module._compile (module.js:570:32)
+    at Object.Module._extensions..js (module.js:579:10)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+    at Module.runMain (module.js:604:10)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="46953be9a05c96ce934174d578c519d7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Makes Sense</h2>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="b3c0dbb0a8ae13767076726794f41747">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="2f61bcd059575e7492be518ed439f5e9"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Easy to SEE What is going on here</h1>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="1a3d43c7c30ae07196518665976a447c" style="min-width: 30px; min-height: 30px; width: 335.1470588235294px; height: 430px; left: 293px; top: 242px;"><div class="sl-block-content" style="z-index: 12;"><img data-natural-width="318" data-natural-height="408" style="" data-src="tracing-asynchronous-operations/3230663-stack.png"></div></div></section><section data-id="323560dd1b312b7e6654bc2bb29c8dd3"><div class="sl-block" data-block-type="code" style="width: 800px; height: 490px; left: 80px; top: 140px;" data-block-id="f08b1f13091496fdf83d2995c6bdd19a"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function foo () {
+  setTimeout(bar, 10);
+}
+
+function bar () {
+  setTimeout(foobar, 50);
+}
+
+function foobar () {
+  const fs = require('fs');
+  fs.readFile(__filename, (_)=&gt;{ throw new Error('Surprise!'); });
+}
+
+foo();
+
+process.on('uncaughtException', (e) =&gt; process._rawDebug(e.stack));</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 713px; left: 80px; top: 71px;" data-block-id="44f8c3d242a7af761caa525a3935cc78"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>More Code - what does <em>it</em> do?</h2>
+</div></div></section><section data-id="54c284f539f6aa3eac5a562b65a88908"><div class="sl-block" data-block-type="code" style="width: 823px; height: 140px; left: 80px; top: 210px;" data-block-id="bb727edfea6a5ecc7619d9e6e2763566"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>Error: Surprise!
+    at require.readFile (/src/tracing-async-operations/ex2.js:10:56)
+    at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:445:3)
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 713px; left: 80px; top: 71px;" data-block-id="45463e4d5d4a9f075b83729a4c218181"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Not Super Helpful</h2>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="86d8fbadaadd24adb780aacc34654f06">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="4927654282cf97a7529b70b026a5abc7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>What is the problem here?</h1>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="62e5e8114aebbe6b3e452cee7db4da29">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="715d0e2014dc8e3ec3444c9837469712"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>What is the problem here?</h1>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="03f088bc0e82d004e35154b229e93318" style="min-width: 30px; min-height: 30px; width: 742.2145454545454px; height: 401px; left: 80px; top: 253px;"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="1018" data-natural-height="550" data-src="tracing-asynchronous-operations/3230674-event-loop2.png"></div></div></section><section data-id="f381146604130bddc692abb983456601"><div class="sl-block" data-block-type="code" style="width: 800px; height: 141px; left: 80px; top: 181px;" data-block-id="c02987992ebea91c5cb4965b0a3fcf69"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>Error: Surprise!
+    at require.readFile (/src/tracing-async-operations/ex2.js:10:56)
+    at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:445:3)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="6bfedd2e6077fb15e6b363ac93147064"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Local Context is LOST</h2>
+
+<p>There is no mention of foo(), bar(), etc.</p>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="ff3d994d3e270127b6214f0b8ed5d2c3" style="height: auto; min-width: 30px; min-height: 30px; width: 777px; left: 80px; top: 390px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<p><span style="font-size:1.4em">All we have is that after the close event there was an Error.</span></p>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="643119a057bed3f44802f014e190617d">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 748px; left: 80px; top: 71px;" data-block-id="9d1d5f8761889bee95bcf412336f6b0c"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>What to do about it?</h1>
+</div></div></section><section data-id="a520ac6b9f77c264f49bbfd2620e2b02"><div class="sl-block" data-block-type="code" style="width: 851px; height: 420px; left: 80px; top: 140px;" data-block-id="59f2ed1f10fb4e7a6aa617974e3837ef"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>const asyncWrap = process.binding('async_wrap');
+
+asyncWrap.setupHooks({ init, pre, post, destroy });
+asyncWrap.enable();
+
+function init (uid, provider, parentUid, parentHandle) {}
+
+function pre (uid) {}
+
+function post (uid, didThrow) {}
+
+function destroy (uid) {}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="085aa885e4c8ab281dadba58d74b4c56"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Async Wrap API</h2>
+</div></div></section><section data-id="e2ee67ac10069532ff12e6814347fdc5"><div class="sl-block" data-block-type="code" style="width: 800px; height: 184px; left: 80px; top: 236px;" data-block-id="9fa07fdf8128958a389f50db25a4bb34"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function init (uid, provider, parentUid, parentHandle) {
+  // 'this' is the async Handle object
+  process._rawDebug(`init: ${uid} : ${provider}`);
+}
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="d2b83d9ba92c17f798544c765b28ceeb"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<pre><strong><span style="font-size:1.6em;">init()</span></strong></pre>
+
+<p><span style="font-size:1.4em;">called when an asynchronous operation is <strong>placed on the event queue</strong></span></p>
+</div></div></section><section data-id="e3b22148f26f88314777c54f77f1b9bb"><div class="sl-block" data-block-type="code" style="width: 800px; height: 466px; left: 80px; top: 140px;" data-block-id="c818f5733f7a279102cac5b8c51f026f"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>&gt; const asyncWrap = process.binding('async_wrap');
+&gt; asyncWrap.Providers   
+
+   { NONE: 0,               CRYPTO: 1,
+     FSEVENTWRAP: 2,        FSREQWRAP: 3,
+     GETADDRINFOREQWRAP: 4, GETNAMEINFOREQWRAP: 5,
+     HTTPPARSER: 6,         JSSTREAM: 7,
+     PIPEWRAP: 8,           PIPECONNECTWRAP: 9,
+     PROCESSWRAP: 10,       QUERYWRAP: 11,
+     SHUTDOWNWRAP: 12,      SIGNALWRAP: 13,
+     STATWATCHER: 14,       TCPWRAP: 15,
+     TCPCONNECTWRAP: 16,    TIMERWRAP: 17,
+     TLSWRAP: 18,           TTYWRAP: 19,
+     UDPWRAP: 20,           UDPSENDWRAP: 21,
+     WRITEWRAP: 22,         ZLIB: 23 }</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="eac72ad71e672341700ef3eb6cb78338"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Providers</h2>
+</div></div></section><section data-id="38a2c9cfa40c8e383e492ddad796e92d"><div class="sl-block" data-block-type="code" style="width: 800px; height: 184px; left: 80px; top: 236px;" data-block-id="3a859a260c5cb86b8e200dec0f970002"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function pre (uid) {
+  // 'this' is the async Handle object
+  process._rawDebug(`pre: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="0d89c298cb8d8384726ec32971894cc2"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<pre><strong><span style="font-size:1.6em;">pre()</span></strong></pre>
+
+<p><span style="font-size:1.4em;">called just <strong>before</strong> an asynchronous operation is executed</span></p>
+</div></div></section><section data-id="95cb65105a19bcad106b372848382f71"><div class="sl-block" data-block-type="code" style="width: 800px; height: 236px; left: 80px; top: 236px;" data-block-id="04e900a4c8b3458cd535dcb88777dea9"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function init (uid, provider, parentUid, parentHandle) {
+  this.someValue = 'foo';
+}
+
+function pre (uid) {
+  process._rawDebug(this.someValue); // &gt; 'foo'
+}
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 758px; left: 80px; top: 71px;" data-block-id="1c140180c4d758c50c6dfa7bd29d1082"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2><span style="font-size:1.0em;"><strong>Sharing state between hooks</strong></span></h2>
+</div></div></section><section data-id="2e9be865dfc96b674b7eb7b7678b36c0"><div class="sl-block" data-block-type="code" style="width: 800px; height: 184px; left: 81px; top: 236px;" data-block-id="d304c7a9c5b60f15ab83a61aa8396ebf"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function post (uid, didThrow) {
+  // 'this' is the async Handle object
+  process._rawDebug(`post: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="3e81c14277b61f024b7e3a3df7ec76cc"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<pre><strong><span style="font-size:1.6em;">post()</span></strong></pre>
+
+<p><span style="font-size:1.4em;">called just <strong>after</strong> an asynchronous operation is executed</span></p>
+</div></div></section><section data-id="44b8ddf2fabe37ebf74a94fc15f20afb"><div class="sl-block" data-block-type="code" style="width: 800px; height: 184px; left: 81px; top: 236px;" data-block-id="2fb6a453f7dc501b754a604371be1516"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function destroy (uid) {
+  process._rawDebug(`destroy: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="8042b2982b7b0b091b83d4c20a55ffb7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<pre><strong><span style="font-size:1.6em;">destroy()</span></strong></pre>
+
+<p><span style="font-size: 1.4em;">called </span><span style="font-size: 28px;">when</span><span style="font-size: 1.4em;"> the C++ handle object is destroyed</span></p>
+</div></div></section><section data-id="914004f77321c823306acae12ea03c68"><div class="sl-block" data-block-type="code" style="width: 800px; height: 490px; left: 81px; top: 140px;" data-block-id="f116036b2dd96c48b34704c1add05815"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function init (uid, provider, parentUid, parentHandle) {
+  process._rawDebug(`init: ${uid} : ${provider}`);
+}
+
+function pre (uid) {
+  process._rawDebug(`pre: ${uid}`);
+}
+
+function post (uid, didThrow) {
+  process._rawDebug(`post: ${uid}`);
+}
+
+function destroy (uid) {
+    process._rawDebug(`destroy: ${uid}`);
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="2e2619f134edf11938def88db0cf566a"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<h2><font size="6"><b>All together now</b></font></h2>
+</div></div></section><section data-id="14cdbcb7766bdd7fdcdfb8e1846adf3e"><div class="sl-block" data-block-type="code" style="width: 800px; height: 490px; left: 80px; top: 140px;" data-block-id="aef1d6c92d2eb9aece6ee0098981bf4f"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>asyncWrap.setupHooks({ init, pre, post, destroy });
+asyncWrap.enable();
+
+process._rawDebug('user: before');
+
+foo();
+
+process._rawDebug('user: after');
+
+function foo () {
+  setTimeout(foobar, 10);
+}
+
+function foobar () {
+  process._rawDebug('user: during');
+}
+</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 720px; left: 80px; top: 71px;" data-block-id="ddf7387025319d23ea8cc55e85ab9766"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<h2><font size="6"><b>Enable it &amp; RUN SOME ASYNC STUFF</b></font></h2>
+</div></div></section><section data-id="a11fb2add93759bd1ade299a6ad4c3b5"><div class="sl-block" data-block-type="code" style="width: 800px; height: 350px; left: 82px; top: 140px;" data-block-id="41a669912c8fa7b63e14667628bfdffb"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>$ node ex3.js
+
+user: before
+init: 1 : 17
+user: after
+pre: 1
+user: during
+post: 1
+destroy: 1</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 720px; left: 80px; top: 71px;" data-block-id="5f449e03856ef325494dfe0c20c8e49e"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="" dir="ui">
+<h2><font size="6"><b>RESULT</b></font></h2>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="567029dccdf61691d51b0819dea7d140">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="982ff3f707ec810264d47fc95386ea86"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Interesting</h1>
+
+<h2>But now what?</h2>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="731432469f78018cab4740ea24b8ca7b">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="276e5038344c7640f02b539af6e3040d"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>How about...</h1>
+
+<h2>Long Stack Traces</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="3cd198152414f753be8b51e5399a21df" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 335px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<p><span style="font-size:1.6em">"If you can't observe your software, you have no idea what it's doing." - C J Silverio</span></p>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="6330d5b7fdf13ef192859520ae6176f1">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="69481e10860c860b34f9ca3388c33351"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Informative stack traces</h1>
+
+<p> </p>
+
+<ul>
+	<li><p><span style="font-size:1.4em">Use the AsyncWrap API to keep track of where our operations are within the call stack.</span></p></li>
+</ul>
+
+<p><span style="font-size:1.4em">​</span></p>
+
+<ul>
+	<li><p><span style="font-size:1.4em">When an async operation is placed into the event queue - i.e. on init(), store the current call stack.</span></p></li>
+</ul>
+
+<p><span style="font-size:1.4em">​</span></p>
+
+<ul>
+	<li><p><span style="font-size:1.4em">If things blow up, we can get some insight into what went wrong.</span></p></li>
+</ul>
+</div></div></section><section data-id="6c084f4656db3d049a542fe12775302d"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 210px;" data-block-id="e31c2d73650a74599172e962d47fbb13"><div class="sl-block-content" style="z-index: 11; font-size: 150%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>function foo () {
+  setTimeout(foobar, 50);
+}
+
+function foobar () {
+  throw new Error('Surprise!');
+}
+
+foo();</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="c40258978b62b83d90c5bf3edf1eeeb3"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Let's say I have some code like this</h2>
+</div></div></section><section data-id="56acb59f6c338e1d9f9688486a62fb10"><div class="sl-block" data-block-type="code" style="width: 800px; height: 420px; left: 80px; top: 210px;" data-block-id="cc0841fbe4c088441f4575fa03d2f6b4"><div class="sl-block-content" style="z-index: 11; font-size: 150%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>/src/tracing-async-operations/ex5.js:6
+  throw new Error('Surprise!');
+  ^
+
+Error: Surprise!
+    at Timeout.foobar [as _onTimeout] (/Users/lanceball/presentations/tracing-async-operations/ex4.js:34:9)
+    at ontimeout (timers.js:365:14)
+    at tryOnTimeout (timers.js:237:5)
+    at Timer.listOnTimeout (timers.js:207:5)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="90f7b3fe1cfd5836fe626ec3e4d42cf4"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>That code produces</h2>
+
+<p>(Again note, context is lost)</p>
+</div></div></section><section data-id="05b0f6bb1999d961d0e63ecc1eb6fa7a"><div class="sl-block" data-block-type="code" style="width: 851px; height: 560px; left: 80px; top: 140px;" data-block-id="5c0b2557820a0da5ddc700a2ee3976c5"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>const stacks = new WeakMap();
+let callSite = null;
+
+function init (uid, provider, parentUid, parentHandle) {
+  stacks.set(this, getCallSites(2)); // getCallSites returns call stack
+}
+
+function pre (uid) {
+  // async stuff about to go down. restore the previous call stack
+  callSite = stacks.get(this);
+}
+
+function post (uid, didThrow) {
+  callSite = null;
+}
+
+asyncWrap.setupHooks({ init, pre, post });
+asyncWrap.enable();</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="f045f086527c8b9fdb7875b2a90a5091"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>Saving Context</h2>
+</div></div></section><section data-id="88165e550d5b4ce6f33a67f79de85c33"><div class="sl-block" data-block-type="code" style="width: 851px; height: 210px; left: 80px; top: 140px;" data-block-id="ad30273d7d4208d8f390b78d3e10a09a"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>
+Error.prepareStackTrace = function prepareStackTrace (err, stack) {
+  if (currentCallSite) stack.push.apply(stack, currentCallSite);
+  return formatter(err, stack);
+};</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="7cbd13ef5d454e2953c9bead9664a9a6"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>RESTORING CONTEXT</h2>
+</div></div></section><section data-id="33bc4ac0da23ac5057c0f7d4bfaf1e6a"><div class="sl-block" data-block-type="code" style="width: 851px; height: 529px; left: 80px; top: 140px;" data-block-id="95fd0e7e72282c2dde3f2d591cfbeb5b"><div class="sl-block-content" style="z-index: 11; font-size: 120%; border-width: 14px;" data-highlight-theme="github-gist"><pre class="javascript"><code>
+function foo () {
+  setTimeout(foobar, 50);
+}
+
+function foobar () {
+  throw new Error('Surprise!');
+}
+
+foo();
+
+
+Error: Surprise!
+    at Timeout.foobar [as _onTimeout] (/src/tracing-async-operations/ex4.js:30:9)
+    at foo (/src/tracing-async-operations/ex4.js:26:3)
+    at Object.&lt;anonymous&gt; (/src/tracing-async-operations/ex4.js:55:1)</code></pre></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 640px; left: 80px; top: 71px;" data-block-id="e90d52be8563c00c80a0cfff2d869d26"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;" data-has-custom-html="">
+<h2>The RESULT</h2>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="95f2730fedd5092384f6a6c1d9b14438">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 880px; left: 80px; top: 71px;" data-block-id="72b98f73fe3dc5a8ef775d5e1fe755dd"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>Tools &amp; Packages</h1>
+
+<p> </p>
+
+<ul>
+	<li>
+	<p><span style="font-size:1.4em"><strong>lightbright</strong>​ - https://github.com/bucharest-gold/lightbright</span></p>
+	</li>
+	<li>
+	<p><span style="font-size:1.4em"><strong>async-hooks</strong> - https://github.com/AndreasMadsen/async-hook</span></p>
+	</li>
+	<li>
+	<p><span style="font-size:1.4em"><strong>clarify</strong> - https://github.com/AndreasMadsen/clarify</span></p>
+	</li>
+</ul>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="178498f0c7e444f7e969f94fb804c08d">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 861px; left: 80px; top: 71px;" data-block-id="a7970f71eeb52907f2341586e790c3f9"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1>References</h1>
+
+<p> </p>
+
+<p><span style="font-size:1.4em">https://redhat.slides.com/lball/tracing-asynchronous-operations</span></p>
+
+<p> </p>
+
+<ul>
+	<li>
+	<p><span style="font-size:1.4em"><strong>AsyncWrap Public API Proposal</strong> - https://github.com/nodejs/node-eps/pull/18</span></p>
+	</li>
+</ul>
+
+<p><span style="font-size:1.4em">​</span></p>
+
+<ul>
+	<li style="font-size:28px">
+	<p><strong>async_hooks initial implementation</strong> - https://github.com/nodejs/node/pull/8531</p>
+	</li>
+</ul>
+
+<p> </p>
+
+<ul>
+	<li><span style="font-size:1.4em"><strong>Diagnostics working group - </strong>https://github.com/nodejs/diagnostics/</span></li>
+</ul>
+
+<p> </p>
+</div></div></section><section class="has-light-background" data-background-color="#fafafa" data-id="186cda070acc864f0f40e59ea22d265d">
+<div class="sl-block" data-block-type="text" style="height: auto; width: 781px; left: 99px; top: 340px;" data-block-id="2b78e1718d2e49d1baea225c28a2d153"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+<h1><span style="font-size:120px; letter-spacing:4.399320125579834px">QUESTIONS</span></h1>
+</div></div></section>
+			</div>
+				<div id="theme-html-output"><a style="display:none;" href="http://www.redhat.com">redhat.com</a></div>
+		</div>
+
+		<script>
+			var SLConfig = {"deck": {"id":851911,"slug":"tracing-asynchronous-operations","title":"Tracing Asynchronous Operations","description":"How to use Node.js async_wrap API to obtain useful stack traces.","visibility":"all","published_at":"2016-11-21T03:12:19.183Z","sanitize_messages":null,"thumbnail_url":"https://s3.amazonaws.com/media-p.slid.es/thumbnails/2bf37bf431ad6cad849564833e7bd845/thumb.jpg","view_count":73,"user":{"id":492679,"username":"lball","name":"Lance Ball","description":null,"thumbnail_url":"https://www.gravatar.com/avatar/b0690265bd924922c38abcc377748957?s=140\u0026d=https%3A%2F%2Fs3.amazonaws.com%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png","paid":true,"pro":true,"lite":false,"team_id":32,"settings":{"id":334838,"present_controls":true,"present_upsizing":true,"present_notes":true},"enterprise":true,"membership":{"role":"member","manager":false,"activated":true}},"background_transition":"none","transition":"none","theme_id":176,"theme_font":"overpass2","theme_color":"no-color","auto_slide_interval":0,"comments_enabled":true,"forking_enabled":false,"rolling_links":false,"center":false,"should_loop":false,"share_notes":false,"slide_number":true,"rtl":false,"version":2,"collaborative":true,"deck_user_editor_limit":1,"data_updated_at":1479759973356,"font_typekit":null,"font_google":null,"notes":{}}};
+			SLConfig.current_user = {
+				name: "Lance Ball",
+				username: "lball",
+				pro: true
+			};
+
+				SLConfig.theme = {"id":176,"created_at":"2014-05-27T12:38:16.183Z","updated_at":"2016-12-15T13:29:01.435Z","name":"Red Hat Corporate","thumbnail_url":"https://s3.amazonaws.com/media-p.slid.es/thumbnails/e59d512542669bdc507f48ac27fb6b5e/thumb.jpg","sanitize_messages":null,"slide_template_ids":[56708,56706,56689,28642,36442,27160,26765,26762,56684,56696,56697,56698,56699,56704,56703,56707],"font_typekit":"","font_google":""};
+
+			// Use the local font path
+			SLConfig.fonts_url = 'lib/fonts/';
+		</script>
+
+		<script src="lib/head.min.js"></script>
+		<script src="lib/reveal.min.js"></script>
+		<script src="lib/offline.js"></script>
+		<script>
+			// Make Slides speaker notes available in the reveal.js speaker view
+			if( SLConfig.deck.notes ) {
+				[].forEach.call( document.querySelectorAll( '.reveal .slides section' ), function( slide ) {
+
+					var value = SLConfig.deck.notes[ slide.getAttribute( 'data-id' ) ];
+					if( value && typeof value === 'string' ) {
+						slide.setAttribute( 'data-notes', value );
+					}
+
+				} );
+			}
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				mouseWheel: false,
+				showNotes: SLConfig.deck.share_notes,
+				slideNumber: SLConfig.deck.slide_number,
+
+				autoSlide: SLConfig.deck.auto_slide_interval || 0,
+				autoSlideStoppable: true,
+
+				rolling_links: SLConfig.deck.rolling_links || true,
+				center: SLConfig.deck.center || false,
+				loop: SLConfig.deck.should_loop || false,
+				rtl: SLConfig.deck.rtl || false,
+
+				transition: SLConfig.deck.transition,
+				backgroundTransition: SLConfig.deck.background_transition,
+
+				dependencies: [
+					{ src: 'lib/reveal-plugins/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/highlight/highlight.js', async: true, callback: function() { hljs.initHighlighting(); hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+		</script>
+
+		
+  <script id="theme-js-output" type="text/javascript">document.getElementById('theme-html-output').innerHTML = '<link  rel="stylesheet" href="https://overpassmonotest-30e2.kxcdn.com/overpass-mono.css" />';
+
+// (function() {
+// 
+//   var slidesInitInterval = setInterval( function() {
+//     if( window.SL && window.SL.view ) {
+//       // If we're in the editor, wait for the Blocks controller
+//       // to be initialized
+//       if( SL.editor ) {
+// 
+//         if( SL.editor.controllers && SL.editor.controllers.Blocks && SL.editor.controllers.Blocks.textSaved ) {
+//           SL.editor.controllers.Blocks.textSaved.add( function( element ) {
+//             var html = element.html();
+//             html = html.replace( /(@RedHat | @redhat)/g,                 '@redhat' );
+//             html = html.replace( 'redhat.com',                 'redhat.com' );
+//             html = html.replace( /(Red Hat|red hat|RedHat|Red hat|Redhat|redHat|red Hat)/g,  '<span class="name">Red Hat</span>' );
+//             html = html.replace( /( redhat |redhat )/g,  ' <span class="name">Red Hat</span> ' );
+//             html = html.replace( 'REDHAT',                    '<span class="name">RED HAT</span>' );
+//             html = html.replace( 'redhat<',                    '<span class="name">Red Hat</span><' );
+//             html = html.replace( 'openshift',                 '<span class="name">OpenShift</span>' );
+//             html = html.replace( '<span class="name"><span class="name">Red Hat</span></span>',                    '<span class="name">Red Hat</span>' );
+//             html = html.replace( 'redhat.com',                 'redhat.com' );
+//             html = html.replace( 'REDHAT.COM',                 'REDHAT.COM' );
+//             html = html.replace( '@redhat',                 '@redhat' );
+//             html = html.replace( /(@RedHatNews | @redhatnews)/g,                 '@RedHatNews' );
+//             html = html.replace( /(@RedHat | @redhat)/g,                 '@RedHatInc' );
+//             html = html.replace( /(RHEL-OSP|RHELOSP|Red Hat Enterprise Linux OpenStack Platform)/g,                 'Red Hat OpenStack Platform' );
+//             html = html.replace( /(openstack |openstack|open stack|openStack|Openstack)/g,                 'OpenStack' );
+//             html = html.replace( 'openstack',                    'OpenStack' );
+//             html = html.replace( 'openstack<',                    'OpenStack<' );
+// 
+//             element.html( html );
+//           } );
+// 
+//           clearInterval( slidesInitInterval );
+//         }
+// 
+//       }
+//       else {
+//         clearInterval( slidesInitInterval );
+//       }
+//     }
+//   }, 500 );
+// 
+// })();
+
+
+
+// piwik script
+var _paq = _paq || [];
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+
+(function() {
+var u = (("https:" == document.location.protocol) ? "https" : "http") +
+"://engstats.redhat.com/piwik/";
+_paq.push(["setTrackerUrl", u+"piwik.php"]);
+_paq.push(["setSiteId", "8"]);
+var d=document, g=d.createElement("script"),
+s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+})();
+
+
+
+ 
+function sliceString(selector) {
+    var elements = document.getElementsByClassName(selector);
+
+ 
+    for (var h=0; h<elements.length; h++){
+      var string = elements[h].innerText,
+          total = string.length,
+          div = '';
+
+// futile attempt to clean space
+var string = elements[h].innerText.trim();
+     
+      for (var i=0; i<total;  i++) {
+        var letter = string.charAt(i);
+        div+= '<span class="'+letter+'">'+letter+'</span>';
+      }
+      elements[h].innerHTML = div;
+    }        
+}
+sliceString('lettering');
+sliceString('lettering'); //no rogue spaces when fired twice for some reason
+
+
+
+// function sliceString(selector) {
+//    if (!document.querySelector) return;
+//    var string = document.querySelector(selector).innerText,
+//        total = string.length,
+//        html = '';
+//    for (var i=0; i<total; i++) {
+//        var letter = string.charAt(i);
+//        html+= '<span class="'+letter+'">'+letter+'</span>';
+//    }
+//    document.querySelector(selector).innerHTML = html;
+//}
+//sliceString('.lettering');</script>
+
+	</body>
+</html>

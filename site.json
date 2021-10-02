@@ -1,10 +1,11 @@
 {
   "site": {
+    "author": "Lance Ball",
     "title": "Lance Ball",
-      "url": "http://lanceball.com",
-      "twitter": "http://twitter.com/lanceball",
-      "github": "https://github.com/lance",
-      "linkedin": "http://www.linkedin.com/in/lanceball",
-      "tumblr": "http://tumblr.lanceball.com"
+    "url": "http://lanceball.com",
+    "twitter": "http://twitter.com/lanceball",
+    "github": "https://github.com/lance",
+    "linkedin": "http://www.linkedin.com/in/lanceball",
+    "tumblr": "http://tumblr.lanceball.com"
   }
 }

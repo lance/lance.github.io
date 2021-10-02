@@ -4,4 +4,5 @@ _site
 _tmp
 node_modules
 build
-
+server.pid
+server.log

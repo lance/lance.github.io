@@ -1,7 +1,7 @@
 body {
     padding-top: 20px;
     background-color: #fefefe;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', Helvetica, sans-serif;
     font-style: normal;
     font-weight: 300;
 }
@@ -76,4 +76,56 @@ li {
 .right {
   display: block;
   float: right;
+}
+
+#content.container .article {
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+#content.container .article .contents {
+    font-size: larger;
+}
+
+.article-preview .timestamp {
+    border-bottom: 1px dashed;
+    border-color: #ccc;
+    margin-bottom: 1ex;
+}
+
+.article-preview .timestamp .glyphicon-time {
+    margin-right: 1ex;
+}
+
+.article-preview .more.glyphicon {
+    margin-left: 1ex;
+}
+
+.gist {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+p.filename {
+    font-weight: bold;
+    margin: 0 0 -20px;
+}
+
+pre {
+    margin: 30px 0 15px;
+}
+
+blockquote {
+    font-size: 20px;
+    font-family: serif;
+    font-style: italic;
+    color: #7a7a7a;
+}
+
+img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+    border: 0
 }

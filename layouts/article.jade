@@ -1,0 +1,10 @@
+extends layout.jade
+
+block main
+  div.article
+    div.metadata
+      h1.title= title
+      div.date!= date.toDateString()
+    hr
+    div.contents!= contents
+    hr
