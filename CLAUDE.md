@@ -55,13 +55,21 @@ We're modernizing the site in phases. The site now uses static HTML files with m
 - Improved accessibility (focus states, reduced motion support)
 - Responsive design with mobile breakpoints
 
+**Phase 3: Remove Bootstrap & jQuery** ✅
+- ✅ Replaced Bootstrap navbar with custom CSS
+- ✅ Replaced Bootstrap grid with Flexbox
+- ✅ Removed jQuery dependency (vanilla JS for mobile menu)
+- ✅ Custom utilities replacing Bootstrap classes
+- ✅ Deleted all Bootstrap files (~150KB removed!)
+- ✅ Icons work via CSS shims (glyphicon → Font Awesome)
+
 ### 🚧 Pending Phases
 
-**Phase 3: Remove Bootstrap & jQuery** (Next)
-- Replace Bootstrap 3 navbar with custom CSS
-- Replace Bootstrap grid with CSS Grid
-- Remove jQuery dependency
-- Custom utilities to replace Bootstrap classes
+**Phase 4: Icon Migration** (Mostly Complete)
+- ✅ Font Awesome 6 loaded
+- ✅ CSS shims map glyphicon classes to FA icons
+- Icons already working!
+- (Optional) Update HTML to use proper `fa-*` classes
 
 **Phase 4: Icon Migration**
 - Replace Glyphicons with Font Awesome 6 classes
@@ -152,11 +160,13 @@ When adding/updating pages, ensure:
 
 ## Known Issues
 
-1. **Glyphicons don't display** - Font Awesome 6 is loaded but HTML still uses old `glyphicon-*` classes. Will fix in Phase 4.
+None! All major issues resolved. 🎉
 
-2. **Bootstrap dependency** - Still loading Bootstrap 3 CSS and JS. Will remove in Phase 3.
-
-3. **jQuery dependency** - Still loaded for Bootstrap navbar. Will remove in Phase 3.
+**Recently Fixed:**
+- ✅ Glyphicons now work via CSS shims (no HTML changes needed)
+- ✅ Bootstrap removed
+- ✅ jQuery removed
+- ✅ All dependencies modernized
 
 ## Workflow Tips
 

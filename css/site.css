@@ -403,3 +403,218 @@ textarea:focus-visible {
     font-size: 16px;
   }
 }
+/* ============================================
+   MODERN NAVBAR (Replaces Bootstrap Navbar)
+   ============================================ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-light);
+  transition: var(--transition-base);
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing-md);
+  min-height: 50px;
+}
+
+.navbar-brand {
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--spacing-md);
+}
+
+.nav li {
+  padding: 0;
+}
+
+.nav a {
+  display: block;
+  padding: 15px 0;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: var(--transition-color);
+}
+
+.nav a:hover,
+.nav a:focus {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* Mobile menu toggle button */
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: var(--transition-base);
+}
+
+.navbar-toggle:hover {
+  background-color: var(--color-bg-well);
+}
+
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-text);
+  margin: 4px 0;
+  transition: var(--transition-base);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mobile menu */
+@media (max-width: 768px) {
+  .navbar .container {
+    flex-wrap: wrap;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-collapse {
+    flex-basis: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .navbar-collapse.show {
+    max-height: 500px;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 0;
+    padding: var(--spacing-sm) 0;
+  }
+
+  .nav a {
+    padding: var(--spacing-sm) 0;
+  }
+}
+
+/* ============================================
+   MODERN GRID SYSTEM (Replaces Bootstrap Grid)
+   ============================================ */
+
+.container {
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--spacing-md) * -1);
+  margin-right: calc(var(--spacing-md) * -1);
+}
+
+.col-md-10 {
+  flex: 0 0 auto;
+  width: 83.33333333%;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .col-md-10 {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   COMPONENT REPLACEMENTS (Replaces Bootstrap Components)
+   ============================================ */
+
+.well {
+  background-color: var(--color-bg-well);
+  border: 1px solid var(--color-border-light);
+  border-radius: 4px;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.page-header {
+  padding-bottom: 9px;
+  margin: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ============================================
+   ICON REPLACEMENTS (Font Awesome 6)
+   ============================================ */
+
+/* Map old glyphicon classes to Font Awesome equivalents */
+.glyphicon {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-style: normal;
+  display: inline-block;
+}
+
+.glyphicon-hand-right::before {
+  content: "\f0a4"; /* fa-hand-point-right */
+}
+
+.glyphicon-time::before {
+  content: "\f017"; /* fa-clock */
+  font-weight: 400; /* Regular style for clock */
+}
+
+.glyphicon-film::before {
+  content: "\f03d"; /* fa-film */
+}
+
+.glyphicon-blackboard::before {
+  content: "\f51b"; /* fa-chalkboard */
+}
+
+.glyphicon-arrow-right::before {
+  content: "\f061"; /* fa-arrow-right */
+}

@@ -125,13 +125,73 @@
 
 ---
 
+## Phase 3: Remove Bootstrap & jQuery ✅
+
+### Step 3.1: Create Custom Navbar Component ✅
+**Completed: 2026-08-21**
+
+**Changes:**
+- ✅ Replaced Bootstrap navbar with custom CSS using Flexbox
+- ✅ Mobile-responsive with hamburger menu toggle
+- ✅ Vanilla JavaScript for mobile menu (no jQuery!)
+- ✅ Improved semantics with ARIA labels and roles
+- ✅ Smooth animations and transitions
+- ✅ Works on all viewport sizes
+
+---
+
+### Step 3.2: Replace Bootstrap Grid with CSS Grid/Flexbox ✅
+**Completed: 2026-08-21**
+
+**Changes:**
+- ✅ Custom `.container` with max-width and auto margins
+- ✅ `.row` using Flexbox with negative margins
+- ✅ `.col-md-10` with responsive width (83.33% → 100% on mobile)
+- ✅ Maintains visual appearance while using modern CSS
+- ✅ Much simpler and more maintainable
+
+---
+
+### Step 3.3: Replace Bootstrap Utilities ✅
+**Completed: 2026-08-21**
+
+**Changes:**
+- ✅ `.well` - custom card component with border and padding
+- ✅ `.page-header` - custom header with border-bottom
+- ✅ `.text-center` - simple text alignment utility
+- ✅ All styled to match Bootstrap appearance
+
+---
+
+### Step 3.4: Remove Bootstrap Files ✅
+**Completed: 2026-08-21**
+
+**Removed:**
+- ✅ Bootstrap CSS link from all HTML files
+- ✅ Bootstrap JS link from all HTML files
+- ✅ jQuery (no longer needed!)
+- ✅ `/lib/bootstrap/` directory (~150KB removed)
+
+**Bundle Size Reduction:**
+- Bootstrap CSS: ~120KB → 0KB
+- jQuery: ~30KB → 0KB
+- Our custom CSS: Only 16KB total!
+- **Total savings: ~134KB** 🎉
+
+**Files Modified:**
+- `css/site.css` - Added navbar, grid, components, icons
+- `index.html` - Updated navbar HTML, removed Bootstrap/jQuery
+- `words/2017/05/17/riviera-dev-2017/index.html` - Same updates
+
+---
+
 ## Next Steps
 
-### Phase 3: Bootstrap Migration (Pending)
-- Remove Bootstrap and jQuery
-- Replace navbar with custom CSS
-- Replace grid with CSS Grid
-- Replace utilities with modern equivalents
+### Phase 4: Icon Migration (Partially Complete)
+- ✅ Font Awesome 6 loaded
+- ✅ CSS shims created for glyphicon classes
+- Icons now work with Font Awesome without changing HTML!
+- (Optional) Update HTML to use proper Font Awesome classes later
 
 ### Phase 3: Bootstrap Migration (Pending)
 - Remove Bootstrap and jQuery
