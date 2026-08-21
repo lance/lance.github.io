@@ -587,34 +587,8 @@ textarea:focus-visible {
 }
 
 /* ============================================
-   ICON REPLACEMENTS (Font Awesome 6)
+   ICON STYLES
    ============================================ */
 
-/* Map old glyphicon classes to Font Awesome equivalents */
-.glyphicon {
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
-  font-style: normal;
-  display: inline-block;
-}
-
-.glyphicon-hand-right::before {
-  content: "\f0a4"; /* fa-hand-point-right */
-}
-
-.glyphicon-time::before {
-  content: "\f017"; /* fa-clock */
-  font-weight: 400; /* Regular style for clock */
-}
-
-.glyphicon-film::before {
-  content: "\f03d"; /* fa-film */
-}
-
-.glyphicon-blackboard::before {
-  content: "\f51b"; /* fa-chalkboard */
-}
-
-.glyphicon-arrow-right::before {
-  content: "\f061"; /* fa-arrow-right */
-}
+/* Icons now use proper Font Awesome 6 classes (fa-solid, fa-regular, etc.) */
+/* No shims needed - HTML uses native Font Awesome markup */
