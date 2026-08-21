@@ -4,12 +4,13 @@ This branch contains the compiled HTML output from the `master` branch, extracte
 
 ## What Changed
 
-Instead of using the Metalsmith build system with Jade/Pug templates, this branch works directly with static HTML files. This simplifies:
+Instead of using the Metalsmith build system with Jade/Pug templates, this branch works directly with static HTML files. This simplifies everything:
 
-- No build step required
-- No Node.js dependencies to maintain
-- Direct HTML/CSS editing
-- Easier to modernize incrementally
+- ✅ No build step required
+- ✅ Zero npm dependencies (our server is pure Node.js)
+- ✅ Direct HTML/CSS editing
+- ✅ Easier to modernize incrementally
+- ✅ All old build system files removed for clarity
 
 ## Directory Structure
 
@@ -32,10 +33,14 @@ Instead of using the Metalsmith build system with Jade/Pug templates, this branc
 ### Serve Locally
 
 ```bash
+npm start
+# or
 node serve-static.js
 ```
 
 Then visit http://localhost:8080
+
+**Note:** Do NOT use the old `./serve.sh` - it's been removed. That was the old Metalsmith build system.
 
 ### Modernization Plan
 

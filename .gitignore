@@ -1,8 +1,5 @@
-.sass-cache
-_site
-*.swp
-_tmp
-node_modules
-build
+node_modules/
+.DS_Store
 server.pid
-server.log
+*.log
+.claude/
