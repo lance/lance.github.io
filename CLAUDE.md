@@ -81,7 +81,7 @@ We're modernizing the site in phases. The site now uses static HTML files with m
 - Auto-generate homepage article list from posts
 - Template-based layout propagation
 - Scripts for common content tasks
-- See detailed plan from 2026-08-21 session
+- See detailed plan: `PHASE6-PLAN.md`
 
 ## Development
 
