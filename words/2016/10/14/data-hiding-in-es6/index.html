@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lance Ball: StuffNThings">
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for lanceball.com" href="/rss.xml">
+  <title>Data Hiding in ES6 | Lance Ball</title>
+    <!-- Preconnect to external resources for better performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+<link rel="stylesheet" media="screen" href="/css/site.css">
+  <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap">
+  <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/default.min.css" integrity="sha512-hasIneQUHlh06VNBe7f6ZcHmeRTLIaQWFd43YriJ0UND19bvYRauxthDg8E4eVNPm9bRUhr5JGeqH7FRFXQu5g==" crossorigin="anonymous" referrerpolicy="no-referrer"">
+</head>
+
+<body>
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand" href="/">Lance Ball</a>
+      <button class="navbar-toggle" type="button" aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="navbar-collapse" id="navbar">
+        <ul class="nav">
+          <li><a href="https://github.com/lance">GitHub</a></li>
+          <li><a href="https://twitter.com/lanceball">Twitter</a></li>
+          <li><a href="https://www.linkedin.com/in/lanceball">LinkedIn</a></li>
+          <li><a href="https://tumblr.lanceball.com">Tumblr</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container" id="content">
+    <div class="page-header right"> I'm a Software Developer. I work for&nbsp;<a href="https://redhat.com">Red Hat</a></div>
+    <div class="article">
+      <div class="metadata">
+        <h1 class="title">Data Hiding in ES6</h1>
+        <div class="date">Fri Oct 14 2016</div>
+      </div>
+      <hr>
+      <div class="contents">
+        <p>For a lot of my early career, I was an OO developer. I genuflected regularly in
+          front of the altar of data encapsulation, object heirarchies and static typing.
+          And the syntax. Oh the syntax!</p>
+        <p>But I have changed, of course, and so much of the dogma and ceremony that
+          I participated in during those times has come to seem a lot less important
+          than it was 20 years ago. Languages, and developers evolve. But that doesn&#39;t
+          mean there aren&#39;t some really good lessons to learn.</p>
+        <p>Take, for instance, data encapsulation.</p>
+        <!-- More -->
+        <p>When I first began to seriously look at Javascript as a language, data
+          encapsulation - or the lack of it - was one of the things that really stuck
+          in my old OO craw. While I loved the simplicity of the <code>{}</code> data structure,
+          I hated the fact that most properties I chose to add to it were typically
+          just there - sticking out for everyone to see and perhaps corrupt. The language
+          didn&#39;t make it very easy to keep this data protected.</p>
+        <p>Take a look at how this simplistic approach to the <code>{}</code> data structure
+          might cause some real headaches. Here we have a <code>productCatalog()</code> lookup
+          function that returns a <code>Product</code> data object. It might look something like
+          this:</p>
+        <pre><code class="lang-js">&gt; var product = productCatalog(&#39;widget-a&#39;);
+&gt; console.log(product);
+Product { id: 2340847,
+  name: &#39;widget-a&#39;,
+  description: &#39;what a widget!&#39;,
+  related: [Function] }
+</code></pre>
+        <p>Notice that the object returned here contains a function, <code>related()</code> which
+          will find the set of products related to this one using this object&#39;s <code>id</code>
+          or <code>name</code> property. But those properties are just there hanging on to the
+          returned object by their fingernails. What if some evil bit of code came along
+          and did this: <code>product.id = 0x00034</code> just to see what would happen? How
+          would the <code>related()</code> function handle that? We just don&#39;t know.</p>
+        <p>There are ways to deal with this of course. One of the great things
+          about Javascript is how flexible it can be. Maybe the developer who wrote
+          the <code>productCatalog()</code> function knew some of these tricks. Here&#39;s one way
+          to handle it using Javascript&#39;s <code>Object.defineProperty</code> function.</p>
+        <pre><code class="lang-js">function productCatalog( name ) {
+  if (findProduct(name)) {
+    return new Product(name);
+  }
+  return null;
+}
+
+function Product (name) {
+  this.name = name;
+  // lookup the product and populate
+  // this object&#39;s properties with appropriate values.
+
+  // Don&#39;t allow client code to modify our ID
+  Object.defineProperty(this, &#39;id&#39;, {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+    value: 2340847
+  });
+}
+</code></pre>
+        <p><strong>But... eeewwww.</strong></p>
+        <p>Let&#39;s see how well that worked. At first things look great -
+          no <code>id</code> property on basic inspection. And if you do try to modify it,
+          the value can&#39;t be changed. Yay!</p>
+        <pre><code class="lang-js">&gt; console.log(productObject);
+Product { name: &#39;widget-a&#39;
+  description: &#39;what a widget!&#39;,
+  related: [Function] }
+&gt; // OK, this looks good - the object doesn&#39;t have a visible ID property. Nice!
+&gt; // But there is one there. Can I change it?
+&gt; productObject.id
+2340847
+&gt; productObject.id = &#39;foo&#39;
+&#39;foo&#39;
+&gt; productObject.id
+2340847
+</code></pre>
+        <p>But darn it. The property name appears in the <code>Object.getOwnPropertyNames()</code>
+          result. This isn&#39;t terrible, but we&#39;re not doing a great job of hiding data.</p>
+        <pre><code class="lang-js">&gt; Object.getOwnPropertyNames(productObject)
+[ &#39;id&#39;, &#39;name&#39;, &#39;description&#39;, &#39;related&#39; ]
+&gt; // ruh roh
+</code></pre>
+        <p>What I&#39;d really like is for the <code>Product</code> object to have a reference to the
+          <code>id</code> but no way for client code to read it or even see it. Closures, for example,
+          provide a way to do this. But that&#39;s really an entirely separate blog post, and what
+          I really want to talk about here is ES6.
+        </p>
+        <h2 id="ecmascript-2015">EcmaScript 2015</h2>
+        <p>ES6 or EcmaScript 2015, as it is formally known, introduces lots of great
+          new language features. I wish I had time to tell you about them all, but
+          for now, I&#39;ll just focus on one subject. Data Hiding and Encapsulation.</p>
+        <p>There are a few new ways developers can approach this problem now, when
+          using modern Javascript interpreters with ES6 features available.</p>
+        <h3 id="getters">Getters</h3>
+        <p>First let&#39;s take a look at Getters. ES6 getters allow you to easily
+          use a function that makes a property read only. And since a getter is a
+          function, the value could even be the result of some calculation. But
+          that&#39;s not the point here.</p>
+        <p>Here&#39;s how you would use a getter in ES6 and how you could achieve the
+          same functionality in ES5. The new syntax is way better.</p>
+        <pre><code class="lang-js">// The ES6 way
+let product = {
+ get id () { return 2340847; }
+};
+product.id
+// 2340847
+product.id = &#39;foo&#39;
+product.id
+// 2340847
+// The old way
+var product = {};
+Object.defineProperty(product, &#39;id&#39;, {
+  get: function() { return 2340847; },
+  enumerable: false,
+  configurable: false,
+});
+</code></pre>
+        <p>But this still doesn&#39;t really get what we want. There are two tools
+          besides closures we can use to really and truly hide our data. Those are
+          <code>WeakMap</code> and <code>Symbol</code>. Let&#39;s look at the <code>WeakMap</code> first.
+        </p>
+        <h3 id="weakmaps">WeakMaps</h3>
+        <p>The <code>WeakMap</code> is a new data structure in ES6. It acts a lot like
+          a regular map data structure. They are <code>iterable</code>, and have getters and
+          setters for objects. What makes them unique is that the keys are weakly
+          referenced. This means, essentially, that when the only remaining reference
+          to the key is the key itself, the entry is removed from the map. Here&#39;s
+          how you can use the <code>WeakMap</code> data structure to effectively hide private
+          class data.</p>
+        <pre><code class="lang-js">const privates = new WeakMap();
+class Product {
+  constructor (name) {
+    this.name = name;
+    privates.set(this, {
+      id: 2340847
+    });
+  }
+
+  related () {
+    return lookupRelatedStuff( privates.get(this) );
+  }
+}
+</code></pre>
+        <p>Assuming this code is in a module that exports the <code>productCatalog</code>
+          function, there is no way for client code to see or modify the <code>id</code>
+          property. Success!</p>
+        <p>I like this approach. It&#39;s elegant and simple. The only real drawback I
+          have found with this is performance. It&#39;s pretty expensive to do these
+          <code>WeakMap</code> lookups to get a handle on a property. So if performance is
+          paramount. Consider using <code>Symbol</code> as property keys.
+        </p>
+        <h3 id="symbols">Symbols</h3>
+        <p>I have found that using properties whose keys are <code>Symbol</code>s, while not
+          as elegant as <code>WeakMap</code> in my opinion is my preferred data hiding
+          technique, because it&#39;s just so much faster.</p>
+        <p>One of the interesting things about <code>Symbol</code> is that each <code>Symbol</code>
+          is unique. If we can keep the <code>Symbol</code> private within our module,
+          then we don&#39;t have to worry about client code accessing the property.
+          Here&#39;s how our <code>Product</code> object would look if we took this approach.</p>
+        <pre><code class="lang-js">const ID = Symbol(&#39;id&#39;);
+class Product {
+  constructor (name) {
+    this.name = name;
+    this[ID] = 2340847;
+  }
+  related () {
+    return lookupRelatedStuff( this[ID] );
+  }
+}
+</code></pre>
+        <p>Additionally, when you use a <code>Symbol</code> for a property key, the property
+          does not appear in the list of properties returned from
+          <code>Object.getOwnPropertyNames()</code>. This is nice. The downside is that
+          the property leaks when using <code>Reflect.ownKeys()</code>.
+        </p>
+        <pre><code class="lang-js">const product = productCatalog(&#39;a-widget&#39;);
+console.log(Reflect.ownKeys(product));
+// [ &#39;name&#39;, Symbol(id) ]
+</code></pre>
+        <p>But I can live with that when performance matters. For
+          <a href="https://npmjs.com/package/fidelity">Fidelity</a>, we found that moving
+          from <code>WeakMap</code> to <code>Symbol</code> for private data gave us a measurable, and
+          quite significant performance boost.
+        </p>
+        <p><strong>Edit:</strong> It has been pointed out that <code>Object.getOwnPropertySymbols</code>
+          would also expose these <code>Symbol</code>-keyed properties to client code. Again,
+          it&#39;s not ideal that the properties are visible. But since they are
+          inaccessible, I&#39;ll not worry about it too much. In the example above,
+          the <code>name</code> property would be omitted from the results, leaving just
+          <code>[ Symbol(id) ]</code>.
+        </p>
+      </div>
+      <hr>
+    </div>
+  </div>
+  <footer id="footer">
+    <div class="footer">
+      <p class="text-center">&copy; Lance Ball 2018</p>
+      <p class="text-center">If you want to contact me and don't already know how, check out all of
+        those links at the top. I'm on the social medias.
+      </p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js" integrity="sha512-6yoqbrcLAHDWAdQmiRlHG4+m0g/CT/V9AGyxabG8j7Jk8j3r3K6due7oqpiRMZqcYe9WM2gPcaNNxnl2ux+3tA==" crossorigin="anonymous" referrerpolicy="no-referrer""></script>
+  <script>
+    // Google Analytics
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-373972-2', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>
+    hljs.highlightAll();
+  </script>
+</body>
+
+</html>
