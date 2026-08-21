@@ -4,6 +4,32 @@
 
 Personal website and blog for Lance Ball. This is the **modernization branch** where we're converting from a Metalsmith/Jade build system to simple static HTML with modern CSS.
 
+---
+
+## 📝 Maintenance Instructions
+
+**IMPORTANT:** This file documents the current state of the project. As work progresses:
+
+✅ **When completing a phase:**
+- Move it from "Pending Phases" to "Completed Phases"
+- Update the completion date
+- Document any key learnings or gotchas
+
+✅ **When discovering new issues:**
+- Add them to "Known Issues" section
+- Remove them when fixed
+
+✅ **When changing the approach:**
+- Update "Development" or "Project Structure" sections
+- Document WHY the change was made
+
+✅ **When fixing bugs:**
+- Update "Technical Details" with the lesson learned
+
+This ensures future sessions (and future you) understand the current state without re-reading commit history.
+
+---
+
 ## Branch Strategy
 
 - **`develop`** - Original Metalsmith/Jade build system (preserved)
