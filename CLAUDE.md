@@ -183,6 +183,24 @@ None! All major issues resolved. 🎉
 - ✅ jQuery removed
 - ✅ All dependencies modernized
 
+## Workflow Pattern: Iterative Refinement
+
+When you reject a permission request, it often means you want to refine the approach, not abandon it:
+
+**The Pattern:**
+1. I ask permission for something (e.g., `git commit` with a message)
+2. You reject it
+3. You provide feedback: "add this detail..." or "change X to Y"
+4. I incorporate the feedback and modify my work
+5. I explicitly ask: "OK feedback received. Now do you want to pick up where we left off at [specific command]?"
+6. You confirm and we proceed with the refined version
+
+**Important:** A rejection doesn't mean "wrong approach" - it usually means "refine this first."
+
+If you reject without feedback, you're likely tweaking it manually. In that case, I'll wait for you to tell me when to continue.
+
+---
+
 ## Workflow Tips
 
 ### Making CSS Changes
