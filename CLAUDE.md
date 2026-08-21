@@ -70,11 +70,6 @@ We're modernizing the site in phases. The site now uses static HTML files with m
 
 ### 🚧 Pending Phases
 
-**Phase 4: Icon Migration**
-- Replace Glyphicons with Font Awesome 6 classes
-- 301 glyphicon references to update
-- Add ARIA labels for accessibility
-
 **Phase 5: Accessibility Enhancements**
 - Improve semantic HTML
 - Add skip-to-content link
