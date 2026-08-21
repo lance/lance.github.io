@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode Test</title>
+  <link rel="stylesheet" href="/css/site.css?v=2">
+  <style>
+    .test-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 40px;
+    }
+    .color-box {
+      padding: 20px;
+      margin: 20px 0;
+      border: 2px solid var(--color-border);
+      border-radius: 8px;
+    }
+    .color-swatch {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border: 2px solid var(--color-border);
+      border-radius: 4px;
+      margin-right: 20px;
+      vertical-align: middle;
+    }
+    .bg-primary { background-color: var(--color-primary); }
+    .bg-bg { background-color: var(--color-bg); }
+    .bg-text { background-color: var(--color-text); }
+    code {
+      background-color: var(--color-bg-well);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🎨 Dark Mode Test Page</h1>
+
+    <div class="color-box">
+      <h2>Current Theme Detection</h2>
+      <p id="theme-status">Loading...</p>
+      <p><strong>Instructions:</strong></p>
+      <ol>
+        <li>Change your system appearance: <strong>System Settings → Appearance → Light/Dark</strong></li>
+        <li>Refresh this page (<strong>Cmd+Shift+R</strong> for hard refresh)</li>
+        <li>Watch the background color change!</li>
+      </ol>
+    </div>
+
+    <div class="color-box">
+      <h2>Color Swatches</h2>
+      <p>
+        <span class="color-swatch bg-primary"></span>
+        <strong>Primary Color:</strong> <code>var(--color-primary)</code>
+        <br><small>Light mode: #CC3300 (red) | Dark mode: #FF5533 (orange)</small>
+      </p>
+      <p>
+        <span class="color-swatch bg-bg"></span>
+        <strong>Background:</strong> <code>var(--color-bg)</code>
+        <br><small>Light mode: #fefefe (white) | Dark mode: #1a1a1a (black)</small>
+      </p>
+      <p>
+        <span class="color-swatch bg-text"></span>
+        <strong>Text Color:</strong> <code>var(--color-text)</code>
+        <br><small>Light mode: #333333 (dark) | Dark mode: #e0e0e0 (light)</small>
+      </p>
+    </div>
+
+    <div class="color-box">
+      <h2>Live CSS Variables</h2>
+      <p>Current values being used:</p>
+      <ul id="css-vars"></ul>
+    </div>
+
+    <div class="color-box">
+      <h2>Sample Content</h2>
+      <p>This is regular paragraph text. <a href="#test">This is a link</a>.</p>
+      <blockquote>
+        This is a blockquote to test typography and color contrast.
+      </blockquote>
+      <pre><code>// This is a code block
+console.log('Hello, dark mode!');</code></pre>
+    </div>
+
+    <p><a href="/">← Back to homepage</a></p>
+  </div>
+
+  <script>
+    // Detect and display current theme
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const status = document.getElementById('theme-status');
+    status.innerHTML = `
+      <strong>System Preference:</strong> ${isDark ? '🌙 DARK MODE' : '☀️ LIGHT MODE'}<br>
+      <strong>Media Query Result:</strong> <code>prefers-color-scheme: ${isDark ? 'dark' : 'light'}</code>
+    `;
+    status.style.fontSize = '1.2em';
+    status.style.padding = '20px';
+    status.style.backgroundColor = 'var(--color-bg-well)';
+    status.style.borderRadius = '4px';
+
+    // Display current CSS variable values
+    const varsList = document.getElementById('css-vars');
+    const vars = [
+      '--color-primary',
+      '--color-bg',
+      '--color-text',
+      '--color-bg-well'
+    ];
+
+    const root = getComputedStyle(document.documentElement);
+    vars.forEach(varName => {
+      const value = root.getPropertyValue(varName).trim();
+      const li = document.createElement('li');
+      li.innerHTML = `<code>${varName}</code>: <strong>${value}</strong>`;
+      varsList.appendChild(li);
+    });
+
+    // Listen for theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      location.reload();
+    });
+  </script>
+</body>
+</html>
