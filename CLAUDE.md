@@ -114,14 +114,29 @@ To test theme switching:
 .
 ├── index.html              # Homepage (static HTML)
 ├── css/
-│   └── site.css           # Modern CSS with dark mode
-├── lib/
-│   └── bootstrap/         # Bootstrap 3 (TO BE REMOVED in Phase 3)
-├── words/                 # Blog posts (nested index.html files)
+│   └── site.css           # Modern CSS with dark mode (16KB)
+├── images/                # Blog post images
+│   ├── circuit-breaker-1.png
+│   └── headshot.jpg
+├── words/                 # Blog posts (4 total, all modernized)
+│   ├── 2016/10/14/data-hiding-in-es6/
+│   ├── 2016/11/28/forget-data-encapsulation-embrace-immutability/
+│   ├── 2017/01/05/protect-your-node-js-rest-clients-with-circuit-breakers/
+│   └── 2017/05/17/riviera-dev-2017/
+├── slides/                # Presentation slides (7 decks, 33MB)
+│   ├── devnation-live-2018/
+│   ├── fullstack-2018/
+│   ├── nodeconf-budapest-2017/
+│   ├── nodevember2016/
+│   ├── red-hat-summit-2018/
+│   ├── rhoar-shootout/
+│   └── riviera-dev-2018/
 ├── serve-static.js        # Simple dev server (pure Node.js)
 ├── test-darkmode.html     # Dark mode testing page
+├── modernize-article.py   # Tool to modernize blog posts
 ├── CHANGELOG.md           # Detailed modernization progress
-└── MODERNIZATION.md       # Overview of the modernization approach
+├── MODERNIZATION.md       # Overview of the modernization approach
+└── PHASE3-SUMMARY.md      # Phase 3 completion details
 ```
 
 ## Important Technical Details
