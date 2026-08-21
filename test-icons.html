@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Icon Test</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/css/site.css">
+  <style>
+    body { padding: 40px; font-family: sans-serif; }
+    .test-row { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+    .icon-display { font-size: 24px; margin-right: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Icon Rendering Test</h1>
+
+  <div class="test-row">
+    <h2>1. Native Font Awesome (should work)</h2>
+    <span class="icon-display"><i class="fa-solid fa-hand-point-right"></i> Solid Hand</span>
+    <span class="icon-display"><i class="fa-solid fa-film"></i> Film</span>
+    <span class="icon-display"><i class="fa-solid fa-chalkboard"></i> Chalkboard</span>
+    <span class="icon-display"><i class="fa-regular fa-clock"></i> Clock</span>
+  </div>
+
+  <div class="test-row">
+    <h2>2. Our Glyphicon Shims (testing)</h2>
+    <span class="icon-display"><span class="glyphicon glyphicon-hand-right"></span> Hand Right</span>
+    <span class="icon-display"><span class="glyphicon glyphicon-film"></span> Film</span>
+    <span class="icon-display"><span class="glyphicon glyphicon-blackboard"></span> Blackboard</span>
+    <span class="icon-display"><span class="glyphicon glyphicon-time"></span> Time</span>
+    <span class="icon-display"><span class="glyphicon glyphicon-arrow-right"></span> Arrow</span>
+  </div>
+
+  <div class="test-row">
+    <h2>3. Inspecting Glyphicon CSS</h2>
+    <p>Check DevTools on the glyphicons above:</p>
+    <ul>
+      <li>Do they have <code>font-family: "Font Awesome 6 Free"</code>?</li>
+      <li>Do they have the <code>::before</code> content?</li>
+      <li>What's the computed font-family?</li>
+    </ul>
+  </div>
+
+  <div class="test-row">
+    <h2>4. Direct Unicode Test</h2>
+    <p>Testing unicode directly (should show hand icon): <span style="font-family: 'Font Awesome 6 Free'; font-weight: 900;">&#xf0a4;</span></p>
+  </div>
+</body>
+</html>
