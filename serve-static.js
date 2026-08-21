@@ -8,6 +8,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const url = require('url');
 
 const PORT = 8080;
 const ROOT = __dirname;
@@ -26,7 +27,11 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  let filePath = path.join(ROOT, req.url === '/' ? 'index.html' : req.url);
+  // Parse URL to strip query string (e.g., /css/site.css?v=2 -> /css/site.css)
+  const parsedUrl = url.parse(req.url);
+  const pathname = parsedUrl.pathname;
+
+  let filePath = path.join(ROOT, pathname === '/' ? 'index.html' : pathname);
 
   // If path is a directory, try index.html
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
