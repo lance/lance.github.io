@@ -259,3 +259,26 @@ Before committing changes:
 - All modernization commits are co-authored with Claude for tracking
 - Use conventional commit messages for each phase
 - Update CHANGELOG.md after completing each step
+
+---
+
+## What NOT to Automate
+
+**Homepage redesigns and major layout changes:**
+- Work with Claude in an ad-hoc session
+- These are creative, strategic decisions that benefit from collaboration
+- Discuss, iterate, refine together
+- Claude can help with HTML/CSS but it's collaborative design work
+- Don't try to script creative decisions
+
+**When to use scripts vs. Claude sessions:**
+- **Scripts:** Repetitive, mechanical tasks (add blog post, update article list, propagate navbar changes)
+- **Claude sessions:** Creative tasks (homepage redesign, new features, layout changes, content strategy)
+
+Homepage redesigns happen infrequently and are different each time - not worth automating.
+
+**Phase 6:** Content Management Workflow (Planned)
+- Automate blog post creation
+- Auto-generate homepage article list
+- Template-based layout propagation
+- See plan from 2026-08-21 session for details
