@@ -201,6 +201,24 @@ If you reject without feedback, you're likely tweaking it manually. In that case
 
 ---
 
+## Workflow Pattern: Clean Up After Tasks
+
+**When completing a task or major milestone:**
+
+1. Check for lingering background processes (especially dev servers)
+2. Ask if you want them shut down
+3. Clean up temporary files if appropriate
+
+**Common cleanup items:**
+- Dev servers on port 8080 (`lsof -ti:8080 | xargs kill -9`)
+- Background Node processes
+- Temporary build outputs
+- Log files
+
+This prevents port conflicts and resource leaks, especially in long sessions where we start/stop servers multiple times.
+
+---
+
 ## Workflow Tips
 
 ### Making CSS Changes
