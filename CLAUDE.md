@@ -42,31 +42,31 @@ We're modernizing the site in phases. The site now uses static HTML files with m
 
 ### ✅ Completed Phases
 
-**Phase 1: HTTPS & Dependencies** ✅
+**Phase 1: HTTPS & Dependencies**
 - All external resources use HTTPS with SRI integrity hashes
 - Updated Font Awesome 4.5.0 → 6.7.0
 - Updated Highlight.js 9.8.0 → 11.10.0
 - Modern Google Fonts API with preconnect hints
 
-**Phase 2: CSS Modernization** ✅
+**Phase 2: CSS Modernization**
 - Complete CSS rewrite with CSS Custom Properties (variables)
 - Dark mode support via `@media (prefers-color-scheme: dark)`
 - Modern layout with Flexbox
 - Improved accessibility (focus states, reduced motion support)
 - Responsive design with mobile breakpoints
 
-**Phase 3: Remove Bootstrap & jQuery** ✅
-- ✅ Replaced Bootstrap navbar with custom CSS
-- ✅ Replaced Bootstrap grid with Flexbox
-- ✅ Removed jQuery dependency (vanilla JS for mobile menu)
-- ✅ Custom utilities replacing Bootstrap classes
-- ✅ Deleted all Bootstrap files (~150KB removed!)
+**Phase 3: Remove Bootstrap & jQuery**
+- Replaced Bootstrap navbar with custom CSS
+- Replaced Bootstrap grid with Flexbox
+- Removed jQuery dependency (vanilla JS for mobile menu)
+- Custom utilities replacing Bootstrap classes
+- Deleted all Bootstrap files (~150KB removed!)
 
-**Phase 4: Icon Migration** ✅
-- ✅ Font Awesome 6 loaded
-- ✅ Converted all glyphicon classes to proper Font Awesome markup
-- ✅ Removed CSS shims (no longer needed)
-- ✅ Standard, maintainable Font Awesome classes throughout
+**Phase 4: Icon Migration**
+- Font Awesome 6 loaded
+- Converted all glyphicon classes to proper Font Awesome markup
+- Removed CSS shims (no longer needed)
+- Standard, maintainable Font Awesome classes throughout
 
 ### 🚧 Pending Phases
 
@@ -132,9 +132,16 @@ To test theme switching:
 │   ├── red-hat-summit-2018/
 │   ├── rhoar-shootout/
 │   └── riviera-dev-2018/
+├── .claude/
+│   └── scripts/           # Utility scripts for maintenance
+│       ├── modernize-article.py
+│       ├── fix-sri-hashes.py
+│       ├── convert-to-fontawesome.py
+│       └── README.md
 ├── serve-static.js        # Simple dev server (pure Node.js)
 ├── test-darkmode.html     # Dark mode testing page
-├── modernize-article.py   # Tool to modernize blog posts
+├── CLAUDE.md              # Project documentation (this file)
+├── PHASE6-PLAN.md         # Phase 6 implementation plan
 ├── CHANGELOG.md           # Detailed modernization progress
 ├── MODERNIZATION.md       # Overview of the modernization approach
 └── PHASE3-SUMMARY.md      # Phase 3 completion details
@@ -156,16 +163,9 @@ Dark mode works via CSS media queries - no JavaScript required. The browser auto
 - Light mode: White background (#fefefe), red links (#CC3300)
 - Dark mode: Black background (#1a1a1a), orange links (#FF5533)
 
-**Testing:** Bootstrap CSS loads before our custom CSS and sets hardcoded colors. Our CSS variables override Bootstrap's styles. Use hard refresh (Cmd+Shift+R) to bypass browser cache when testing.
+**Testing:** Use hard refresh (Cmd+Shift+R) to bypass browser cache when testing theme changes.
 
-### Bootstrap 3 (Temporary)
-
-Bootstrap 3 is still loaded but will be removed in Phase 3. Current strategy:
-1. Our modern CSS overrides Bootstrap where needed
-2. Still using Bootstrap navbar, grid, and utilities
-3. Plan to replace with custom CSS progressively
-
-## Files to Modernize
+## HTML Standards
 
 When adding/updating pages, ensure:
 - ✅ Use absolute paths for CSS: `/css/site.css` (not relative)
@@ -232,11 +232,9 @@ The CSS uses a comprehensive variable system. To change colors/spacing/fonts:
 
 ### Adding Blog Posts
 
-Blog posts are in `words/YYYY/MM/DD/slug/index.html`. When adding new posts:
-1. Copy an existing post as a template
-2. Update the content
-3. Make sure CSS paths are correct (use absolute paths)
-4. Include all meta tags and preconnect hints
+**Current workflow:** Manually copy an existing post as a template.
+
+**Future workflow (Phase 6):** Automated blog post creation with templates and scripts. See `PHASE6-PLAN.md` for details.
 
 ### Testing Checklist
 
@@ -250,17 +248,25 @@ Before committing changes:
 
 ## Resources
 
-- CHANGELOG.md - Detailed phase-by-phase progress
-- MODERNIZATION.md - Overview and next steps
-- test-darkmode.html - Visual dark mode testing
-- serve-static.js - Simple dev server (pure Node.js)
+- **CLAUDE.md** - This file - project documentation and current state
+- **PHASE6-PLAN.md** - Phase 6 content management workflow plan
+- **CHANGELOG.md** - Detailed phase-by-phase progress
+- **MODERNIZATION.md** - Overview and next steps
+- **test-darkmode.html** - Visual dark mode testing page
+- **serve-static.js** - Simple dev server (pure Node.js)
+- **.claude/scripts/README.md** - Utility scripts documentation
 
 ## Notes for Future Work
 
-- The old build system is preserved on `develop` branch if we ever need to reference it
+**Historical context:**
+- The old Metalsmith/Jade build system is preserved on `develop` branch
+- Compiled HTML output is on `master` branch
+- All modernization work happens on `modernization` branch
+
+**Best practices:**
 - All modernization commits are co-authored with Claude for tracking
-- Use conventional commit messages for each phase
-- Update CHANGELOG.md after completing each step
+- Use conventional commit messages for clarity
+- Keep CLAUDE.md updated as the project evolves
 
 ---
 
