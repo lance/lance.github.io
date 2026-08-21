@@ -81,6 +81,13 @@ We're modernizing the site in phases. The site now uses static HTML files with m
 - Better heading hierarchy
 - ARIA labels on navigation
 
+**Phase 6: Content Management Workflow** (Planned)
+- Automate blog post creation with templates
+- Auto-generate homepage article list from posts
+- Template-based layout propagation
+- Scripts for common content tasks
+- See detailed plan from 2026-08-21 session
+
 ## Development
 
 ### Running the Site
@@ -276,9 +283,3 @@ Before committing changes:
 - **Claude sessions:** Creative tasks (homepage redesign, new features, layout changes, content strategy)
 
 Homepage redesigns happen infrequently and are different each time - not worth automating.
-
-**Phase 6:** Content Management Workflow (Planned)
-- Automate blog post creation
-- Auto-generate homepage article list
-- Template-based layout propagation
-- See plan from 2026-08-21 session for details
