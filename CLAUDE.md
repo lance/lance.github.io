@@ -26,6 +26,12 @@ Personal website and blog for Lance Ball. This is the **modernization branch** w
 ✅ **When fixing bugs:**
 - Update "Technical Details" with the lesson learned
 
+✅ **When making material changes:**
+- After adding/removing files, scripts, or workflows
+- After changing project structure or tooling
+- Review CLAUDE.md for sections that need updating
+- Keep documentation consistent with reality
+
 This ensures future sessions (and future you) understand the current state without re-reading commit history.
 
 ---
