@@ -106,7 +106,7 @@
 }
 
 body {
-  padding-top: var(--spacing-md);
+  padding-top: calc(var(--navbar-height) + var(--spacing-md));
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-family-base);
@@ -359,7 +359,7 @@ textarea:focus-visible {
 
 @media (max-width: 768px) {
   body {
-    padding-top: var(--spacing-sm);
+    padding-top: calc(var(--navbar-height) + var(--spacing-sm));
   }
 
   .page-header.right {
@@ -549,6 +549,7 @@ textarea:focus-visible {
   flex-wrap: wrap;
   margin-left: calc(var(--spacing-md) * -1);
   margin-right: calc(var(--spacing-md) * -1);
+  padding-top: var(--spacing-lg);
 }
 
 .col-md-10 {
