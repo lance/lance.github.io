@@ -2,4 +2,7 @@ node_modules/
 .DS_Store
 server.pid
 *.log
-.claude/
+
+# Claude Code - ignore session/local files but track project scripts
+.claude/settings*.json
+.claude/memory/
