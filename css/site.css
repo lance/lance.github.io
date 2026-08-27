@@ -193,6 +193,7 @@ li {
 
 .page-header {
   margin: var(--spacing-md) 0;
+  font-size: smaller;
 }
 
 .right {
